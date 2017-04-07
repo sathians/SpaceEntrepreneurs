@@ -37,7 +37,7 @@ public class Main extends Application {
         Canvas canvas = new Canvas( 512, 512 );
         root.getChildren().add( canvas );
 
-        ArrayList<String> input = new ArrayList<String>();
+        final ArrayList<String> input = new ArrayList<String>();
 
 
         //KeyHandler - set and release
@@ -50,7 +50,8 @@ public class Main extends Application {
                         if ( !input.contains(code) )
                             input.add( code );
                     }
-                });
+                }
+        );
 
         theScene.setOnKeyReleased(
                 new EventHandler<KeyEvent>()
@@ -94,7 +95,7 @@ public class Main extends Application {
         final Image wall_3 = new Image( "img/Firewall.png",70, 50, true, true );
 
 
-        LongValue lastNanoTime = new LongValue( System.nanoTime() );
+        final LongValue lastNanoTime = new LongValue( System.nanoTime() );
 
         IntValue score = new IntValue(0);
 
