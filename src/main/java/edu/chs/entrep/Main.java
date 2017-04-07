@@ -70,22 +70,23 @@ public class Main extends Application {
         gc.setStroke( Color.BLACK );
         gc.setLineWidth(1);
 
-        Sprite briefcase = new Sprite();
-        briefcase.setImage("img/f0.png");
-        briefcase.setPosition(200, 480);
+        final Image spaceship_img = new Image( "img/spaceship_a1.png",50, 50, true, true );
+        final Sprite spaceship = new Sprite();
+        spaceship.setImage(spaceship_img); //"img/spaceship_a1.png"
+        spaceship.setPosition(200, 480);
 
         //Sprite missle = new Sprite();
         //briefcase.setImage("img/missile.png", 20, 20, true);
-        ArrayList<Sprite> moneybagList = new ArrayList<Sprite>();
+        final ArrayList<Sprite> monsterList = new ArrayList<Sprite>();
 
         for (int i = 0; i < 15; i++)
         {
-            Sprite moneybag = new Sprite();
-            moneybag.setImage("img/ufo_0.png");
+            Sprite monster = new Sprite();
+            monster.setImage("img/ufo_0.png");
             double px = 350 * Math.random() + 50;
             double py = 350 * Math.random() + 50;
-            moneybag.setPosition(px,py);
-            moneybagList.add( moneybag );
+            monster.setPosition(px,py);
+            monsterList.add( monster );
         }
 
         final Image wall_1 = new Image( "img/Firewall.png",70, 50, true, true );
@@ -107,27 +108,28 @@ public class Main extends Application {
 
                 // game logic
 
-                briefcase.setVelocity(0,0);
+                spaceship.setVelocity(0,0);
                 if (input.contains("LEFT"))
-                    briefcase.addVelocity(-100,0);
+                    spaceship.addVelocity(-100,0);
                 if (input.contains("RIGHT"))
-                    briefcase.addVelocity(100,0);
+                    spaceship.addVelocity(100,0);
                 if (input.contains("UP"))
-                    briefcase.addVelocity(0,-100);
+                    spaceship.addVelocity(0,-100);
                 if (input.contains("DOWN"))
-                    briefcase.addVelocity(0,100);
+                    spaceship.addVelocity(0,100);
 
-                briefcase.update(elapsedTime);
+                //Updates spaceship position
+                spaceship.update(elapsedTime);
 
                 // collision detection
 
-                Iterator<Sprite> moneybagIter = moneybagList.iterator();
-                while ( moneybagIter.hasNext() )
+                Iterator<Sprite> monsterIter = monsterList.iterator();
+                while ( monsterIter.hasNext() )
                 {
-                    Sprite moneybag = moneybagIter.next();
-                    if ( briefcase.intersects(moneybag) )
+                    Sprite monster = monsterIter.next();
+                    if ( spaceship.intersects(monster) )
                     {
-                        moneybagIter.remove();
+                        monsterIter.remove();
                         score.value++;
                     }
                 }
@@ -148,6 +150,8 @@ public class Main extends Application {
                 gc.drawImage( wall_3, 350, 400 );
             }
         }.start();
+
+
 
         theStage.show();
     }
