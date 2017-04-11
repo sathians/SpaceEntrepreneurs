@@ -63,7 +63,7 @@ public class Main extends Application {
                     }
                 });
 
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        final GraphicsContext gc = canvas.getGraphicsContext2D();
 
         Font theFont = Font.font( "Helvetica", FontWeight.BOLD, 24 );
         gc.setFont( theFont );
@@ -74,10 +74,12 @@ public class Main extends Application {
         final Image spaceship_img = new Image( "img/spaceship_a1.png",50, 50, true, true );
         final Sprite spaceship = new Sprite();
         spaceship.setImage(spaceship_img); //"img/spaceship_a1.png"
-        spaceship.setPosition(200, 480);
+        spaceship.setPosition(200, 450);
 
-        //Sprite missle = new Sprite();
-        //briefcase.setImage("img/missile.png", 20, 20, true);
+        final Image missile_img = new Image("img/Tesla_missile_0.png", 20,20,false, true);
+        final Sprite missile = new Sprite();
+        missile.setImage(missile_img);
+
         final ArrayList<Sprite> monsterList = new ArrayList<Sprite>();
 
         for (int i = 0; i < 15; i++)
@@ -90,14 +92,15 @@ public class Main extends Application {
             monsterList.add( monster );
         }
 
-        final Image wall_1 = new Image( "img/Firewall.png",70, 50, true, true );
-        final Image wall_2 = new Image( "img/Firewall.png",70, 50, true, true );
-        final Image wall_3 = new Image( "img/Firewall.png",70, 50, true, true );
+        final Image background_img = new Image( "img/background.png", 512,512,false,true);
+        final Image wall_1 = new Image( "img/Firewall_a0.png",70, 50, true, true );
+        final Image wall_2 = new Image( "img/Firewall_a0.png",70, 50, true, true );
+        final Image wall_3 = new Image( "img/Firewall_a0.png",70, 50, true, true );
 
 
         final LongValue lastNanoTime = new LongValue( System.nanoTime() );
 
-        IntValue score = new IntValue(0);
+        final IntValue score = new IntValue(0);
 
         new AnimationTimer()
         {
@@ -119,8 +122,16 @@ public class Main extends Application {
                 if (input.contains("DOWN"))
                     spaceship.addVelocity(0,100);
 
+                if (missile.getPositionY() < - 20)              //keep the missile from gaining higher speed after every new shot
+                    missile.setVelocity(0, 0);
+
+                if (input.contains("SPACE"))
+                    missile.setPosition(spaceship.getPositionX(), spaceship.getPositionY());    //the missile starts from the spaceships position
+                    missile.addVelocity(0, -4);
+
                 //Updates spaceship position
                 spaceship.update(elapsedTime);
+                missile.update(elapsedTime);
 
                 // collision detection
 
@@ -128,7 +139,7 @@ public class Main extends Application {
                 while ( monsterIter.hasNext() )
                 {
                     Sprite monster = monsterIter.next();
-                    if ( spaceship.intersects(monster) )
+                    if ( missile.intersects(monster) )
                     {
                         monsterIter.remove();
                         score.value++;
@@ -138,10 +149,12 @@ public class Main extends Application {
                 // render
 
                 gc.clearRect(0, 0, 512,512);
-                briefcase.render( gc );
+                gc.drawImage( background_img, 0, 0 );
+                spaceship.render( gc );
+                missile.render( gc );
 
-                for (Sprite moneybag : moneybagList )
-                    moneybag.render( gc );
+                for (Sprite monster : monsterList )
+                    monster.render( gc );
 
                 String pointsText = "Cash: $" + (100 * score.value);
                 gc.fillText( pointsText, 360, 36 );

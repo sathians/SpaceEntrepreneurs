@@ -44,6 +44,14 @@ public class Sprite {
         positionY = y;
     }
 
+    public double getPositionX() {
+        return positionX;
+    }
+
+    public double getPositionY() {
+        return positionY;
+    }
+
     public void setVelocity(double x, double y)
     {
         velocityX = x;
