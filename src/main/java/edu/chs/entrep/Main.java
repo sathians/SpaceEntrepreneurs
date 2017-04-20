@@ -1,5 +1,6 @@
 package edu.chs.entrep;
 
+import edu.chs.entrep.model.Missile;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -76,10 +77,11 @@ public class Main extends Application {
         spaceship.setImage(spaceship_img); //"img/spaceship_a1.png"
         spaceship.setPosition(200, 450);
 
-        final Image missile_img = new Image("img/Tesla_missile_0.png", 20,20,false, true);
-        final Sprite missile = new Sprite();
-        missile.setImage(missile_img);
+        //final Image missile_img = new Image("img/Tesla_missile_0.png", 20,20,false, true);
+        //final Sprite missile = new Sprite();
+        //missile.setImage(missile_img);
 
+        final Missile missile = new Missile();
         final ArrayList<Sprite> monsterList = new ArrayList<Sprite>();
 
         for (int i = 0; i < 15; i++)

@@ -18,14 +18,26 @@ public class Missile extends Sprite {
     private double width;
     private double height;
 
-    public Missile (Character c){
+   private final String missileImg = "img/Tesla_missile_0.png";
 
-        posX = c.getPos();
-        velY = 0;
+    public Missile (){
+        Image missile = new Image(missileImg,  20,20,false, true);
+        setImage(missile);
 
-        Missile = new Image  ("img/Tesla_missile_0.png");
 
+    }
 
+    public Missile (int x, int y){
+
+        initMissile(x,y);
+    }
+
+    public void initMissile(int x, int y){
+
+        Image missile = new Image(missileImg);
+        setImage(missile);
+
+        setPosition(x,y);
     }
 }
 

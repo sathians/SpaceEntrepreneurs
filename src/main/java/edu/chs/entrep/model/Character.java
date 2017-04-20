@@ -1,11 +1,12 @@
 package edu.chs.entrep.model;
 
+import edu.chs.entrep.Sprite;
 import javafx.scene.image.Image;
 
 /**
  * Created by josefinesvegborn on 2017-04-03.
  */
-public class Character {
+public class Character extends Sprite{
 
     private Image Character;
     private double posX;
@@ -25,8 +26,8 @@ public class Character {
     }
     public double getPos(){
        return posX;
-
-
     }
+
+
 
 }
