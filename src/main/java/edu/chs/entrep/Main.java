@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -29,7 +31,7 @@ public class Main extends Application {
     @Override
     public void start(Stage theStage)
     {
-        theStage.setTitle( "SpaceEntrepreneurs- the endless game!" );
+        theStage.setTitle( "SpaceEntrepreneurs: the endless game!" );
 
         Group root = new Group();
         Scene theScene = new Scene( root );
@@ -75,39 +77,23 @@ public class Main extends Application {
         final Image spaceship_img = new Image( "img/spaceship_a1.png",50, 50, true, true );
         final Sprite spaceship = new Sprite();
         spaceship.setImage(spaceship_img); //"img/spaceship_a1.png"
-        spaceship.setPosition(200, 450);
+        spaceship.setPosition(256, 450);
 
-        //final Image missile_img = new Image("img/Tesla_missile_0.png", 20,20,false, true);
-        //final Sprite missile = new Sprite();
-        //missile.setImage(missile_img);
 
         final Missile missile = new Missile();
+
+
         final ArrayList<Sprite> monsterList = new ArrayList<Sprite>();
-
-        for (int i = 0; i < 15; i++)
-        {
-            Sprite monster = new Sprite();
-            monster.setImage("img/ufo_0.png");
-            double py;                              //Tried out a path
-            double px;
-
-            if (i < 5){
-                py = 50;
-                px = 50 + i*412/5;
-            }else if(i >= 5 || i < 10){
-                py = 100;
-                px = 50 + (i-5)*412/5;
-            }else if(i >= 10 || i < 15){
-                py = 150;
-                px = 50 + (i-10)*412/5;
-            }else{
-                py = 200;
-                px = 50 + (i-15)*412/5;
+        //Tried out a path, Niklas
+        for (int i = 0; i < 3; i++){
+            for(int j = 0; j < 6; j++){
+                Sprite monster = new Sprite();
+                monster.setImage("img/ufo_0.png");
+                monster.setPosition(30 + j*82, 30 + i*50);
+                monsterList.add( monster );
             }
-
-            monster.setPosition(px,py);
-            monsterList.add( monster );
         }
+
 
         final Image background_img = new Image( "img/background.png", 512,512,false,true);
         final Image wall_1 = new Image( "img/Firewall_a0.png",70, 50, true, true );
@@ -128,27 +114,64 @@ public class Main extends Application {
                 lastNanoTime.value = currentNanoTime;
 
                 // game logic
-
                 spaceship.setVelocity(0,0);
-                if (input.contains("LEFT"))
-                    spaceship.addVelocity(-100,0);
-                if (input.contains("RIGHT"))
-                    spaceship.addVelocity(100,0);
-                if (input.contains("UP"))
+                if (input.contains("LEFT")) {
+                    if (spaceship.getPositionX() > 10)
+                        spaceship.addVelocity(-100, 0);
+                }
+                if (input.contains("RIGHT")) {
+                    if (spaceship.getPositionX() < 452)
+                        spaceship.addVelocity(100, 0);
+                }
+                /*if (input.contains("UP"))
                     spaceship.addVelocity(0,-100);
                 if (input.contains("DOWN"))
                     spaceship.addVelocity(0,100);
-
+                */
                 if (missile.getPositionY() < - 20)              //keep the missile from gaining higher speed after every new shot
                     missile.setVelocity(0, 0);
 
                 if (input.contains("SPACE"))
-                    missile.setPosition(spaceship.getPositionX(), spaceship.getPositionY());    //the missile starts from the spaceships position
+                    missile.setPosition(spaceship.getPositionX() + 15, spaceship.getPositionY() - 10);    //the missile starts from the spaceships position
                     missile.addVelocity(0, -4);
+
+
+                //Monster Path implementation, count out the position farest to the right/left
+                double posR = 0;
+                double posL = 512;
+
+                for(Sprite monster: monsterList) {
+
+                    if (posR < monster.getPositionX())
+                        posR = monster.getPositionX();
+
+                    if (posL > monster.getPositionX())
+                        posL = monster.getPositionX();
+                }
+
+                for(Sprite monster: monsterList) {
+
+                    if(posR < (512-40) && monster.getVelocityX() >= 0){
+                        monster.setVelocity(25,0);
+                    }else if(posL > 0){
+                        monster.setVelocity(-25,0);
+                    }else{
+                        monster.setVelocity(0,0);
+                    }
+                }
+
+                // Min tanke här är att med ett visst tids inervall så skall monstrena hoppa ner ett steg närmare rymdskeppet.
+                // if (elapsedTime > 1 && elapsedTime < 2 || elapsedTime > 10 && elapsedTime < 11){
+                //    for(Sprite monster: monsterList)
+                //        monster.addPosition(0, 50);
+                //}
 
                 //Updates spaceship position
                 spaceship.update(elapsedTime);
                 missile.update(elapsedTime);
+                for (Sprite monster : monsterList )
+                    monster.update( elapsedTime );
+
 
                 // collision detection
 
