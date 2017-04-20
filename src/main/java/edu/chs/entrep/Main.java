@@ -86,8 +86,23 @@ public class Main extends Application {
         {
             Sprite monster = new Sprite();
             monster.setImage("img/ufo_0.png");
-            double px = 350 * Math.random() + 50;
-            double py = 350 * Math.random() + 50;
+            double py;                              //Tried out a path
+            double px;
+
+            if (i < 5){
+                py = 50;
+                px = 50 + i*412/5;
+            }else if(i >= 5 || i < 10){
+                py = 100;
+                px = 50 + (i-5)*412/5;
+            }else if(i >= 10 || i < 15){
+                py = 150;
+                px = 50 + (i-10)*412/5;
+            }else{
+                py = 200;
+                px = 50 + (i-15)*412/5;
+            }
+
             monster.setPosition(px,py);
             monsterList.add( monster );
         }
