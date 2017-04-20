@@ -49,5 +49,4 @@ public class Monster {
         return monsterList;
     }
 
-
 }
