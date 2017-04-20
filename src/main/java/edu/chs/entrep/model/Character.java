@@ -23,5 +23,10 @@ public class Character {
         Character = new Image( "img/spaceship_a1.png");
 
     }
+    public double getPos(){
+       return posX;
+
+
+    }
 
 }

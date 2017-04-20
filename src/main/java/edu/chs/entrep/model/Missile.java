@@ -1,5 +1,6 @@
 package edu.chs.entrep.model;
 
+import edu.chs.entrep.Sprite;
 import javafx.scene.image.Image;
 
 import java.lang.*;
@@ -7,7 +8,7 @@ import java.lang.*;
 /**
  * Created by josefinesvegborn on 2017-04-03.
  */
-public class Missile {
+public class Missile extends Sprite {
 
     private Image Missile;
     private double posX;
@@ -17,9 +18,9 @@ public class Missile {
     private double width;
     private double height;
 
-    public Missile (){
+    public Missile (Character c){
 
-        posX = Character.posX;
+        posX = c.getPos();
         velY = 0;
 
         Missile = new Image  ("img/Tesla_missile_0.png");
