@@ -9,10 +9,10 @@ import javafx.scene.image.Image;
 public class Character extends Sprite{
 
     private Image Character;
-    private double posX;
-    private double posY;
-    private double velX;
-    private double velY;
+    //private double posX;
+    //private double posY;
+    //private double velX;
+    //private double velY;
 
     private double width;
     private double height;
@@ -24,10 +24,9 @@ public class Character extends Sprite{
         Character = new Image( "img/spaceship_a1.png");
 
     }
-    public double getPos(){
-       return posX;
+    //public double getPos(){
+      // return posX;
     }
 
 
 
-}
