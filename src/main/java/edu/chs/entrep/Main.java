@@ -1,6 +1,8 @@
 package edu.chs.entrep;
 
+import edu.chs.entrep.model.Cover;
 import edu.chs.entrep.model.Missile;
+import edu.chs.entrep.model.Monster;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -83,7 +85,10 @@ public class Main extends Application {
         final Missile missile = new Missile();
 
 
-        final ArrayList<Sprite> monsterList = new ArrayList<Sprite>();
+        final Monster monster = new Monster();
+        monster.initMonsterList(15);
+
+        /*final ArrayList<Sprite> monsterList = new ArrayList<Sprite>();
         //Tried out a path, Niklas
         for (int i = 0; i < 3; i++){
             for(int j = 0; j < 6; j++){
@@ -92,13 +97,16 @@ public class Main extends Application {
                 monster.setPosition(30 + j*82, 30 + i*50);
                 monsterList.add( monster );
             }
-        }
+        }*/
 
 
         final Image background_img = new Image( "img/background.png", 512,512,false,true);
+
+        /*
         final Image wall_1 = new Image( "img/Firewall_a0.png",70, 50, true, true );
         final Image wall_2 = new Image( "img/Firewall_a0.png",70, 50, true, true );
         final Image wall_3 = new Image( "img/Firewall_a0.png",70, 50, true, true );
+        */
 
 
         final LongValue lastNanoTime = new LongValue( System.nanoTime() );
@@ -143,6 +151,26 @@ public class Main extends Application {
                 double posR = 0;
                 double posL = 512;
 
+                for(Monster monster: monster.getMonsterList()) {
+
+                    if (posR < monster.getPositionX())
+                        posR = monster.getPositionX();
+
+                    if (posL > monster.getPositionX())
+                        posL = monster.getPositionX();
+                }
+
+                for(Monster monster: monster.getMonsterList()) {
+
+                    if(posR < (512-40) && monster.getVelocityX() >= 0){
+                        monster.setVelocity(25,0);
+                    }else if(posL > 0){
+                        monster.setVelocity(-25,0);
+                    }else{
+                        monster.setVelocity(0,0);
+                    }
+                }
+                /*
                 for(Sprite monster: monsterList) {
 
                     if (posR < monster.getPositionX())
@@ -162,6 +190,7 @@ public class Main extends Application {
                         monster.setVelocity(0,0);
                     }
                 }
+                */
 
                 // Min tanke här är att med ett visst tids inervall så skall monstrena hoppa ner ett steg närmare rymdskeppet.
                 // if (elapsedTime > 1 && elapsedTime < 2 || elapsedTime > 10 && elapsedTime < 11){
@@ -172,13 +201,13 @@ public class Main extends Application {
                 //Updates spaceship position
                 spaceship.update(elapsedTime);
                 missile.update(elapsedTime);
-                for (Sprite monster : monsterList )
+                for (Monster monster : monster.getMonsterList() )
                     monster.update( elapsedTime );
 
 
                 // collision detection
 
-                Iterator<Sprite> monsterIter = monsterList.iterator();
+                Iterator<Monster> monsterIter = monster.getMonsterList().iterator();
                 while ( monsterIter.hasNext() )
                 {
                     Sprite monster = monsterIter.next();
@@ -201,15 +230,17 @@ public class Main extends Application {
                 if (missile.isOnScreen())
                 missile.render( gc );
 
-                for (Sprite monster : monsterList )
+                for (Monster monster : monster.getMonsterList() )
                     monster.render( gc );
+
+                Cover cover = new Cover();
 
                 String pointsText = "Cash: $" + (100 * score.value);
                 gc.fillText( pointsText, 360, 36 );
                 gc.strokeText( pointsText, 360, 36 );
-                gc.drawImage( wall_1, 50, 400 );
-                gc.drawImage( wall_2, 200, 400 );
-                gc.drawImage( wall_3, 350, 400 );
+                gc.drawImage(cover.getCover(), 50, 400 );
+                gc.drawImage(cover.getCover(), 200, 400 );
+                gc.drawImage(cover.getCover(), 350, 400 );
             }
         }.start();
 
