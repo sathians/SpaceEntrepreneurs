@@ -101,6 +101,7 @@ public class Main extends Application {
         final Cover cover1 = new Cover();
         final Cover cover2 = new Cover();
         final Cover cover3 = new Cover();
+        
         cover1.setPosition(75,400);
         cover2.setPosition(225,400);
         cover3.setPosition(375,400);

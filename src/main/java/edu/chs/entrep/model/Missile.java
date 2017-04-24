@@ -36,7 +36,6 @@ public class Missile extends Sprite {
 
         Image missile = new Image(missileImg);
         setImage(missile);
-
         setPosition(x,y);
     }
 }

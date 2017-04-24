@@ -6,21 +6,17 @@ import javafx.scene.image.Image;
 /**
  * Created by josefinesvegborn on 2017-04-03.
  */
-public class Character extends Sprite{
+public class Character extends Sprite {
 
-    private Image Character;
-    //private double posX;
-    //private double posY;
-    //private double velX;
-    //private double velY;
+    private final String characther_img = "img/spaceship_a1.png";
+    private double width  = 50;
+    private double height = 50;
 
-    private double width;
-    private double height;
+    public Character() {
 
-    public Character(){
-        setPosition(0 ,0 );
-
-        Character = new Image( "img/spaceship_a1.png");
+        Image spaceship_img = new Image(characther_img,width, height, true, true );
+        setImage(spaceship_img);
+        setPosition(256 ,450 );
 
     }
 

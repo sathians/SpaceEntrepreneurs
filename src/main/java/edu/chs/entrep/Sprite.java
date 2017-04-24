@@ -20,15 +20,11 @@ public class Sprite {
 
     public Sprite()
     {
-        OnScreen = true;
+        OnScreen = false;
         positionX = 0;
         positionY = 0;
         velocityX = 0;
         velocityY = 0;
-    }
-    public void OnScreen(){
-
-
     }
 
     public void Erasing() {
@@ -39,19 +35,9 @@ public class Sprite {
         return OnScreen;
     }
 
-    protected void setOnScreen(boolean OnScreen) {
+    protected void setOnScreen() {
 
-        this.OnScreen = OnScreen;
-    }
-
-    public void setErase(boolean Erase) {
-
-        this.Erase = Erase;
-    }
-
-    public boolean isErase() {
-
-        return this.Erase;
+        OnScreen = true;
     }
 
     public void setImage(Image i)
