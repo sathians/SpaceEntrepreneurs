@@ -1,5 +1,6 @@
 package edu.chs.entrep;
 
+import edu.chs.entrep.model.Cover;
 import edu.chs.entrep.model.Missile;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -96,9 +97,12 @@ public class Main extends Application {
 
 
         final Image background_img = new Image( "img/background.png", 512,512,false,true);
+
+        /*
         final Image wall_1 = new Image( "img/Firewall_a0.png",70, 50, true, true );
         final Image wall_2 = new Image( "img/Firewall_a0.png",70, 50, true, true );
         final Image wall_3 = new Image( "img/Firewall_a0.png",70, 50, true, true );
+        */
 
 
         final LongValue lastNanoTime = new LongValue( System.nanoTime() );
@@ -196,12 +200,14 @@ public class Main extends Application {
                 for (Sprite monster : monsterList )
                     monster.render( gc );
 
+                Cover cover = new Cover();
+
                 String pointsText = "Cash: $" + (100 * score.value);
                 gc.fillText( pointsText, 360, 36 );
                 gc.strokeText( pointsText, 360, 36 );
-                gc.drawImage( wall_1, 50, 400 );
-                gc.drawImage( wall_2, 200, 400 );
-                gc.drawImage( wall_3, 350, 400 );
+                gc.drawImage(cover.getCover(), 50, 400 );
+                gc.drawImage(cover.getCover(), 200, 400 );
+                gc.drawImage(cover.getCover(), 350, 400 );
             }
         }.start();
 
