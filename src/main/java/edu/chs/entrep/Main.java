@@ -131,9 +131,12 @@ public class Main extends Application {
                 if (missile.getPositionY() < - 20)              //keep the missile from gaining higher speed after every new shot
                     missile.setVelocity(0, 0);
 
-                if (input.contains("SPACE"))
+                if (input.contains("SPACE")) {
+                    missile.setOnScreen(true);
                     missile.setPosition(spaceship.getPositionX() + 15, spaceship.getPositionY() - 10);    //the missile starts from the spaceships position
+                }
                     missile.addVelocity(0, -4);
+
 
 
                 //Monster Path implementation, count out the position farest to the right/left
@@ -179,11 +182,14 @@ public class Main extends Application {
                 while ( monsterIter.hasNext() )
                 {
                     Sprite monster = monsterIter.next();
-                    if ( missile.intersects(monster) )
+                    if (missile.isOnScreen() && missile.intersects(monster) )
                     {
                         monsterIter.remove();
+                        missile.Erasing();
                         score.value++;
+
                     }
+
                 }
 
                 // render
@@ -191,6 +197,8 @@ public class Main extends Application {
                 gc.clearRect(0, 0, 512,512);
                 gc.drawImage( background_img, 0, 0 );
                 spaceship.render( gc );
+
+                if (missile.isOnScreen())
                 missile.render( gc );
 
                 for (Sprite monster : monsterList )

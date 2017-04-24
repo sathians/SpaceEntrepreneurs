@@ -8,7 +8,8 @@ import javafx.scene.image.Image;
  * Created by niklasohlsson on 2017-04-07.
  */
 public class Sprite {
-
+    private boolean OnScreen;
+    protected boolean Erase;
     private Image image;
     private double positionX;
     private double positionY;
@@ -19,10 +20,38 @@ public class Sprite {
 
     public Sprite()
     {
+        OnScreen = true;
         positionX = 0;
         positionY = 0;
         velocityX = 0;
         velocityY = 0;
+    }
+    public void OnScreen(){
+
+
+    }
+
+    public void Erasing() {
+        OnScreen = false;
+    }
+
+    public boolean isOnScreen() {
+        return OnScreen;
+    }
+
+    protected void setOnScreen(boolean OnScreen) {
+
+        this.OnScreen = OnScreen;
+    }
+
+    public void setErase(boolean Erase) {
+
+        this.Erase = Erase;
+    }
+
+    public boolean isErase() {
+
+        return this.Erase;
     }
 
     public void setImage(Image i)
