@@ -18,15 +18,10 @@ public class Character extends Sprite{
     private double height;
 
     public Character(){
-        posX = 0;
-        posY= 0;
+        setPosition(0 ,0 );
 
         Character = new Image( "img/spaceship_a1.png");
 
     }
-    //public double getPos(){
-      // return posX;
-    }
 
-
-
+}

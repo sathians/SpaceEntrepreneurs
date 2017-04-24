@@ -8,19 +8,22 @@ import java.lang.String.*;
 /**
  * Created by josefinesvegborn on 2017-04-03.
  */
-public class Monster {
+public class Monster extends Sprite{
     //This class should describe the monsters.
 
-    private Image monster;
+    private final String monster1_img = "img/ufo_0.png";
+    private final String monster2_img = "img/monster_a0.png";
+
     private double posX;
     private double posY;
     private double velX;
     private double velY;
 
+
     private double width;
     private double height;
 
-     ArrayList<Monster> monsterList = new ArrayList<Monster>();
+    private final ArrayList<Monster> monsterList = new ArrayList<Monster>();
 
     public Monster() {
 
@@ -32,7 +35,7 @@ public class Monster {
        width = 10;
        height = 10;
 
-       monster = new Image( "img/monster_a0.png");
+
 
     }
 

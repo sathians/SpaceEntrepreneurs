@@ -44,6 +44,18 @@ public class Sprite {
         positionY = y;
     }
 
+    /*
+    public void setPositionX(double x)
+    {
+        positionX = x;
+    }
+
+    public void setPositionY( double y)
+    {
+        positionY = y;
+    }
+    */
+
     public double getPositionX() {
         return positionX;
     }
@@ -58,10 +70,23 @@ public class Sprite {
         velocityY = y;
     }
 
+    public void addPosition(double x, double y){
+        positionX += x;
+        positionY += y;
+    }
+
     public void addVelocity(double x, double y)
     {
         velocityX += x;
         velocityY += y;
+    }
+
+    public double getVelocityX(){
+        return velocityX;
+    }
+
+    public double getVelocityY(){
+        return velocityY;
     }
 
     public void update(double time)
