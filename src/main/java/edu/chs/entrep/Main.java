@@ -1,5 +1,6 @@
 package edu.chs.entrep;
 
+import edu.chs.entrep.model.Character;
 import edu.chs.entrep.model.Cover;
 import edu.chs.entrep.model.Missile;
 import edu.chs.entrep.model.Monster;
@@ -76,17 +77,14 @@ public class Main extends Application {
         gc.setStroke( Color.BLACK );
         gc.setLineWidth(1);
 
-        final Image spaceship_img = new Image( "img/spaceship_a1.png",50, 50, true, true );
-        final Sprite spaceship = new Sprite();
-        spaceship.setImage(spaceship_img); //"img/spaceship_a1.png"
-        spaceship.setPosition(256, 450);
-
+        //Init the different game modules
+        final Character spaceship = new Character();
 
         final Missile missile = new Missile();
 
-
         final Monster monster = new Monster();
         monster.initMonsterList(15);
+
 
         /*final ArrayList<Sprite> monsterList = new ArrayList<Sprite>();
         //Tried out a path, Niklas
@@ -99,14 +97,15 @@ public class Main extends Application {
             }
         }*/
 
+        // init three covers
+        final Cover cover1 = new Cover();
+        final Cover cover2 = new Cover();
+        final Cover cover3 = new Cover();
+        cover1.setPosition(75,400);
+        cover2.setPosition(225,400);
+        cover3.setPosition(375,400);
 
         final Image background_img = new Image( "img/background.png", 512,512,false,true);
-
-        /*
-        final Image wall_1 = new Image( "img/Firewall_a0.png",70, 50, true, true );
-        final Image wall_2 = new Image( "img/Firewall_a0.png",70, 50, true, true );
-        final Image wall_3 = new Image( "img/Firewall_a0.png",70, 50, true, true );
-        */
 
 
         final LongValue lastNanoTime = new LongValue( System.nanoTime() );
@@ -131,20 +130,15 @@ public class Main extends Application {
                     if (spaceship.getPositionX() < 452)
                         spaceship.addVelocity(100, 0);
                 }
-                /*if (input.contains("UP"))
-                    spaceship.addVelocity(0,-100);
-                if (input.contains("DOWN"))
-                    spaceship.addVelocity(0,100);
-                */
+
                 if (missile.getPositionY() < - 20)              //keep the missile from gaining higher speed after every new shot
                     missile.setVelocity(0, 0);
 
-                if (input.contains("SPACE")) {
-                    missile.setOnScreen(true);
+                if (input.contains("SPACE") && !missile.isOnScreen()) {
+                    missile.setOnScreen();
                     missile.setPosition(spaceship.getPositionX() + 15, spaceship.getPositionY() - 10);    //the missile starts from the spaceships position
+                    missile.addVelocity(0, -100);
                 }
-                    missile.addVelocity(0, -4);
-
 
 
                 //Monster Path implementation, count out the position farest to the right/left
@@ -192,13 +186,15 @@ public class Main extends Application {
                 }
                 */
 
-                // Min tanke här är att med ett visst tids inervall så skall monstrena hoppa ner ett steg närmare rymdskeppet.
+                // Min tanke här är att med ett visst tids-inervall så skall monstrena hoppa ner ett steg närmare rymdskeppet.
                 // if (elapsedTime > 1 && elapsedTime < 2 || elapsedTime > 10 && elapsedTime < 11){
                 //    for(Sprite monster: monsterList)
                 //        monster.addPosition(0, 50);
                 //}
 
-                //Updates spaceship position
+
+                //Updates spaceship, missile and monster position
+
                 spaceship.update(elapsedTime);
                 missile.update(elapsedTime);
                 for (Monster monster : monster.getMonsterList() )
@@ -216,31 +212,33 @@ public class Main extends Application {
                         monsterIter.remove();
                         missile.Erasing();
                         score.value++;
-
                     }
 
                 }
+
+                //missile out of bound or intersect with wall
+                if (missile.intersects(cover1) || missile.intersects(cover2)|| missile.intersects(cover3))
+                    missile.Erasing();
 
                 // render
 
                 gc.clearRect(0, 0, 512,512);
                 gc.drawImage( background_img, 0, 0 );
                 spaceship.render( gc );
+                cover1.render( gc );
+                cover2.render( gc );
+                cover3.render( gc );
 
                 if (missile.isOnScreen())
-                missile.render( gc );
+                    missile.render( gc );
 
                 for (Monster monster : monster.getMonsterList() )
                     monster.render( gc );
 
-                Cover cover = new Cover();
 
                 String pointsText = "Cash: $" + (100 * score.value);
                 gc.fillText( pointsText, 360, 36 );
                 gc.strokeText( pointsText, 360, 36 );
-                gc.drawImage(cover.getCover(), 50, 400 );
-                gc.drawImage(cover.getCover(), 200, 400 );
-                gc.drawImage(cover.getCover(), 350, 400 );
             }
         }.start();
 
