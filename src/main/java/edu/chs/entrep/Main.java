@@ -32,7 +32,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage theStage)
+    public void start(final Stage theStage)
     {
         theStage.setTitle( "SpaceEntrepreneurs: the endless game!" );
 
@@ -132,7 +132,7 @@ public class Main extends Application {
                         spaceship.addVelocity(100, 0);
                 }
 
-                if (missile.getPositionY() < - 20)              //keep the missile from gaining higher speed after every new shot
+                if (!missile.isOnScreen())              //keep the missile from gaining higher speed after every new shot
                     missile.setVelocity(0, 0);
 
                 if (input.contains("SPACE") && !missile.isOnScreen()) {
@@ -188,11 +188,10 @@ public class Main extends Application {
                 */
 
                 // Min tanke här är att med ett visst tids-inervall så skall monstrena hoppa ner ett steg närmare rymdskeppet.
-                // if (elapsedTime > 1 && elapsedTime < 2 || elapsedTime > 10 && elapsedTime < 11){
+                // if (elapsedTime > 1 && elapsedTime < 2 || elapsedTime > 10 && elapsedTime < 11) {
                 //    for(Sprite monster: monsterList)
                 //        monster.addPosition(0, 50);
                 //}
-
 
                 //Updates spaceship, missile and monster position
 
@@ -218,10 +217,12 @@ public class Main extends Application {
                 }
 
                 //missile out of bound or intersect with wall
-                if (missile.intersects(cover1) || missile.intersects(cover2)|| missile.intersects(cover3))
+                if (missile.getPositionY() < 0)
                     missile.Erasing();
 
-                // render
+                //missile intersects with cover
+                if (missile.intersects(cover1) || missile.intersects(cover2)|| missile.intersects(cover3))
+                    missile.Erasing();
 
                 gc.clearRect(0, 0, 512,512);
                 gc.drawImage( background_img, 0, 0 );
@@ -230,12 +231,13 @@ public class Main extends Application {
                 cover2.render( gc );
                 cover3.render( gc );
 
+
                 if (missile.isOnScreen())
                     missile.render( gc );
 
+
                 for (Monster monster : monster.getMonsterList() )
                     monster.render( gc );
-
 
                 String pointsText = "Cash: $" + (100 * score.value);
                 gc.fillText( pointsText, 360, 36 );

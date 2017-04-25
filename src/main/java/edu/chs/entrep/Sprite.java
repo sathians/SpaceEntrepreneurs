@@ -36,7 +36,6 @@ public class Sprite {
     }
 
     protected void setOnScreen() {
-
         OnScreen = true;
     }
 
