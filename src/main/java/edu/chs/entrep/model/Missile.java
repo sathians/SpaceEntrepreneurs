@@ -23,8 +23,6 @@ public class Missile extends Sprite {
     public Missile (){
         Image missile = new Image(missileImg,  20,20,false, true);
         setImage(missile);
-
-
     }
 
     public Missile (int x, int y){

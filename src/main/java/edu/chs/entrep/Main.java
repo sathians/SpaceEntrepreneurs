@@ -35,7 +35,9 @@ public class Main extends Application {
         theStage.setTitle( "SpaceEntrepreneurs: the endless game!" );
 
         Group root = new Group();
+
         Scene theScene = new Scene( root );
+
         theStage.setScene( theScene );
 
         Canvas canvas = new Canvas( 512, 512 );
