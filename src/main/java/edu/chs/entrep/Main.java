@@ -1,9 +1,7 @@
 package edu.chs.entrep;
 
+import edu.chs.entrep.model.*;
 import edu.chs.entrep.model.Character;
-import edu.chs.entrep.model.Cover;
-import edu.chs.entrep.model.Missile;
-import edu.chs.entrep.model.Monster;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -78,6 +76,9 @@ public class Main extends Application {
         gc.setLineWidth(1);
 
         //Init the different game modules
+
+       // final Level level1 = new Level(1);
+
         final Character spaceship = new Character();
 
         final Missile missile = new Missile();
