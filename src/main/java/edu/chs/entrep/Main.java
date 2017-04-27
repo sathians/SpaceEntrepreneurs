@@ -88,7 +88,6 @@ public class Main extends Application {
         final Monster monster = new Monster();
         monster.initMonsterList(15);
 
-
         /*final ArrayList<Sprite> monsterList = new ArrayList<Sprite>();
         //Tried out a path, Niklas
         for (int i = 0; i < 3; i++){
@@ -104,7 +103,7 @@ public class Main extends Application {
         final Cover cover1 = new Cover();
         final Cover cover2 = new Cover();
         final Cover cover3 = new Cover();
-        
+
         cover1.setPosition(75,400);
         cover2.setPosition(225,400);
         cover3.setPosition(375,400);
@@ -115,6 +114,7 @@ public class Main extends Application {
         final LongValue lastNanoTime = new LongValue( System.nanoTime() );
 
         final IntValue score = new IntValue(0);
+
 
         new AnimationTimer()
         {
@@ -141,7 +141,7 @@ public class Main extends Application {
                 if (input.contains("SPACE") && !missile.isOnScreen()) {
                     missile.setOnScreen();
                     missile.setPosition(spaceship.getPositionX() + 15, spaceship.getPositionY() - 10);    //the missile starts from the spaceships position
-                    missile.addVelocity(0, -100);
+                    missile.addVelocity(0, -250);
                 }
 
 
@@ -245,6 +245,7 @@ public class Main extends Application {
                 String pointsText = "Cash: $" + (100 * score.value);
                 gc.fillText( pointsText, 360, 36 );
                 gc.strokeText( pointsText, 360, 36 );
+                
             }
         }.start();
 
