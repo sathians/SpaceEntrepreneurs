@@ -33,7 +33,7 @@ public class Monster extends Sprite{
        velY = 0;*/
        setPosition(0,0);            //is this needed?
        setVelocity(0,0);
-       setImage(monster1_img);
+       //setImage(monster1_img);
        width = 10;
        height = 10;
 

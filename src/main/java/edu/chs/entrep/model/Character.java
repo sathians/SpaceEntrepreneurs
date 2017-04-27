@@ -8,16 +8,25 @@ import javafx.scene.image.Image;
  */
 public class Character extends Sprite {
 
-    private final String characther_img = "img/spaceship_a1.png";
-    private double width  = 50;
-    private double height = 50;
+  //  private final String characther_img = "img/spaceship_a1.png";
+    private double width;
+    private double height;
+
 
     public Character() {
 
-        Image spaceship_img = new Image(characther_img,width, height, true, true );
-        setImage(spaceship_img);
+       // Image spaceship_img = new Image(characther_img,width, height, true, true );
+        //setImage(spaceship_img);
         setPosition(256 ,450 );
+        setHeight(50);
+        setWidth(50);
+    }
 
+    public void shoot(int x, int y){
+        Missile missile = new Missile();
+        missile.setOnScreen(true);
+        missile.setPosition(x + getWidht()/2, y);
+        missile.setVelocity(0,-250);
     }
 
 }

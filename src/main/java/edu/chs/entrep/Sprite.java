@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
 /**
  * Created by niklasohlsson on 2017-04-07.
  */
-abstract class Sprite {
+public abstract class Sprite {
 
     private boolean OnScreen;
 
@@ -39,6 +39,13 @@ abstract class Sprite {
         this.height = x;
     }
 
+    public double getWidht(){
+        return width;
+    }
+
+    public double getHeight(){
+        return height;
+    }
     /*
     public void Erasing() {
         OnScreen = false;
