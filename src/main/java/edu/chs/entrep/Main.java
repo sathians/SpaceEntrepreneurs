@@ -86,6 +86,7 @@ public class Main extends Application {
         final Monster monster = new Monster();
         monster.initMonsterList(15);
 
+
         /*final ArrayList<Sprite> monsterList = new ArrayList<Sprite>();
         //Tried out a path, Niklas
         for (int i = 0; i < 3; i++){
@@ -128,8 +129,7 @@ public class Main extends Application {
                     if (spaceship.getPositionX() > 10)
                         spaceship.addVelocity(-100, 0);
                 }
-                if (input.contains("RIGHT")) {
-                    if (spaceship.getPositionX() < 452)
+                if (input.contains("RIGHT")) {if (spaceship.getPositionX() < 452)
                         spaceship.addVelocity(100, 0);
                 }
 
@@ -243,7 +243,7 @@ public class Main extends Application {
                 String pointsText = "Cash: $" + (100 * score.value);
                 gc.fillText( pointsText, 360, 36 );
                 gc.strokeText( pointsText, 360, 36 );
-                
+
             }
         }.start();
 

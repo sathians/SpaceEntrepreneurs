@@ -7,6 +7,10 @@ public class Level extends Monster{
 
     Character spaceship;
 
+    Cover cover1 = new Cover();
+    Cover cover2 = new Cover();
+    Cover cover3 = new Cover();
+
     public Level (int x) {
 
 
@@ -17,10 +21,6 @@ public class Level extends Monster{
                 initMonsterList(15);
                 spaceship = new Character();
 
-                Cover cover1 = new Cover();
-                Cover cover2 = new Cover();
-                Cover cover3 = new Cover();
-
                 cover1.setPosition(75, 400);
                 cover2.setPosition(225, 400);
                 cover3.setPosition(375, 400);
@@ -29,25 +29,30 @@ public class Level extends Monster{
                 initMonsterList(20);
                 spaceship = new Character();
 
-                Cover cover4 = new Cover();
-                Cover cover5 = new Cover();
-
-                cover4.setPosition(75,400);
-                cover5.setPosition(375,400);
+                cover1.setPosition(75,400);
+                cover2.setPosition(375,400);
 
             case 3:
                 initMonsterList(30);
                 spaceship = new Character();
 
-                Cover cover6 = new Cover();
-
-                cover6.setPosition(225,400);
+                cover1.setPosition(225,400);
 
         }
     }
         public Character getSpaceship(){
             return spaceship;
         }
+
+    public Cover getCover1(){
+    return cover1;
     }
+    public Cover getCover2(){
+        return cover2;
+    }
+    public Cover getCover3(){
+        return cover3;
+    }
+}
 
 
