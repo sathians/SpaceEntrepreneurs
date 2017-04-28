@@ -1,6 +1,8 @@
 package edu.chs.entrep.model;
 
 import java.util.ArrayList;
+
+import edu.chs.entrep.Sprite;
 import edu.chs.entrep.model.*;
 import edu.chs.entrep.model.Character;
 import javafx.application.Application;
@@ -30,6 +32,8 @@ public class SpaceEntrepreneurs {
     private Player player;
     private int level;
     private Character spaceship;
+
+    public int score=0;
 
 
     //Konstruktor, tar in Player och Level
@@ -96,10 +100,64 @@ public class SpaceEntrepreneurs {
     }
 
     public void shoot(){
-        if (!spaceship.missile.isOnScreen(){              //keep the missile from gaining higher speed after every new shot
+        if (!spaceship.missile.isOnScreen()){              //keep the missile from gaining higher speed after every new shot
             spaceship.shoot(spaceship.getPositionX(), spaceship.getPositionY());    //the missile starts from the spaceships position
         }
     }
+
+    public void moveMonster(){
+
+        double posR = 0;
+        double posL = 512;
+
+        for(Monster monster: monsterList) {
+
+            if (posR < monster.getPositionX())
+                posR = monster.getPositionX();
+
+            if (posL > monster.getPositionX())
+                posL = monster.getPositionX();
+        }
+
+        for(Monster monster: monsterList) {
+
+            if(posR < (512-40) && monster.getVelocityX() >= 0){
+                monster.setVelocity(25,0);
+            }else if(posL > 0){
+                monster.setVelocity(-25,0);
+            }else{
+                monster.setVelocity(0,0);
+            }
+        }
+    }
+
+    public void collisionCheck (){
+
+        Iterator<Monster> monsterIter = monsterList.iterator();
+        while ( monsterIter.hasNext() )
+        {
+            Monster monster = monsterIter.next();
+            if (spaceship.missile.isOnScreen() && spaceship.missile.intersects(monster) )
+            {
+                monsterIter.remove();
+                spaceship.missile.Erasing();
+                score += 1;
+            }
+
+        }
+
+        //missile out of bound or intersect with wall
+        if (spaceship.missile.getPositionY() < 0)
+            spaceship.missile.Erasing();
+
+        //missile intersects with cover
+        if (spaceship.missile.intersects(cover1) || spaceship.missile.intersects(cover2)|| spaceship.missile.intersects(cover3))
+            spaceship.missile.Erasing();
+    }
+
+   public int getScore(){
+        return score;
+   }
 
 
 }

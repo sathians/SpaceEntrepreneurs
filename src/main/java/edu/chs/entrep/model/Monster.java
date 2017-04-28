@@ -53,6 +53,7 @@ public class Monster extends Sprite{
         }
     }
 
+
     public ArrayList<Monster> getMonsterList() {
         return monsterList;
     }
