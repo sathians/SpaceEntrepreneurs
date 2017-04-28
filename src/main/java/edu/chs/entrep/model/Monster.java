@@ -11,8 +11,8 @@ import java.lang.String.*;
 public class Monster extends Sprite{
     //This class should describe the monsters.
 
-    private final String monster1_img = "img/ufo_0.png";
-    private final String monster2_img = "img/monster_a0.png";
+   // private final String monster1_img = "img/ufo_0.png";
+    //private final String monster2_img = "img/monster_a0.png";
     /*
     private double posX;
     private double posY;
@@ -34,8 +34,8 @@ public class Monster extends Sprite{
        setPosition(0,0);            //is this needed?
        setVelocity(0,0);
        //setImage(monster1_img);
-       width = 10;
-       height = 10;
+      setHeight(10);
+      setWidth(10);
 
 
     }
