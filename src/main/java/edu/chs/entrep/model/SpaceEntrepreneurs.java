@@ -1,8 +1,6 @@
 package edu.chs.entrep.model;
 
 import java.util.ArrayList;
-
-import edu.chs.entrep.Sprite;
 import edu.chs.entrep.model.*;
 import edu.chs.entrep.model.Character;
 import javafx.application.Application;
@@ -29,9 +27,12 @@ import java.util.Iterator;
 public class SpaceEntrepreneurs {
 
     private ArrayList<Monster> monsterList = new ArrayList<Monster>();
-    private Player player;
-    private int level;
-    private Character spaceship;
+    public Player player;
+    public int level;
+    public Character spaceship;
+    public Cover cover1;
+    public Cover cover2;
+    public Cover cover3;
 
     public int score=0;
 
@@ -53,9 +54,9 @@ public class SpaceEntrepreneurs {
             case 1:
                 initMonsterList(3);
 
-                Cover cover1 = new Cover();
-                Cover cover2 = new Cover();
-                Cover cover3 = new Cover();
+                cover1 = new Cover();
+                cover2 = new Cover();
+                cover3 = new Cover();
 
                 cover1.setPosition(75, 400);
                 cover2.setPosition(225, 400);
@@ -64,18 +65,18 @@ public class SpaceEntrepreneurs {
             case 2:
                 initMonsterList(4);
 
-                Cover cover4 = new Cover();
-                Cover cover5 = new Cover();
+                cover1 = new Cover();
+                cover3 = new Cover();
 
-                cover4.setPosition(75,400);
-                cover5.setPosition(375,400);
+                cover1.setPosition(75,400);
+                cover3.setPosition(375,400);
 
             case 3:
                 initMonsterList(5);
 
-                Cover cover6 = new Cover();
+                cover2 = new Cover();
 
-                cover6.setPosition(225,400);
+                cover2.setPosition(225,400);
         }
     }
 
@@ -100,11 +101,14 @@ public class SpaceEntrepreneurs {
     }
 
     public void shoot(){
-        if (!spaceship.missile.isOnScreen()){              //keep the missile from gaining higher speed after every new shot
-            spaceship.shoot(spaceship.getPositionX(), spaceship.getPositionY());    //the missile starts from the spaceships position
-        }
+        //if (!spaceship.missile.isOnScreen()              //keep the missile from gaining higher speed after every new shot
+        spaceship.shoot(spaceship.getPositionX(), spaceship.getPositionY());    //the missile starts from the spaceships position
+
     }
 
+    public ArrayList<Monster> getMonsterList() {
+        return monsterList;
+    }
     public void moveMonster(){
 
         double posR = 0;

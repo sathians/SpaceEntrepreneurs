@@ -20,8 +20,6 @@ public class Monster extends Sprite{
     private double velY;
     */
 
-    private double width;
-    private double height;
 
     public ArrayList<Monster> monsterList = new ArrayList<Monster>();
 

@@ -11,7 +11,7 @@ public class Character extends Sprite {
   //  private final String characther_img = "img/spaceship_a1.png";
     private double width;
     private double height;
-
+    public Missile missile;
 
     public Character() {
 
@@ -22,11 +22,13 @@ public class Character extends Sprite {
         setWidth(50);
     }
 
-    public void shoot(int x, int y){
-        Missile missile = new Missile();
-        missile.setOnScreen(true);
-        missile.setPosition(x + getWidht()/2, y);
-        missile.setVelocity(0,-250);
+    public void shoot(double x, double y) {
+        if (!missile.isOnScreen()) {
+            missile = new Missile();
+            missile.setOnScreen(true);
+            missile.setPosition(x + getWidht() / 2, y);
+            missile.setVelocity(0, -250);
+        }
     }
 
 }
