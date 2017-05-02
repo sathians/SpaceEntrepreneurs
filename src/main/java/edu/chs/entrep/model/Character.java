@@ -9,10 +9,10 @@ import javafx.scene.image.Image;
 public class Character extends Sprite {
 
   //  private final String characther_img = "img/spaceship_a1.png";
-    private double width;
+    /*private double width;
     private double height;
     public Missile missile;
-
+*/
     public Character() {
 
        // Image spaceship_img = new Image(characther_img,width, height, true, true );
@@ -20,8 +20,9 @@ public class Character extends Sprite {
         setPosition(256 ,450 );
         setHeight(50);
         setWidth(50);
+        setVelocity(0, 0);
     }
-
+/*
     public void shoot(double x, double y) {
         if (!missile.isOnScreen()) {
             missile = new Missile();
@@ -29,6 +30,6 @@ public class Character extends Sprite {
             missile.setPosition(x + getWidht() / 2, y);
             missile.setVelocity(0, -250);
         }
-    }
+    }*/
 
 }

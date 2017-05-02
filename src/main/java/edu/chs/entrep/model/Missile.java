@@ -20,13 +20,14 @@ public class Missile extends Sprite {
 
   // private final String missileImg = "img/Tesla_missile_0.png";
 
-    public boolean OnScreen;
+    public boolean OnScreen =false;
 
     public Missile (){
        // Image missile = new Image(missileImg,  20,20,false, true);
         //setImage(missile);
 
         setVelocity(0,0);
+        setPosition(0,0);
 
     }
 

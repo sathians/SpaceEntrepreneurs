@@ -23,13 +23,17 @@ import java.util.Iterator;
 
 /**
  * Created by niklasohlsson on 2017-04-27.
+ * Revised by sathian and nima 2017-05-02.
  */
 public class SpaceEntrepreneurs {
 
     private ArrayList<Monster> monsterList = new ArrayList<Monster>();
     public Player player;
     public int level;
+
     public Character spaceship;
+    public Missile missile;
+
     public Cover cover1;
     public Cover cover2;
     public Cover cover3;
@@ -44,6 +48,10 @@ public class SpaceEntrepreneurs {
 
         spaceship = new Character();
         spaceship.setVelocity(0,0);
+
+        missile = new Missile();
+        missile.setHeight(20);
+        missile.setWidth(20);
 
         initLevel(level);
     }
@@ -62,6 +70,8 @@ public class SpaceEntrepreneurs {
                 cover2.setPosition(225, 400);
                 cover3.setPosition(375, 400);
 
+                break;
+
             case 2:
                 initMonsterList(4);
 
@@ -71,12 +81,16 @@ public class SpaceEntrepreneurs {
                 cover1.setPosition(75,400);
                 cover3.setPosition(375,400);
 
+                break;
+
             case 3:
                 initMonsterList(5);
 
                 cover2 = new Cover();
 
-                cover2.setPosition(225,400);
+                cover2.setPosition(225, 400);
+
+                break;
         }
     }
 
@@ -84,6 +98,8 @@ public class SpaceEntrepreneurs {
         for (int i = 0; i < rows; i++){
             for(int j = 0; j < 6; j++){
                 Monster monster = new Monster();
+                monster.setWidth(20);
+                monster.setHeight(20);
                 monster.setPosition(30 + j*82, 30 + i*50);
                 monsterList.add( monster );
             }
@@ -100,10 +116,19 @@ public class SpaceEntrepreneurs {
             spaceship.addVelocity(100, 0);
     }
 
-    public void shoot(){
+   /* public void shoot(){
         //if (!spaceship.missile.isOnScreen()              //keep the missile from gaining higher speed after every new shot
         spaceship.shoot(spaceship.getPositionX(), spaceship.getPositionY());    //the missile starts from the spaceships position
 
+    }
+*/
+    public void shoot() {
+        if (!missile.isOnScreen()) {
+            //missile = new Missile();
+            missile.setOnScreen(true);
+            missile.setPosition(spaceship.getPositionX() + (spaceship.getWidht() / 2), spaceship.getPositionY());
+            missile.setVelocity(0, -500);
+        }
     }
 
     public ArrayList<Monster> getMonsterList() {
@@ -135,28 +160,43 @@ public class SpaceEntrepreneurs {
         }
     }
 
-    public void collisionCheck (){
+    public void collisionCheck () {
 
         Iterator<Monster> monsterIter = monsterList.iterator();
-        while ( monsterIter.hasNext() )
-        {
+        while (monsterIter.hasNext()) {
             Monster monster = monsterIter.next();
-            if (spaceship.missile.isOnScreen() && spaceship.missile.intersects(monster) )
-            {
+            if (missile.isOnScreen() && missile.intersects(monster)) {
                 monsterIter.remove();
-                spaceship.missile.Erasing();
+                missile.setOnScreen(false);
                 score += 1;
             }
 
         }
 
+
         //missile out of bound or intersect with wall
-        if (spaceship.missile.getPositionY() < 0)
-            spaceship.missile.Erasing();
+        if (missile.getPositionY() < 0)
+            missile.setOnScreen(false);
 
         //missile intersects with cover
-        if (spaceship.missile.intersects(cover1) || spaceship.missile.intersects(cover2)|| spaceship.missile.intersects(cover3))
-            spaceship.missile.Erasing();
+        switch (level) {
+            case 1:
+
+                if (missile.intersects(cover1) || missile.intersects(cover2) || missile.intersects(cover3))
+                    missile.setOnScreen(false);
+                break;
+            case 2:
+
+                if (missile.intersects(cover1) || missile.intersects(cover3))
+                    missile.setOnScreen(false);
+                break;
+            case 3:
+
+                if (missile.intersects(cover2))
+                    missile.setOnScreen(false);
+                break;
+        }
+
     }
 
    public int getScore(){

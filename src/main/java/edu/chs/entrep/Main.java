@@ -3,6 +3,7 @@ package edu.chs.entrep;
 import edu.chs.entrep.model.*;
 import edu.chs.entrep.model.Character;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -77,8 +78,9 @@ public class Main extends Application {
 
         //Init the different game modules
 
-        Player player = new Player();
-        final SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, 1);
+        Player player = new Player("sathian");
+
+        final SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, 3);
 
         //Gammal kod från innan uppdelning av main in i SpaceEntrepreneurs och main(View,Controller)
         /*
@@ -112,18 +114,16 @@ public class Main extends Application {
         final Image background_img = new Image( "img/background.png", 512,512,false,true);
         final Image cover_img = new Image("img/Firewall_a0.png", 50,70,false, true);
         final Image spaceship_img = new Image("img/spaceship_a1.png", 50,50,false,true);
-        final Image monster1_img = new Image("img/ufo_0.png",10,10, false, true);
-        final Image missile_img = new Image("img/Tesla_missile_0.png", 8, 4, false,true);
+        final Image monster1_img = new Image("img/ufo_0.png",20,20, false, true);
+        final Image missile_img = new Image("img/Tesla_missile_0.png", 20, 20, false,true);
 
         final LongValue lastNanoTime = new LongValue( System.nanoTime() );      //Check if this can be removed
 
         final IntValue score = new IntValue(0);
 
+        new AnimationTimer() {
 
-        new AnimationTimer()
-        {
-            public void handle(long currentNanoTime)
-            {
+            public void handle(long currentNanoTime) {
                 // calculate time since last update.
                 double elapsedTime = (currentNanoTime - lastNanoTime.value) / 1000000000.0;
                 lastNanoTime.value = currentNanoTime;
@@ -197,13 +197,16 @@ public class Main extends Application {
 
                 //Updates spaceship, missile and monster position
 
-                spaceEntrepreneurs.spaceship.update(elapsedTime);
-                spaceEntrepreneurs.spaceship.missile.update(elapsedTime);
+                    spaceEntrepreneurs.spaceship.update(elapsedTime);
+                   spaceEntrepreneurs.missile.update(elapsedTime);
+
                 for (Monster monster : spaceEntrepreneurs.getMonsterList() )
                     monster.update( elapsedTime );
 
 
                 // collision detection
+                spaceEntrepreneurs.collisionCheck();
+
                 spaceEntrepreneurs.moveMonster();
                 /*Iterator<Monster> monsterIter = monster.getMonsterList().iterator();
                 while ( monsterIter.hasNext() )
@@ -230,10 +233,26 @@ public class Main extends Application {
                 gc.clearRect(0, 0, 512,512);
                 gc.drawImage( background_img, 0, 0 );
                 gc.drawImage( spaceship_img, spaceEntrepreneurs.spaceship.getPositionX(), spaceEntrepreneurs.spaceship.getPositionY());
-                gc.drawImage( cover_img, spaceEntrepreneurs.cover1.getPositionX(), spaceEntrepreneurs.cover1.getPositionY());
-                gc.drawImage( cover_img, spaceEntrepreneurs.cover2.getPositionX(), spaceEntrepreneurs.cover2.getPositionY());
-                gc.drawImage( cover_img, spaceEntrepreneurs.cover3.getPositionX(), spaceEntrepreneurs.cover3.getPositionY());
 
+                switch (spaceEntrepreneurs.level) {
+                    case 1:
+
+                        gc.drawImage(cover_img, spaceEntrepreneurs.cover1.getPositionX(), spaceEntrepreneurs.cover1.getPositionY());
+                        gc.drawImage(cover_img, spaceEntrepreneurs.cover2.getPositionX(), spaceEntrepreneurs.cover2.getPositionY());
+                        gc.drawImage(cover_img, spaceEntrepreneurs.cover3.getPositionX(), spaceEntrepreneurs.cover3.getPositionY());
+                        break;
+
+                    case 2:
+
+                        gc.drawImage(cover_img, spaceEntrepreneurs.cover1.getPositionX(), spaceEntrepreneurs.cover1.getPositionY());
+                        gc.drawImage(cover_img, spaceEntrepreneurs.cover3.getPositionX(), spaceEntrepreneurs.cover3.getPositionY());
+                        break;
+
+                    case 3:
+
+                        gc.drawImage(cover_img, spaceEntrepreneurs.cover2.getPositionX(), spaceEntrepreneurs.cover2.getPositionY());
+                        break;
+                }
                 /*
                 spaceEntrepreneurs.spaceship.render( gc );
                 spaceEntrepreneurs.cover1.render( gc );
@@ -241,8 +260,8 @@ public class Main extends Application {
                 spaceEntrepreneurs.cover3.render( gc );
                 */
 
-                if (spaceEntrepreneurs.spaceship.missile.isOnScreen())
-                    gc.drawImage(missile_img, spaceEntrepreneurs.spaceship.missile.getPositionX(),spaceEntrepreneurs.spaceship.missile.getPositionY());
+                if (spaceEntrepreneurs.missile.isOnScreen())
+                    gc.drawImage(missile_img, spaceEntrepreneurs.missile.getPositionX(),spaceEntrepreneurs.missile.getPositionY());
 
 
                 for (Monster monster : spaceEntrepreneurs.getMonsterList() ) {

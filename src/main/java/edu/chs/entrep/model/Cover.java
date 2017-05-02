@@ -19,8 +19,8 @@ public class Cover extends Sprite{
         // Image cover2 = new Image(coverImg,70, 50, true, true );
         //Image cover3 = new Image(coverImg,70, 50, true, true );
 
-        setHeight(50);
-        setWidth(70);
+        setHeight(70);
+        setWidth(50);
     }
 
     /*
