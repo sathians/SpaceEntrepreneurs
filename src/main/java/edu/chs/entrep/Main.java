@@ -78,9 +78,8 @@ public class Main extends Application {
 
         //Init the different game modules
 
-        Player player = new Player("sathian");
-
-        final SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, 3);
+        Player player = new Player("Ni");
+        final SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, 1);
 
         //Gammal kod från innan uppdelning av main in i SpaceEntrepreneurs och main(View,Controller)
         /*
@@ -121,9 +120,11 @@ public class Main extends Application {
 
         final IntValue score = new IntValue(0);
 
-        new AnimationTimer() {
 
-            public void handle(long currentNanoTime) {
+        new AnimationTimer()
+        {
+            public void handle(long currentNanoTime)
+            {
                 // calculate time since last update.
                 double elapsedTime = (currentNanoTime - lastNanoTime.value) / 1000000000.0;
                 lastNanoTime.value = currentNanoTime;
