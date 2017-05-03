@@ -32,8 +32,8 @@ public class Monster extends Sprite{
        setPosition(0,0);            //is this needed?
        setVelocity(0,0);
        //setImage(monster1_img);
-      setHeight(10);
-      setWidth(10);
+      setHeight(40);
+      setWidth(40);
 
 
     }

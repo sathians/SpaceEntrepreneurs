@@ -21,7 +21,11 @@ import javafx.scene.input.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+
+
+
 public class Main extends Application {
+    public int level=1;
 
     //Instead of a view and control class, this is handled in start()
 
@@ -79,7 +83,8 @@ public class Main extends Application {
         //Init the different game modules
 
         Player player = new Player("Ni");
-        final SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, 1);
+
+        final SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level);
 
         //Gammal kod från innan uppdelning av main in i SpaceEntrepreneurs och main(View,Controller)
         /*
@@ -110,27 +115,26 @@ public class Main extends Application {
         cover3.setPosition(375,400);
         */
 
-        final Image background_img = new Image( "img/background.png", 512,512,false,true);
-        final Image cover_img = new Image("img/Firewall_a0.png", 50,70,false, true);
-        final Image spaceship_img = new Image("img/spaceship_a1.png", 50,50,false,true);
-        final Image monster1_img = new Image("img/ufo_0.png",20,20, false, true);
-        final Image missile_img = new Image("img/Tesla_missile_0.png", 20, 20, false,true);
+        final Image background_img = new Image("img/background.png", 512, 512, false, true);
+        final Image cover_img = new Image("img/Firewall_a0.png", 70, 50, false, true);
+        final Image spaceship_img = new Image("img/spaceship_a1.png", 50, 50, false, true);
+        final Image monster1_img = new Image("img/ufo_0.png", 40, 40, false, true);
+        final Image missile_img = new Image("img/Tesla_missile_0.png", 20, 20, false, true);
+        final Image gameOver_img = new Image("img/gameOver.png",512,512,false,true);
 
-        final LongValue lastNanoTime = new LongValue( System.nanoTime() );      //Check if this can be removed
+        final LongValue lastNanoTime = new LongValue(System.nanoTime());      //Check if this can be removed
 
         final IntValue score = new IntValue(0);
 
 
-        new AnimationTimer()
-        {
-            public void handle(long currentNanoTime)
-            {
+        new AnimationTimer() {
+            public void handle(long currentNanoTime) {
                 // calculate time since last update.
                 double elapsedTime = (currentNanoTime - lastNanoTime.value) / 1000000000.0;
                 lastNanoTime.value = currentNanoTime;
 
                 // game logic
-                spaceEntrepreneurs.spaceship.setVelocity(0,0);          //How do we sett this in logic in spaceEntrepreneurs instead?
+                spaceEntrepreneurs.spaceship.setVelocity(0, 0);          //How do we sett this in logic in spaceEntrepreneurs instead?
                 if (input.contains("LEFT")) {
                     spaceEntrepreneurs.left();
                 }
@@ -139,7 +143,7 @@ public class Main extends Application {
                     spaceEntrepreneurs.right();
                 }
 
-                if (input.contains("SPACE") ) {           //även tidigare även && !missile.isOnScreen()
+                if (input.contains("SPACE")) {           //även tidigare även && !missile.isOnScreen()
                     spaceEntrepreneurs.shoot();
                 }
 
@@ -198,17 +202,32 @@ public class Main extends Application {
 
                 //Updates spaceship, missile and monster position
 
-                    spaceEntrepreneurs.spaceship.update(elapsedTime);
-                   spaceEntrepreneurs.missile.update(elapsedTime);
+                spaceEntrepreneurs.spaceship.update(elapsedTime);
+                spaceEntrepreneurs.missile.update(elapsedTime);
+                spaceEntrepreneurs.monsterMissile.update(elapsedTime);
 
-                for (Monster monster : spaceEntrepreneurs.getMonsterList() )
-                    monster.update( elapsedTime );
+                for (Monster monster : spaceEntrepreneurs.getMonsterList())
+                    monster.update(elapsedTime);
 
 
                 // collision detection
                 spaceEntrepreneurs.collisionCheck();
 
                 spaceEntrepreneurs.moveMonster();
+
+                spaceEntrepreneurs.monsterShoot();
+
+
+
+
+              /*  if (spaceEntrepreneurs.monsterCheck()) {
+                    stop();
+                    level = level + 1;
+                    start();
+                }
+
+                */
+
                 /*Iterator<Monster> monsterIter = monster.getMonsterList().iterator();
                 while ( monsterIter.hasNext() )
                 {
@@ -231,9 +250,9 @@ public class Main extends Application {
                     missile.Erasing();
                 */
 
-                gc.clearRect(0, 0, 512,512);
-                gc.drawImage( background_img, 0, 0 );
-                gc.drawImage( spaceship_img, spaceEntrepreneurs.spaceship.getPositionX(), spaceEntrepreneurs.spaceship.getPositionY());
+                gc.clearRect(0, 0, 512, 512);
+                gc.drawImage(background_img, 0, 0);
+                gc.drawImage(spaceship_img, spaceEntrepreneurs.spaceship.getPositionX(), spaceEntrepreneurs.spaceship.getPositionY());
 
                 switch (spaceEntrepreneurs.level) {
                     case 1:
@@ -262,18 +281,29 @@ public class Main extends Application {
                 */
 
                 if (spaceEntrepreneurs.missile.isOnScreen())
-                    gc.drawImage(missile_img, spaceEntrepreneurs.missile.getPositionX(),spaceEntrepreneurs.missile.getPositionY());
+                    gc.drawImage(missile_img, spaceEntrepreneurs.missile.getPositionX(), spaceEntrepreneurs.missile.getPositionY());
 
+                if (spaceEntrepreneurs.monsterMissile.isOnScreen())
+                    gc.drawImage(missile_img, spaceEntrepreneurs.monsterMissile.getPositionX(), spaceEntrepreneurs.monsterMissile.getPositionY());
 
-                for (Monster monster : spaceEntrepreneurs.getMonsterList() ) {
+                for (Monster monster : spaceEntrepreneurs.getMonsterList()) {
                     gc.drawImage(monster1_img, monster.getPositionX(), monster.getPositionY());
                     //monster.render( gc );
                 }
 
+                if (spaceEntrepreneurs.gameOverCheck()) {
+                    gc.drawImage(gameOver_img, 0, 0);
+                    stop();
+                }
+
                 String pointsText = "Cash: $" + (100 * spaceEntrepreneurs.getScore());
-                gc.fillText( pointsText, 360, 36 );
-                gc.strokeText( pointsText, 360, 36 );
-                
+                gc.fillText(pointsText, 360, 36);
+                gc.strokeText(pointsText, 360, 36);
+
+                String lifeText = "Life <3: " + ( spaceEntrepreneurs.spaceship.getLife());
+                gc.fillText(lifeText, 20, 36);
+                gc.strokeText(lifeText, 20, 36);
+
             }
         }.start();
 

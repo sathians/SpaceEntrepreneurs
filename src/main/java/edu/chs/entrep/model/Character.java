@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
  * Created by josefinesvegborn on 2017-04-03.
  */
 public class Character extends Sprite {
+    private int life;
 
   //  private final String characther_img = "img/spaceship_a1.png";
     /*private double width;
@@ -14,6 +15,7 @@ public class Character extends Sprite {
     public Missile missile;
 */
     public Character() {
+        life=3;
 
        // Image spaceship_img = new Image(characther_img,width, height, true, true );
         //setImage(spaceship_img);
@@ -22,6 +24,16 @@ public class Character extends Sprite {
         setWidth(50);
         setVelocity(0, 0);
     }
+
+    public void decLife(){
+        life -= 1;
+    }
+
+    public int getLife(){
+        return life;
+    }
+
+
 /*
     public void shoot(double x, double y) {
         if (!missile.isOnScreen()) {

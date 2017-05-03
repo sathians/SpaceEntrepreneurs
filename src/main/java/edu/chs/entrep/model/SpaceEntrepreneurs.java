@@ -20,6 +20,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Created by niklasohlsson on 2017-04-27.
@@ -33,6 +34,11 @@ public class SpaceEntrepreneurs {
 
     public Character spaceship;
     public Missile missile;
+    public Missile monsterMissile;
+
+    public boolean gameOver;
+    public boolean nextLevel;
+
 
     public Cover cover1;
     public Cover cover2;
@@ -52,6 +58,10 @@ public class SpaceEntrepreneurs {
         missile = new Missile();
         missile.setHeight(20);
         missile.setWidth(20);
+
+        monsterMissile = new Missile();
+        monsterMissile.setHeight(20);
+        monsterMissile.setWidth(20);
 
         initLevel(level);
     }
@@ -112,6 +122,7 @@ public class SpaceEntrepreneurs {
     }
 
     public void right(){
+
         if (spaceship.getPositionX() < 452)
             spaceship.addVelocity(100, 0);
     }
@@ -127,8 +138,21 @@ public class SpaceEntrepreneurs {
             //missile = new Missile();
             missile.setOnScreen(true);
             missile.setPosition(spaceship.getPositionX() + (spaceship.getWidht() / 2), spaceship.getPositionY());
-            missile.setVelocity(0, -500);
+            missile.setVelocity(0, -300);
         }
+    }
+
+    public void monsterShoot(){
+        if (!monsterMissile.isOnScreen()) {
+            //missile = new Missile();
+            monsterMissile.setOnScreen(true);
+            Random random= new Random();
+            int index = random.nextInt(monsterList.size());
+            monsterMissile.setPosition(monsterList.get(index).getPositionX() + (monsterList.get(index).getWidht() / 2), monsterList.get(index).getPositionY());
+            monsterMissile.setVelocity(0, 100);
+        }
+
+
     }
 
     public ArrayList<Monster> getMonsterList() {
@@ -159,6 +183,21 @@ public class SpaceEntrepreneurs {
             }
         }
     }
+    public boolean levelCheck(){
+        if (monsterList.isEmpty())
+         nextLevel=true;
+        return nextLevel;
+    }
+
+    public boolean gameOverCheck(){
+        if (spaceship.getLife() == 0)
+            gameOver=true;
+        return gameOver;
+    }
+
+
+
+
 
     public void collisionCheck () {
 
@@ -170,13 +209,20 @@ public class SpaceEntrepreneurs {
                 missile.setOnScreen(false);
                 score += 1;
             }
-
         }
 
+        if (monsterMissile.isOnScreen() && monsterMissile.intersects(spaceship)) {
+            monsterMissile.setOnScreen(false);
+            spaceship.decLife();
+        }
 
         //missile out of bound or intersect with wall
         if (missile.getPositionY() < 0)
             missile.setOnScreen(false);
+
+        if (monsterMissile.getPositionY() > 500)
+            monsterMissile.setOnScreen(false);
+
 
         //missile intersects with cover
         switch (level) {
@@ -184,16 +230,24 @@ public class SpaceEntrepreneurs {
 
                 if (missile.intersects(cover1) || missile.intersects(cover2) || missile.intersects(cover3))
                     missile.setOnScreen(false);
+
+                if (monsterMissile.intersects(cover1) || monsterMissile.intersects(cover2) || monsterMissile.intersects(cover3))
+                    monsterMissile.setOnScreen(false);
+
                 break;
             case 2:
 
                 if (missile.intersects(cover1) || missile.intersects(cover3))
                     missile.setOnScreen(false);
+                if (monsterMissile.intersects(cover1) || monsterMissile.intersects(cover3))
+                    monsterMissile.setOnScreen(false);
                 break;
             case 3:
 
                 if (missile.intersects(cover2))
                     missile.setOnScreen(false);
+                if (monsterMissile.intersects(cover2))
+                    monsterMissile.setOnScreen(false);
                 break;
         }
 
