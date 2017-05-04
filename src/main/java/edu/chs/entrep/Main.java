@@ -1,6 +1,7 @@
 package edu.chs.entrep;
 
 import edu.chs.entrep.model.*;
+import edu.chs.entrep.model.Character;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.scene.Group;
@@ -17,12 +18,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.animation.AnimationTimer;
-
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
+
+
 
 
 public class Main extends Application {
     public int level=1;
+    public boolean nextLevel=false;
 
     //Instead of a view and control class, this is handled in start()
 
@@ -103,7 +109,7 @@ public class Main extends Application {
 
         Player player = new Player("Ni");
 
-        final SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level);
+        //final SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level);
 
         //Gammal kod från innan uppdelning av main in i SpaceEntrepreneurs och main(View,Controller)
         /*
@@ -141,15 +147,19 @@ public class Main extends Application {
         final Image spaceship_img = new Image("img/spaceship_a1.png", 50, 50, false, true);
         final Image monster1_img = new Image("img/ufo_0.png", 40, 40, false, true);
         final Image missile_img = new Image("img/Tesla_missile_0.png", 20, 20, false, true);
-        final Image gameOver_img = new Image("img/gameOver.png",512,512,false,true);
+        final Image gameOver_img = new Image("img/gameOver.png", 512, 512, false, true);
 
-        final LongValue lastNanoTime = new LongValue(System.nanoTime());      //Check if this can be removed
-
-        final IntValue score = new IntValue(0);
+       // final LongValue lastNanoTime = new LongValue(System.nanoTime());      //Check if this can be removed
+        //final IntValue score = new IntValue(0);
 
 
         new AnimationTimer() {
+            final LongValue lastNanoTime = new LongValue(System.nanoTime());      //Check if this can be removed
+            final IntValue score = new IntValue(0);
+            SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level);
+
             public void handle(long currentNanoTime) {
+
                 // calculate time since last update.
                 double elapsedTime = (currentNanoTime - lastNanoTime.value) / 1000000000.0;
                 lastNanoTime.value = currentNanoTime;
@@ -167,53 +177,6 @@ public class Main extends Application {
                 if (input.contains("SPACE")) {           //även tidigare även && !missile.isOnScreen()
                     spaceEntrepreneurs.shoot();
                 }
-
-
-                //Monster Path implementation, count out the position farest to the right/left
-                /*double posR = 0;
-                double posL = 512;
-
-                for(Monster monster: monster.getMonsterList()) {
-
-                    if (posR < monster.getPositionX())
-                        posR = monster.getPositionX();
-
-                    if (posL > monster.getPositionX())
-                        posL = monster.getPositionX();
-                }
-
-                for(Monster monster: monster.getMonsterList()) {
-
-                    if(posR < (512-40) && monster.getVelocityX() >= 0){
-                        monster.setVelocity(25,0);
-                    }else if(posL > 0){
-                        monster.setVelocity(-25,0);
-                    }else{
-                        monster.setVelocity(0,0);
-                    }
-                }
-                */
-                /*
-                for(Sprite monster: monsterList) {
-
-                    if (posR < monster.getPositionX())
-                        posR = monster.getPositionX();
-
-                    if (posL > monster.getPositionX())
-                        posL = monster.getPositionX();
-                }
-
-                for(Sprite monster: monsterList) {
-
-                    if(posR < (512-40) && monster.getVelocityX() >= 0){
-                        monster.setVelocity(25,0);
-                    }else if(posL > 0){
-                        monster.setVelocity(-25,0);
-                    }else{
-                        monster.setVelocity(0,0);
-                    }
-                }
-                */
 
                 // Min tanke här är att med ett visst tids-inervall så skall monstrena hoppa ner ett steg närmare rymdskeppet.
                 // if (elapsedTime > 1 && elapsedTime < 2 || elapsedTime > 10 && elapsedTime < 11) {
@@ -275,20 +238,17 @@ public class Main extends Application {
 
                 switch (spaceEntrepreneurs.level) {
                     case 1:
-
                         gc.drawImage(cover_img, spaceEntrepreneurs.cover1.getPositionX(), spaceEntrepreneurs.cover1.getPositionY());
                         gc.drawImage(cover_img, spaceEntrepreneurs.cover2.getPositionX(), spaceEntrepreneurs.cover2.getPositionY());
                         gc.drawImage(cover_img, spaceEntrepreneurs.cover3.getPositionX(), spaceEntrepreneurs.cover3.getPositionY());
                         break;
 
                     case 2:
-
                         gc.drawImage(cover_img, spaceEntrepreneurs.cover1.getPositionX(), spaceEntrepreneurs.cover1.getPositionY());
                         gc.drawImage(cover_img, spaceEntrepreneurs.cover3.getPositionX(), spaceEntrepreneurs.cover3.getPositionY());
                         break;
 
                     case 3:
-
                         gc.drawImage(cover_img, spaceEntrepreneurs.cover2.getPositionX(), spaceEntrepreneurs.cover2.getPositionY());
                         break;
                 }
@@ -316,11 +276,17 @@ public class Main extends Application {
                     stop();
                 }
 
+                if (spaceEntrepreneurs.monsterCheck()) {
+                    level = level + 1;
+                    nextLevel = true;
+                    spaceEntrepreneurs = new SpaceEntrepreneurs(player, level);
+                }
+
                 String pointsText = "Cash: $" + (100 * spaceEntrepreneurs.getScore());
                 gc.fillText(pointsText, 360, 36);
                 gc.strokeText(pointsText, 360, 36);
 
-                String lifeText = "Life <3: " + ( spaceEntrepreneurs.spaceship.getLife());
+                String lifeText = "Life <3: " + (spaceEntrepreneurs.spaceship.getLife());
                 gc.fillText(lifeText, 20, 36);
                 gc.strokeText(lifeText, 20, 36);
 

@@ -37,6 +37,7 @@ public class SpaceEntrepreneurs {
     public Missile monsterMissile;
 
     public boolean gameOver;
+    public boolean win;
     public boolean nextLevel;
 
 
@@ -194,6 +195,16 @@ public class SpaceEntrepreneurs {
             gameOver=true;
         return gameOver;
     }
+
+    public boolean monsterCheck(){
+        if (monsterList.isEmpty())
+            win=true;
+        return win;
+    }
+
+
+
+
 
     public void collisionCheck () {
 
