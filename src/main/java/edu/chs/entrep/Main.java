@@ -1,7 +1,6 @@
 package edu.chs.entrep;
 
 import edu.chs.entrep.model.*;
-import edu.chs.entrep.model.Character;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.scene.Group;
@@ -77,26 +76,6 @@ public class Main extends Application {
         primaryStage.setScene(startScene);
         primaryStage.show();
 
-        //KeyHandler - set and release
-        final ArrayList<String> input = new ArrayList<String>();
-
-        gameScene.setOnKeyPressed(
-                e -> {
-                    String code = e.getCode().toString();
-                    if ( !input.contains(code) )
-                        input.add( code );
-                }
-        );
-
-/*
-        gameScene.setOnKeyPressed(this::onKey);
-*/
-        gameScene.setOnKeyReleased(
-                e -> {
-                    String code = e.getCode().toString();
-                    input.remove( code );
-                });
-
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
         Font theFont = Font.font( "Helvetica", FontWeight.BOLD, 24 );
@@ -110,6 +89,38 @@ public class Main extends Application {
         Player player = new Player("Ni");
 
         //final SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level);
+
+        //KeyHandler - set and release
+        final ArrayList<String> input = new ArrayList<String>();
+
+        gameScene.setOnKeyPressed(
+                e -> {
+                    /*String code = e.getCode().toString();
+                    if ( !input.contains(code) )
+                        input.add( code );*/
+                    if(e.getCode().toString() == "LEFT")
+                        spaceEntrepreneurs.left();
+
+                    if(e.getCode().toString() == "RIGHT")
+                        spaceEntrepreneurs.right();
+
+                    if(e.getCode().toString() == "SPACE")
+                        spaceEntrepreneurs.shoot();
+                });
+/*
+        gameScene.setOnKeyPressed(this::onKey);
+*/
+        gameScene.setOnKeyReleased(
+                e -> {
+                    /*String code = e.getCode().toString();
+                    input.remove( code );*/
+                    if(e.getCode().toString() == "LEFT")
+                        spaceEntrepreneurs.spaceship.setVelocity(0, 0);;
+                    if(e.getCode().toString() == "RIGHT")
+                        spaceEntrepreneurs.spaceship.setVelocity(0, 0);;
+                    //if(e.getCode().toString() == "SPACE")
+                    //    spaceEntrepreneurs.shoot();
+                });
 
         //Gammal kod från innan uppdelning av main in i SpaceEntrepreneurs och main(View,Controller)
         /*
@@ -165,7 +176,7 @@ public class Main extends Application {
                 lastNanoTime.value = currentNanoTime;
 
                 // game logic
-                spaceEntrepreneurs.spaceship.setVelocity(0, 0);          //How do we sett this in logic in spaceEntrepreneurs instead?
+                /*spaceEntrepreneurs.spaceship.setVelocity(0, 0);          //How do we sett this in logic in spaceEntrepreneurs instead?
                 if (input.contains("LEFT")) {
                     spaceEntrepreneurs.left();
                 }
@@ -177,6 +188,53 @@ public class Main extends Application {
                 if (input.contains("SPACE")) {           //även tidigare även && !missile.isOnScreen()
                     spaceEntrepreneurs.shoot();
                 }
+                */
+
+                //Monster Path implementation, count out the position farest to the right/left
+                /*double posR = 0;
+                double posL = 512;
+
+                for(Monster monster: monster.getMonsterList()) {
+
+                    if (posR < monster.getPositionX())
+                        posR = monster.getPositionX();
+
+                    if (posL > monster.getPositionX())
+                        posL = monster.getPositionX();
+                }
+
+                for(Monster monster: monster.getMonsterList()) {
+
+                    if(posR < (512-40) && monster.getVelocityX() >= 0){
+                        monster.setVelocity(25,0);
+                    }else if(posL > 0){
+                        monster.setVelocity(-25,0);
+                    }else{
+                        monster.setVelocity(0,0);
+                    }
+                }
+                */
+                /*
+                for(Sprite monster: monsterList) {
+
+                    if (posR < monster.getPositionX())
+                        posR = monster.getPositionX();
+
+                    if (posL > monster.getPositionX())
+                        posL = monster.getPositionX();
+                }
+
+                for(Sprite monster: monsterList) {
+
+                    if(posR < (512-40) && monster.getVelocityX() >= 0){
+                        monster.setVelocity(25,0);
+                    }else if(posL > 0){
+                        monster.setVelocity(-25,0);
+                    }else{
+                        monster.setVelocity(0,0);
+                    }
+                }
+                */
 
                 // Min tanke här är att med ett visst tids-inervall så skall monstrena hoppa ner ett steg närmare rymdskeppet.
                 // if (elapsedTime > 1 && elapsedTime < 2 || elapsedTime > 10 && elapsedTime < 11) {

@@ -119,13 +119,17 @@ public class SpaceEntrepreneurs {
 
     public void left(){
         if (spaceship.getPositionX() > 10)
-            spaceship.addVelocity(-100, 0);
+            spaceship.setVelocity(-100, 0);
     }
 
     public void right(){
 
         if (spaceship.getPositionX() < 452)
-            spaceship.addVelocity(100, 0);
+            spaceship.setVelocity(100, 0);
+    }
+
+    public void stopSpaceShip(){
+        spaceship.setVelocity(0, 0);
     }
 
    /* public void shoot(){
