@@ -95,10 +95,10 @@ public class Main extends Application {
 
         gameScene.setOnKeyPressed(
                 e -> {
-                    /*String code = e.getCode().toString();
+                    String code = e.getCode().toString();
                     if ( !input.contains(code) )
-                        input.add( code );*/
-                    if(e.getCode().toString() == "LEFT")
+                        input.add( code );
+                    /*if(e.getCode().toString() == "LEFT")
                         spaceEntrepreneurs.left();
 
                     if(e.getCode().toString() == "RIGHT")
@@ -106,50 +106,23 @@ public class Main extends Application {
 
                     if(e.getCode().toString() == "SPACE")
                         spaceEntrepreneurs.shoot();
+                    */
                 });
 /*
         gameScene.setOnKeyPressed(this::onKey);
 */
         gameScene.setOnKeyReleased(
                 e -> {
-                    /*String code = e.getCode().toString();
-                    input.remove( code );*/
-                    if(e.getCode().toString() == "LEFT")
+                    String code = e.getCode().toString();
+                    input.remove( code );
+                    /*if(e.getCode().toString() == "LEFT")
                         spaceEntrepreneurs.spaceship.setVelocity(0, 0);;
                     if(e.getCode().toString() == "RIGHT")
                         spaceEntrepreneurs.spaceship.setVelocity(0, 0);;
-                    //if(e.getCode().toString() == "SPACE")
-                    //    spaceEntrepreneurs.shoot();
+                    if(e.getCode().toString() == "SPACE")
+                        spaceEntrepreneurs.shoot();
+                    */
                 });
-
-        //Gammal kod från innan uppdelning av main in i SpaceEntrepreneurs och main(View,Controller)
-        /*
-        final Character spaceship = new Character();
-        //final Missile missile = new Missile();
-
-        final Monster monster = new Monster();
-        monster.initMonsterList(15);
-
-        final ArrayList<Sprite> monsterList = new ArrayList<Sprite>();
-        //Tried out a path, Niklas
-        for (int i = 0; i < 3; i++){
-            for(int j = 0; j < 6; j++){
-                Sprite monster = new Sprite();
-                monster.setImage("img/ufo_0.png");
-                monster.setPosition(30 + j*82, 30 + i*50);
-                monsterList.add( monster );
-            }
-        }
-
-        // init three covers
-        final Cover cover1 = new Cover();
-        final Cover cover2 = new Cover();
-        final Cover cover3 = new Cover();
-
-        cover1.setPosition(75,400);
-        cover2.setPosition(225,400);
-        cover3.setPosition(375,400);
-        */
 
         //Lägg i en annan klass så man slipper se det
 
@@ -176,7 +149,7 @@ public class Main extends Application {
                 lastNanoTime.value = currentNanoTime;
 
                 // game logic
-                /*spaceEntrepreneurs.spaceship.setVelocity(0, 0);          //How do we sett this in logic in spaceEntrepreneurs instead?
+                spaceEntrepreneurs.spaceship.setVelocity(0, 0);          //How do we sett this in logic in spaceEntrepreneurs instead?
                 if (input.contains("LEFT")) {
                     spaceEntrepreneurs.left();
                 }
@@ -188,53 +161,6 @@ public class Main extends Application {
                 if (input.contains("SPACE")) {           //även tidigare även && !missile.isOnScreen()
                     spaceEntrepreneurs.shoot();
                 }
-                */
-
-                //Monster Path implementation, count out the position farest to the right/left
-                /*double posR = 0;
-                double posL = 512;
-
-                for(Monster monster: monster.getMonsterList()) {
-
-                    if (posR < monster.getPositionX())
-                        posR = monster.getPositionX();
-
-                    if (posL > monster.getPositionX())
-                        posL = monster.getPositionX();
-                }
-
-                for(Monster monster: monster.getMonsterList()) {
-
-                    if(posR < (512-40) && monster.getVelocityX() >= 0){
-                        monster.setVelocity(25,0);
-                    }else if(posL > 0){
-                        monster.setVelocity(-25,0);
-                    }else{
-                        monster.setVelocity(0,0);
-                    }
-                }
-                */
-                /*
-                for(Sprite monster: monsterList) {
-
-                    if (posR < monster.getPositionX())
-                        posR = monster.getPositionX();
-
-                    if (posL > monster.getPositionX())
-                        posL = monster.getPositionX();
-                }
-
-                for(Sprite monster: monsterList) {
-
-                    if(posR < (512-40) && monster.getVelocityX() >= 0){
-                        monster.setVelocity(25,0);
-                    }else if(posL > 0){
-                        monster.setVelocity(-25,0);
-                    }else{
-                        monster.setVelocity(0,0);
-                    }
-                }
-                */
 
                 // Min tanke här är att med ett visst tids-inervall så skall monstrena hoppa ner ett steg närmare rymdskeppet.
                 // if (elapsedTime > 1 && elapsedTime < 2 || elapsedTime > 10 && elapsedTime < 11) {
@@ -260,36 +186,6 @@ public class Main extends Application {
                 spaceEntrepreneurs.monsterShoot();
 
 
-              /*  if (spaceEntrepreneurs.monsterCheck()) {
-                    stop();
-                    level = level + 1;
-                    start();
-                }
-
-                */
-
-                /*Iterator<Monster> monsterIter = monster.getMonsterList().iterator();
-                while ( monsterIter.hasNext() )
-                {
-                    Sprite monster = monsterIter.next();
-                    if (missile.isOnScreen() && missile.intersects(monster) )
-                    {
-                        monsterIter.remove();
-                        missile.Erasing();
-                        score.value++;
-                    }
-
-                }
-
-                //missile out of bound or intersect with wall
-                if (missile.getPositionY() < 0)
-                    missile.Erasing();
-
-                //missile intersects with cover
-                if (missile.intersects(cover1) || missile.intersects(cover2)|| missile.intersects(cover3))
-                    missile.Erasing();
-                */
-
                 gc.clearRect(0, 0, 512, 512);
                 gc.drawImage(background_img, 0, 0);
                 gc.drawImage(spaceship_img, spaceEntrepreneurs.spaceship.getPositionX(), spaceEntrepreneurs.spaceship.getPositionY());
@@ -310,12 +206,6 @@ public class Main extends Application {
                         gc.drawImage(cover_img, spaceEntrepreneurs.cover2.getPositionX(), spaceEntrepreneurs.cover2.getPositionY());
                         break;
                 }
-                /*
-                spaceEntrepreneurs.spaceship.render( gc );
-                spaceEntrepreneurs.cover1.render( gc );
-                spaceEntrepreneurs.cover2.render( gc );
-                spaceEntrepreneurs.cover3.render( gc );
-                */
 
                 if (spaceEntrepreneurs.missile.isOnScreen())
                     gc.drawImage(missile_img, spaceEntrepreneurs.missile.getPositionX(), spaceEntrepreneurs.missile.getPositionY());
