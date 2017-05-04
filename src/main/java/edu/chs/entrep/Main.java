@@ -28,6 +28,15 @@ import java.util.Iterator;
 public class Main extends Application {
     public int level=1;
     public boolean nextLevel=false;
+    ArrayList<String> input = new ArrayList<String>();
+    Canvas canvas = new Canvas( 512, 512 );
+    GraphicsContext gc = canvas.getGraphicsContext2D();
+     Image background_img = new Image("img/background.png", 512, 512, false, true);
+      Image cover_img = new Image("img/Firewall_a0.png", 70, 50, false, true);
+     Image spaceship_img = new Image("img/spaceship_a1.png", 50, 50, false, true);
+      Image monster1_img = new Image("img/ufo_0.png", 40, 40, false, true);
+      Image missile_img = new Image("img/Tesla_missile_0.png", 20, 20, false, true);
+     Image gameOver_img = new Image("img/gameOver.png", 512, 512, false, true);
 
     //Instead of a view and control class, this is handled in start()
 
@@ -53,7 +62,7 @@ public class Main extends Application {
         Button highscoreButton = new Button("See highscores");
         Button startButton = new Button("Start");
         highscoreButton.setOnAction(e ->  primaryStage.setScene(highscoreScene));
-        startButton.setOnAction(e ->  primaryStage.setScene(gameScene));
+        startButton.setOnAction(e ->  {primaryStage.setScene(gameScene);startGame();});
         VBox layout1 = new VBox(20);
         layout1.getChildren().addAll(label1, startButton, highscoreButton);
         startScene = new Scene(layout1, 512, 512);
@@ -69,14 +78,14 @@ public class Main extends Application {
 
 //Game Scene
         Group root = new Group();
-        Canvas canvas = new Canvas( 512, 512 );
+       // Canvas canvas = new Canvas( 512, 512 );
         root.getChildren().add( canvas );
         gameScene = new Scene(root);
 
         primaryStage.setScene(startScene);
         primaryStage.show();
 
-        final GraphicsContext gc = canvas.getGraphicsContext2D();
+        //final GraphicsContext gc = canvas.getGraphicsContext2D();
 
         Font theFont = Font.font( "Helvetica", FontWeight.BOLD, 24 );
         gc.setFont( theFont );
@@ -91,7 +100,7 @@ public class Main extends Application {
         //final SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level);
 
         //KeyHandler - set and release
-        final ArrayList<String> input = new ArrayList<String>();
+
 
         gameScene.setOnKeyPressed(
                 e -> {
@@ -126,20 +135,36 @@ public class Main extends Application {
 
         //Lägg i en annan klass så man slipper se det
 
-        final Image background_img = new Image("img/background.png", 512, 512, false, true);
-        final Image cover_img = new Image("img/Firewall_a0.png", 70, 50, false, true);
-        final Image spaceship_img = new Image("img/spaceship_a1.png", 50, 50, false, true);
-        final Image monster1_img = new Image("img/ufo_0.png", 40, 40, false, true);
-        final Image missile_img = new Image("img/Tesla_missile_0.png", 20, 20, false, true);
-        final Image gameOver_img = new Image("img/gameOver.png", 512, 512, false, true);
+      //  final Image background_img = new Image("img/background.png", 512, 512, false, true);
+      //  final Image cover_img = new Image("img/Firewall_a0.png", 70, 50, false, true);
+      //  final Image spaceship_img = new Image("img/spaceship_a1.png", 50, 50, false, true);
+      //  final Image monster1_img = new Image("img/ufo_0.png", 40, 40, false, true);
+      //  final Image missile_img = new Image("img/Tesla_missile_0.png", 20, 20, false, true);
+      //  final Image gameOver_img = new Image("img/gameOver.png", 512, 512, false, true);
 
        // final LongValue lastNanoTime = new LongValue(System.nanoTime());      //Check if this can be removed
         //final IntValue score = new IntValue(0);
 
 
+
+
+    }
+/*
+    private void onKey(KeyEvent keyEvent) {
+    }
+    */
+
+    /*public void render(GraphicsContext gc)
+    {
+        gc.drawImage( image, positionX, positionY );
+    }*/
+
+    public void startGame(){
+
         new AnimationTimer() {
             final LongValue lastNanoTime = new LongValue(System.nanoTime());      //Check if this can be removed
             final IntValue score = new IntValue(0);
+            Player player = new Player("Ni");
             SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level);
 
             public void handle(long currentNanoTime) {
@@ -240,6 +265,10 @@ public class Main extends Application {
 
             }
         }.start();
+
+
+
+
 
     }
 /*
