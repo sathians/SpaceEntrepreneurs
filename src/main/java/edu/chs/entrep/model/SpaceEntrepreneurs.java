@@ -195,10 +195,6 @@ public class SpaceEntrepreneurs {
         return gameOver;
     }
 
-
-
-
-
     public void collisionCheck () {
 
         Iterator<Monster> monsterIter = monsterList.iterator();
@@ -257,6 +253,9 @@ public class SpaceEntrepreneurs {
         return score;
    }
 
+   public boolean checkHighscore() {
 
+       return true;
+   }
 }
 

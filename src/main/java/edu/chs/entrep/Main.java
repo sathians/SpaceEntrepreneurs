@@ -1,9 +1,8 @@
 package edu.chs.entrep;
 
 import edu.chs.entrep.model.*;
-import edu.chs.entrep.model.Character;
 import javafx.application.Application;
-import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -11,20 +10,15 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.animation.AnimationTimer;
-import javafx.event.EventHandler;
-import javafx.scene.input.KeyEvent;
+
 import java.util.ArrayList;
-import java.util.Iterator;
-
-
 
 
 public class Main extends Application {
@@ -37,58 +31,50 @@ public class Main extends Application {
         launch(args);
     }
 
-    Scene scene1, scene2, theScene;
+    Scene startScene, highscoreScene, gameScene;
 
     @Override
     public void start(final Stage primaryStage)
     {
-        /*
-        theStage.setTitle( "SpaceEntrepreneurs: the endless game!" );
 
-
-        Scene theScene = new Scene( root );
-        theStage.setScene( theScene );
-
-
-        primaryStage.setTitle("SpaceEntrepreneurs");
+        primaryStage.setTitle("SpaceEntrepreneurs, the endless Game!");
         final String[] highscoreString = {""};
-        */
+
 
         primaryStage.setTitle("SpaceEntrepreneurs");
 
-//Scene 1
+//Menu Scene
         Label label1= new Label("Space Entrepreneurs");
         Button highscoreButton = new Button("See highscores");
         Button startButton = new Button("Start");
-        highscoreButton.setOnAction(e ->  primaryStage.setScene(scene2));
-        startButton.setOnAction(e ->  primaryStage.setScene(theScene));
+        highscoreButton.setOnAction(e ->  primaryStage.setScene(highscoreScene));
+        startButton.setOnAction(e ->  primaryStage.setScene(gameScene));
         VBox layout1 = new VBox(20);
         layout1.getChildren().addAll(label1, startButton, highscoreButton);
-        scene1= new Scene(layout1, 512, 512);
+        startScene = new Scene(layout1, 512, 512);
 
-//Scene 2
+//Highscore Scene
         Label label2= new Label("Highscore");
         Label highscores = new Label("highscores");
         Button backButton= new Button("Go back");
-        backButton.setOnAction(e -> primaryStage.setScene(scene1));
+        backButton.setOnAction(e -> primaryStage.setScene(startScene));
         VBox layout2= new VBox(20);
         layout2.getChildren().addAll(label2, highscores, backButton);
-        scene2= new Scene(layout2,300,250);
+        highscoreScene = new Scene(layout2,300,250);
 
-        //theScene
+//Game Scene
         Group root = new Group();
         Canvas canvas = new Canvas( 512, 512 );
         root.getChildren().add( canvas );
-        theScene = new Scene(root);
+        gameScene = new Scene(root);
 
-        primaryStage.setScene(scene1);
+        primaryStage.setScene(startScene);
         primaryStage.show();
-
 
         //KeyHandler - set and release
         final ArrayList<String> input = new ArrayList<String>();
 
-        theScene.setOnKeyPressed(
+        gameScene.setOnKeyPressed(
                 e -> {
                     String code = e.getCode().toString();
                     if ( !input.contains(code) )
@@ -96,13 +82,14 @@ public class Main extends Application {
                 }
         );
 
-        theScene.setOnKeyReleased(
+/*
+        gameScene.setOnKeyPressed(this::onKey);
+*/
+        gameScene.setOnKeyReleased(
                 e -> {
                     String code = e.getCode().toString();
                     input.remove( code );
                 });
-
-
 
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
@@ -146,6 +133,8 @@ public class Main extends Application {
         cover2.setPosition(225,400);
         cover3.setPosition(375,400);
         */
+
+        //Lägg i en annan klass så man slipper se det
 
         final Image background_img = new Image("img/background.png", 512, 512, false, true);
         final Image cover_img = new Image("img/Firewall_a0.png", 70, 50, false, true);
@@ -250,8 +239,6 @@ public class Main extends Application {
                 spaceEntrepreneurs.monsterShoot();
 
 
-
-
               /*  if (spaceEntrepreneurs.monsterCheck()) {
                     stop();
                     level = level + 1;
@@ -325,6 +312,7 @@ public class Main extends Application {
 
                 if (spaceEntrepreneurs.gameOverCheck()) {
                     gc.drawImage(gameOver_img, 0, 0);
+                    spaceEntrepreneurs.checkHighscore();
                     stop();
                 }
 
@@ -340,6 +328,10 @@ public class Main extends Application {
         }.start();
 
     }
+/*
+    private void onKey(KeyEvent keyEvent) {
+    }
+    */
 
     /*public void render(GraphicsContext gc)
     {
