@@ -8,7 +8,10 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.stage.Stage;
@@ -34,42 +37,71 @@ public class Main extends Application {
         launch(args);
     }
 
+    Scene scene1, scene2, theScene;
+
     @Override
-    public void start(final Stage theStage)
+    public void start(final Stage primaryStage)
     {
+        /*
         theStage.setTitle( "SpaceEntrepreneurs: the endless game!" );
 
-        Group root = new Group();
+
         Scene theScene = new Scene( root );
         theStage.setScene( theScene );
+
+
+        primaryStage.setTitle("SpaceEntrepreneurs");
+        final String[] highscoreString = {""};
+        */
+
+        primaryStage.setTitle("SpaceEntrepreneurs");
+
+//Scene 1
+        Label label1= new Label("Space Entrepreneurs");
+        Button highscoreButton = new Button("See highscores");
+        Button startButton = new Button("Start");
+        highscoreButton.setOnAction(e ->  primaryStage.setScene(scene2));
+        startButton.setOnAction(e ->  primaryStage.setScene(theScene));
+        VBox layout1 = new VBox(20);
+        layout1.getChildren().addAll(label1, startButton, highscoreButton);
+        scene1= new Scene(layout1, 512, 512);
+
+//Scene 2
+        Label label2= new Label("Highscore");
+        Label highscores = new Label("highscores");
+        Button backButton= new Button("Go back");
+        backButton.setOnAction(e -> primaryStage.setScene(scene1));
+        VBox layout2= new VBox(20);
+        layout2.getChildren().addAll(label2, highscores, backButton);
+        scene2= new Scene(layout2,300,250);
+
+        //theScene
+        Group root = new Group();
         Canvas canvas = new Canvas( 512, 512 );
         root.getChildren().add( canvas );
+        theScene = new Scene(root);
+
+        primaryStage.setScene(scene1);
+        primaryStage.show();
 
 
         //KeyHandler - set and release
         final ArrayList<String> input = new ArrayList<String>();
 
         theScene.setOnKeyPressed(
-                new EventHandler<KeyEvent>()
-                {
-                    public void handle(KeyEvent e)
-                    {
-                        String code = e.getCode().toString();
-                        if ( !input.contains(code) )
-                            input.add( code );
-                    }
+                e -> {
+                    String code = e.getCode().toString();
+                    if ( !input.contains(code) )
+                        input.add( code );
                 }
         );
 
         theScene.setOnKeyReleased(
-                new EventHandler<KeyEvent>()
-                {
-                    public void handle(KeyEvent e)
-                    {
-                        String code = e.getCode().toString();
-                        input.remove( code );
-                    }
+                e -> {
+                    String code = e.getCode().toString();
+                    input.remove( code );
                 });
+
 
 
         final GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -307,9 +339,6 @@ public class Main extends Application {
             }
         }.start();
 
-
-
-        theStage.show();
     }
 
     /*public void render(GraphicsContext gc)
