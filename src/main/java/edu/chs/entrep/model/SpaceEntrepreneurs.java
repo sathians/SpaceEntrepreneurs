@@ -3,6 +3,7 @@ package edu.chs.entrep.model;
 import java.util.ArrayList;
 import edu.chs.entrep.model.*;
 import edu.chs.entrep.model.Character;
+import edu.chs.entrep.service.Sound;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -26,7 +27,7 @@ import java.util.Random;
  * Created by niklasohlsson on 2017-04-27.
  * Revised by sathian and nima 2017-05-02.
  */
-public class SpaceEntrepreneurs {
+public class SpaceEntrepreneurs extends Sound{
 
     private ArrayList<Monster> monsterList = new ArrayList<Monster>();
     public Player player;
@@ -143,6 +144,8 @@ public class SpaceEntrepreneurs {
             //missile = new Missile();
             missile.setOnScreen(true);
             missile.setPosition(spaceship.getPositionX() + (spaceship.getWidht() / 2), spaceship.getPositionY());
+
+            shootSound();
             missile.setVelocity(0, -300);
         }
     }
