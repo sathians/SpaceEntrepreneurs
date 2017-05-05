@@ -15,7 +15,7 @@ public class Sound {
     public void shootSound() {
 
         try {
-            File file = new File("src\\main\\resources\\sounds\\shoot.wav");
+            File file = new File("src/main/resources/sounds/shoot.wav");
             Clip clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(file));
             clip.start();
@@ -32,7 +32,7 @@ public class Sound {
             @Override
             public void run() {
                 try {
-                    File file = new File("src\\main\\resources\\sounds\\space.wav");
+                    File file = new File("src/main/resources/sounds/space.wav");
                     Clip clip = AudioSystem.getClip();
                     clip.open(AudioSystem.getAudioInputStream(file));
                     clip.start();

@@ -48,8 +48,6 @@ public class SpaceEntrepreneurs extends Sound{
     public Cover cover2;
     public Cover cover3;
 
-    public int score=0;
-
 
     //Konstruktor, tar in Player och Level
     public SpaceEntrepreneurs(Player player, int level, Highscore highscore){
@@ -213,9 +211,6 @@ public class SpaceEntrepreneurs extends Sound{
     }
 
 
-
-
-
     public void collisionCheck () {
 
         Iterator<Monster> monsterIter = monsterList.iterator();
@@ -224,7 +219,7 @@ public class SpaceEntrepreneurs extends Sound{
             if (missile.isOnScreen() && missile.intersects(monster)) {
                 monsterIter.remove();
                 missile.setOnScreen(false);
-                score += 1;
+                player.updateScore(100);
             }
         }
 
