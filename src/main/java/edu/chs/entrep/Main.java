@@ -20,6 +20,7 @@ import javafx.scene.text.FontWeight;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -47,6 +48,11 @@ public class Main extends Application {
     }
 
     Scene startScene, highscoreScene, gameScene;
+    //Init the different game modules
+
+    File highscoreFile = new File("src/main/resources/txt/highscore");
+
+    Highscore highscore = new Highscore(highscoreFile);
 
     @Override
     public void start(final Stage primaryStage)
@@ -55,26 +61,23 @@ public class Main extends Application {
         primaryStage.setTitle("SpaceEntrepreneurs, the endless Game!");
         final String[] highscoreString = {""};
 
-
+        primaryStage.getIcons().add(new Image("img/spaceship_a1.png"));
         primaryStage.setTitle("SpaceEntrepreneurs");
 
 //Menu Scene
         Label label1= new Label("Space Entrepreneurs");
         Button highscoreButton = new Button("See highscores");
         Button startButton = new Button("Start");
-        highscoreButton.setOnAction(e ->  primaryStage.setScene(highscoreScene));
-        startButton.setOnAction(e ->  {primaryStage.setScene(gameScene);startGame();});
         VBox layout1 = new VBox(20);
         layout1.getChildren().addAll(label1, startButton, highscoreButton);
         startScene = new Scene(layout1, 512, 512);
 
 //Highscore Scene
         Label label2= new Label("Highscore");
-        Label highscores = new Label("highscores");
+        Label highscoreLabel = new Label();
         Button backButton= new Button("Go back");
-        backButton.setOnAction(e -> primaryStage.setScene(startScene));
         VBox layout2= new VBox(20);
-        layout2.getChildren().addAll(label2, highscores, backButton);
+        layout2.getChildren().addAll(label2, highscoreLabel, backButton);
         highscoreScene = new Scene(layout2,300,250);
 
 //Game Scene
@@ -82,6 +85,7 @@ public class Main extends Application {
        // Canvas canvas = new Canvas( 512, 512 );
         root.getChildren().add( canvas );
         gameScene = new Scene(root);
+
 
         primaryStage.setScene(startScene);
         primaryStage.show();
@@ -99,7 +103,21 @@ public class Main extends Application {
 
         Player player = new Player("Ni");
 
-        //final SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level);
+        final SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level);
+
+        //LYSSNARE
+
+        startButton.setOnAction(e ->  primaryStage.setScene(gameScene));
+
+        highscoreButton.setOnAction(e -> {
+            highscoreLabel.setText(highscore.readHighscore());
+            primaryStage.setScene(highscoreScene);
+        });
+
+        backButton.setOnAction(e -> {
+            primaryStage.setScene(startScene);
+        });
+
 
         //KeyHandler - set and release
 
@@ -161,7 +179,7 @@ public class Main extends Application {
     {
         gc.drawImage( image, positionX, positionY );
     }*/
-    
+
 
         public void startGame () {
 
@@ -258,9 +276,11 @@ public class Main extends Application {
                         spaceEntrepreneurs = new SpaceEntrepreneurs(player, level);
                     }
 
-                    String pointsText = "Cash: $" + (100 * spaceEntrepreneurs.getScore());
+
+                    String pointsText = "Cash: $" + (player.getScore());
                     gc.fillText(pointsText, 360, 36);
                     gc.strokeText(pointsText, 360, 36);
+
 
                     String lifeText = "Life <3: " + (spaceEntrepreneurs.spaceship.getLife());
                     gc.fillText(lifeText, 20, 36);
@@ -268,7 +288,6 @@ public class Main extends Application {
 
                 }
             }.start();
-
 
         }
 /*

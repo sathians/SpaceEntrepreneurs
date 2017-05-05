@@ -31,6 +31,8 @@ public class SpaceEntrepreneurs extends Sound{
 
     private ArrayList<Monster> monsterList = new ArrayList<Monster>();
     public Player player;
+    public Highscore highscore;
+
     public int level;
 
     public Character spaceship;
@@ -50,9 +52,10 @@ public class SpaceEntrepreneurs extends Sound{
 
 
     //Konstruktor, tar in Player och Level
-    public SpaceEntrepreneurs(Player player, int level){
+    public SpaceEntrepreneurs(Player player, int level, Highscore highscore){
         this.player = player;
         this.level = level;
+        this.highscore = highscore;
 
         spaceship = new Character();
         spaceship.setVelocity(0,0);
@@ -267,13 +270,27 @@ public class SpaceEntrepreneurs extends Sound{
 
     }
 
-   public int getScore(){
-        return score;
-   }
+    /**
+     * Checks if the score makes it to highscorelist by reading old list and writing new score to it if applicable.
+     * @return newHighscore true if the score made it to the list.
+     */
 
    public boolean checkHighscore() {
-
-       return true;
+       String[][] oldHighscores = highscore.getHighscoreList();
+       int oldScore;
+       int position;
+       boolean newHighscore = false;
+       //Decides position in the list by comparing to the old scores
+       for(int i = 0; i < oldHighscores.length; i++) {
+           oldScore = Integer.parseInt(oldHighscores[i][1]);
+           if (player.getScore() > oldScore) {
+               position = i;
+               highscore.writeHighscore(player.getName(), player.getScore(), position);
+               newHighscore = true;
+               break;
+           }
+       }
+       return newHighscore;
    }
 }
 
