@@ -26,11 +26,11 @@ public class Main extends Application {
     ArrayList<String> input = new ArrayList<String>();
     Canvas canvas = new Canvas(512, 512);
     GraphicsContext gc = canvas.getGraphicsContext2D();
-    Image background_img = new Image("img/background.png", 512, 512, false, true);
-    Image cover_img = new Image("img/Firewall_a0.png", 70, 50, false, true);
+    Image background_img = new Image("img/background.png", 512, 527, false, true);
+    Image cover_img = new Image("img/Firewall.png", 80, 35, false, true);
     Image spaceship_img = new Image("img/spaceship_a1.png", 50, 50, false, true);
-    Image monster1_img = new Image("img/ufo_0.png", 40, 40, false, true);
-    Image missile_img = new Image("img/Tesla_missile_0.png", 20, 20, false, true);
+    Image monster1_img = new Image("img/monster.png", 40, 40, false, false);
+    Image missile_img = new Image("img/missile.png", 20, 20, false, true);
     Image gameOver_img = new Image("img/gameOver.png", 512, 512, false, true);
 
     //Instead of a view and control class, this is handled in start()
