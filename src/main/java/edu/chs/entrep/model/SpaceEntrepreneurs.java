@@ -22,6 +22,7 @@ import javafx.scene.input.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by niklasohlsson on 2017-04-27.
@@ -34,6 +35,7 @@ public class SpaceEntrepreneurs extends Sound{
     public Highscore highscore;
 
     public int level;
+    public int count=0;
 
     public Character spaceship;
     public Missile missile;
@@ -183,15 +185,24 @@ public class SpaceEntrepreneurs extends Sound{
 
         for(Monster monster: monsterList) {
 
-            if(posR < (512-40) && monster.getVelocityX() >= 0){
-                monster.setVelocity(25,0);
-            }else if(posL > 0){
-                monster.setVelocity(-25,0);
-            }else{
-                monster.setVelocity(0,0);
+            if (posR < (512 - 40) && monster.getVelocityX() >= 0) {
+                monster.setVelocity(25, 0);
+                count=2;
+            }else if (posL > 0) {
+                monster.setVelocity(-25, 0);
+
+            } else{
+                monster.setVelocity(0, 0);
             }
         }
-    }
+        if (count == 2) {
+            for (Monster monster : monsterList) {
+                monster.setPosition(monster.getPositionX(), monster.getPositionY() + 0.1);
+               // count = 0;
+            }
+        }
+
+        }
     public boolean levelCheck(){
         if (monsterList.isEmpty())
          nextLevel=true;
