@@ -1,6 +1,7 @@
 package edu.chs.entrep.model;
 
-import java.util.ArrayList;
+import java.util.*;
+
 import edu.chs.entrep.model.*;
 import edu.chs.entrep.model.Character;
 import edu.chs.entrep.service.Sound;
@@ -20,9 +21,9 @@ import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
+import static javafx.util.Duration.millis;
 
 /**
  * Created by niklasohlsson on 2017-04-27.
@@ -169,12 +170,14 @@ public class SpaceEntrepreneurs extends Sound{
     public ArrayList<Monster> getMonsterList() {
         return monsterList;
     }
-    public void moveMonster(){
+    public void moveMonster() {
 
         double posR = 0;
         double posL = 512;
+        //Timer timer = new Timer();
+        //long startTime = System.currentTimeMillis(); //fetch starting time
 
-        for(Monster monster: monsterList) {
+        for (Monster monster : monsterList) {
 
             if (posR < monster.getPositionX())
                 posR = monster.getPositionX();
@@ -183,26 +186,61 @@ public class SpaceEntrepreneurs extends Sound{
                 posL = monster.getPositionX();
         }
 
-        for(Monster monster: monsterList) {
+        for (Monster monster : monsterList) {
 
             if (posR < (512 - 40) && monster.getVelocityX() >= 0) {
                 monster.setVelocity(25, 0);
-                count=2;
-            }else if (posL > 0) {
+                count = 2;
+            } else if (posL > 0) {
                 monster.setVelocity(-25, 0);
-
-            } else{
+                count = 0;
+            } else {
                 monster.setVelocity(0, 0);
             }
-        }
-        if (count == 2) {
-            for (Monster monster : monsterList) {
-                monster.setPosition(monster.getPositionX(), monster.getPositionY() + 0.1);
-               // count = 0;
-            }
-        }
 
         }
+            if (count==2) {
+                for ( Monster monster : monsterList) {
+                   // monster.setVelocity(0,0);
+                    monster.setPosition(monster.getPositionX(), monster.getPositionY() + 0.01);
+                }
+            }
+
+
+               /*if(count==2){
+                count=0;
+                for(int i = 0; i < monsterList.size(); i++) {
+                    monster = monsterList.get(i);
+                    monster.setVelocity(0, 0);
+                    monster.setPosition(monster.getPositionX() + 0, monster.getPositionY() + 0.1);
+
+                }
+            }*/
+
+
+
+    }
+
+
+
+
+      //test av monster iter
+     /*   if (count==2){
+            count=0;
+        Iterator<Monster> monsterIter = monsterList.iterator();
+        while (monsterIter.hasNext()){
+            Monster monster = monsterIter.next();
+            monster.setVelocity(0, 0);
+            monster.setPosition(monster.getPositionX() + 0, monster.getPositionY() + 0.1);
+            if (!monsterIter.hasNext()){
+                break;
+            }
+
+        }}
+*/
+
+
+
     public boolean levelCheck(){
         if (monsterList.isEmpty())
          nextLevel=true;
