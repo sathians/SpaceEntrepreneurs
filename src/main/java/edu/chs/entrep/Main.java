@@ -9,6 +9,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -24,14 +25,15 @@ public class Main extends Application {
     public int level = 1;
     public boolean nextLevel = false;
     ArrayList<String> input = new ArrayList<String>();
-    Canvas canvas = new Canvas(512, 512);
+    Canvas canvas = new Canvas(512, 527);
     GraphicsContext gc = canvas.getGraphicsContext2D();
     Image background_img = new Image("img/background.png", 512, 527, false, true);
     Image cover_img = new Image("img/Firewall.png", 80, 35, false, true);
-    Image spaceship_img = new Image("img/spaceship_a1.png", 50, 50, false, true);
-    Image monster1_img = new Image("img/monster.png", 40, 40, false, false);
+    Image spaceship_img = new Image("img/spaceship.png", 50, 50, false, true);
+    Image monster1_img = new Image("img/monster.png", 40, 40, false, true);
     Image missile_img = new Image("img/missile.png", 20, 20, false, true);
     Image gameOver_img = new Image("img/gameOver.png", 512, 512, false, true);
+    Image life_img = new Image("img/life.png", 20, 20, false, true);
 
     //Instead of a view and control class, this is handled in start()
 
@@ -50,7 +52,7 @@ public class Main extends Application {
     public void start(final Stage primaryStage) {
 
 
-        primaryStage.getIcons().add(new Image("img/spaceship_a1.png"));
+        primaryStage.getIcons().add(new Image("img/monster.png"));
         primaryStage.setTitle("SpaceEntrepreneurs");
 
 //Menu Scene
@@ -74,11 +76,12 @@ public class Main extends Application {
         root.getChildren().add(canvas);
         gameScene = new Scene(root);
 
-        Font theFont = Font.font("Courier", FontWeight.BOLD, 24);
+        Font theFont = Font.font("Futura", FontWeight.LIGHT, 16);
         gc.setFont(theFont);
-        gc.setFill(Color.RED);
-        gc.setStroke(Color.BLACK);
+        gc.setFill(Color.WHITE);
+        //gc.setStroke(Color.TRANSPARENT);
         gc.setLineWidth(1);
+
 
         primaryStage.setScene(startScene);
         primaryStage.show();
@@ -245,7 +248,6 @@ public class Main extends Application {
 
                 if (spaceEntrepreneurs.gameOverCheck()) {
                     gc.drawImage(gameOver_img, 0, 0);
-                    spaceEntrepreneurs.checkHighscore();
                     stop();
                 }
 
@@ -256,14 +258,17 @@ public class Main extends Application {
                 }
 
 
-                String pointsText = "Cash: $" + (player.getScore());
+                String pointsText = "CASH $" + (player.getScore());
                 gc.fillText(pointsText, 360, 36);
-                gc.strokeText(pointsText, 360, 36);
+                //gc.strokeText(pointsText, 360, 36);
 
 
-                String lifeText = "Life <3: " + (spaceEntrepreneurs.spaceship.getLife());
+                String lifeText = ("LIFE  ");
+                for(int i = 1; i <= spaceEntrepreneurs.spaceship.getLife(); i++ ) {
+                    gc.drawImage(life_img, 30 + 25*i, 20);
+                }
                 gc.fillText(lifeText, 20, 36);
-                gc.strokeText(lifeText, 20, 36);
+                //gc.strokeText(lifeText, 20, 36);
 
             }
         }.start();
