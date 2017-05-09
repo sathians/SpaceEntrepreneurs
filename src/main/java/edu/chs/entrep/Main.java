@@ -1,6 +1,7 @@
 package edu.chs.entrep;
 
 import edu.chs.entrep.model.*;
+import edu.chs.entrep.service.Images;
 import edu.chs.entrep.service.Sound;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -9,7 +10,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -21,19 +21,14 @@ import java.io.File;
 import java.util.ArrayList;
 
 
+
 public class Main extends Application {
     public int level = 1;
     public boolean nextLevel = false;
     ArrayList<String> input = new ArrayList<String>();
     Canvas canvas = new Canvas(512, 527);
     GraphicsContext gc = canvas.getGraphicsContext2D();
-    Image background_img = new Image("img/background.png", 512, 527, false, true);
-    Image cover_img = new Image("img/Firewall.png", 80, 35, false, true);
-    Image spaceship_img = new Image("img/spaceship.png", 50, 50, false, true);
-    Image monster1_img = new Image("img/monster.png", 40, 40, false, true);
-    Image missile_img = new Image("img/missile.png", 20, 20, false, true);
-    Image gameOver_img = new Image("img/gameOver.png", 512, 512, false, true);
-    Image life_img = new Image("img/life.png", 20, 20, false, true);
+    Images images = new Images();
 
     //Instead of a view and control class, this is handled in start()
 
@@ -81,7 +76,6 @@ public class Main extends Application {
         gc.setFill(Color.WHITE);
         //gc.setStroke(Color.TRANSPARENT);
         gc.setLineWidth(1);
-
 
         primaryStage.setScene(startScene);
         primaryStage.show();
@@ -169,9 +163,19 @@ public class Main extends Application {
 
         new AnimationTimer() {
             final LongValue lastNanoTime = new LongValue(System.nanoTime());      //Check if this can be removed
-            final IntValue score = new IntValue(0);
             Player player = new Player("Ni");
             SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level, highscore);
+
+            /*Gets all images from the Images class*/
+            Image background_img = images.getBackgroundImage(level);
+            Image cover_img = images.getCoverImage(level);
+            Image monster1_img = images.getMonsterImage(level);
+
+            Image spaceship_img = images.getSpaceshipImage();
+            Image missile_img = images.getMissileImage();
+
+            Image gameOver_img = images.getGameOverImage();
+            Image life_img = images.getLifeImage();
 
             public void handle(long currentNanoTime) {
 
@@ -253,14 +257,22 @@ public class Main extends Application {
 
                 if (spaceEntrepreneurs.monsterCheck()) {
                     level = level + 1;
-                    nextLevel = true;
+                    nextLevel = true;  //VAD GÖR DENNA?
                     spaceEntrepreneurs = new SpaceEntrepreneurs(player, level, highscore);
+
+                    //Changes images to level3
+                    background_img = images.getBackgroundImage(level);
+                    cover_img = images.getCoverImage(level);
+                    monster1_img = images.getMonsterImage(level);
                 }
 
 
                 String pointsText = "CASH $" + (player.getScore());
-                gc.fillText(pointsText, 360, 36);
+                gc.fillText(pointsText, 395, 36);
                 //gc.strokeText(pointsText, 360, 36);
+
+                String levelText = "LEVEL " + (level);
+                gc.fillText(levelText, 240, 36);
 
 
                 String lifeText = ("LIFE  ");

@@ -147,7 +147,7 @@ public class SpaceEntrepreneurs extends Sound{
         if (!missile.isOnScreen()) {
             //missile = new Missile();
             missile.setOnScreen(true);
-            missile.setPosition(spaceship.getPositionX() + (spaceship.getWidht() / 2), spaceship.getPositionY());
+            missile.setPosition(spaceship.getPositionX() + (spaceship.getWidht() / 2)-(missile.getWidht()/2), spaceship.getPositionY());
 
             shootSound();
             missile.setVelocity(0, -300);
