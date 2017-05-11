@@ -4,6 +4,7 @@ import edu.chs.entrep.model.*;
 import edu.chs.entrep.service.Images;
 import edu.chs.entrep.service.Sound;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
