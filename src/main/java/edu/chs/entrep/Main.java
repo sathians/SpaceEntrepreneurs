@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -95,12 +96,6 @@ public class Main extends Application {
         root.getChildren().add(canvas);
         gameScene = new Scene(root);
 
-        Font theFont = Font.font("Futura", FontWeight.LIGHT, 16);
-        gc.setFont(theFont);
-        gc.setFill(Color.WHITE);
-        //gc.setStroke(Color.TRANSPARENT);
-        gc.setLineWidth(1);
-
         primaryStage.setScene(startScene);
         primaryStage.show();
 
@@ -162,10 +157,6 @@ public class Main extends Application {
                 });
 
     }
-/*
-    private void onKey(KeyEvent keyEvent) {
-    }
-    */
 
     /*public void render(GraphicsContext gc)
     {
@@ -179,7 +170,6 @@ public class Main extends Application {
 
         new AnimationTimer() {
             long lastNanoTime = System.nanoTime();      //Check if this can be removed
-            Player player = new Player("Ni");
             SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level, highscore);
 
             /*Gets all images from the Images class*/
@@ -282,6 +272,7 @@ public class Main extends Application {
                 //gc.strokeText(lifeText, 20, 36);
 
                 if (spaceEntrepreneurs.gameOverCheck()) {
+                    spaceEntrepreneurs.checkHighscore();
                     gc.drawImage(gameOver_img, 0, 0);
                     stop();
                 }
