@@ -21,7 +21,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 
-
 public class Main extends Application {
     public int level = 1;
     public boolean nextLevel = false;
