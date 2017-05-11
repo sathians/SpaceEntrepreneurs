@@ -254,8 +254,11 @@ public class SpaceEntrepreneurs extends Sound{
     }
 
     public boolean monsterCheck(){
-        if (monsterList.isEmpty())
+        if (monsterList.isEmpty()){
             win=true;
+            nextLevelSound();
+        }
+
         return win;
     }
 

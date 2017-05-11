@@ -50,6 +50,21 @@ public class Sound {
             e.printStackTrace();
         }
     }
+
+    public void nextLevelSound() {
+
+        try {
+            File file = new File("src/main/resources/sounds/nextLevel.wav");
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(file));
+            clip.start();
+
+            //Thread.sleep(clip.getMicrosecondLength()/1000);
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
 }
 
 
