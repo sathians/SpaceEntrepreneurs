@@ -49,7 +49,7 @@ public class Main extends Application {
         primaryStage.getIcons().add(new Image("img/monster.png"));
         primaryStage.setTitle("SpaceEntrepreneurs");
 
-//Menu Scene
+//MenuScene
         Label label1 = new Label("Space Entrepreneurs");
         Button highscoreButton = new Button("See highscores");
         Button startButton = new Button("Start");
@@ -141,8 +141,7 @@ public class Main extends Application {
         //  final Image missile_img = new Image("img/Tesla_missile_0.png", 20, 20, false, true);
         //  final Image gameOver_img = new Image("img/gameOver.png", 512, 512, false, true);
 
-        // final LongValue lastNanoTime = new LongValue(System.nanoTime());      //Check if this can be removed
-        //final IntValue score = new IntValue(0);
+
 
     }
 /*
@@ -161,7 +160,7 @@ public class Main extends Application {
         new Sound().bgdSound();
 
         new AnimationTimer() {
-            final LongValue lastNanoTime = new LongValue(System.nanoTime());      //Check if this can be removed
+            long lastNanoTime = System.nanoTime();      //Check if this can be removed
             Player player = new Player("Ni");
             SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level, highscore);
 
@@ -179,8 +178,8 @@ public class Main extends Application {
             public void handle(long currentNanoTime) {
 
                 // calculate time since last update.
-                double elapsedTime = (currentNanoTime - lastNanoTime.value) / 1000000000.0;
-                lastNanoTime.value = currentNanoTime;
+                double elapsedTime = (currentNanoTime - lastNanoTime) / 1000000000.0;
+                lastNanoTime = currentNanoTime;
 
                 // game logic
                 spaceEntrepreneurs.spaceship.setVelocity(0, 0);          //How do we sett this in logic in spaceEntrepreneurs instead?
