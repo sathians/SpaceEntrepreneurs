@@ -256,13 +256,12 @@ public class SpaceEntrepreneurs extends Sound{
 
     public boolean monsterCheck(){
         if (monsterList.isEmpty()){
-            win=true;
             nextLevelSound();
+            win=true;
         }
 
         return win;
     }
-
 
     public void collisionCheck () {
 
@@ -271,6 +270,7 @@ public class SpaceEntrepreneurs extends Sound{
             Monster monster = monsterIter.next();
             if (missile.isOnScreen() && missile.intersects(monster)) {
                 monsterIter.remove();
+                monsterKillSound();
                 missile.setOnScreen(false);
                 player.updateScore(100);
             }
