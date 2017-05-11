@@ -49,7 +49,14 @@ public class Main extends Application {
         primaryStage.getIcons().add(new Image("img/monster.png"));
         primaryStage.setTitle("SpaceEntrepreneurs");
 
-//MenuScene
+        //this makes all stages close and the app exit when the main stage is closed
+        primaryStage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
+
+
+//Menu Scene
         Label label1 = new Label("Space Entrepreneurs");
         Button highscoreButton = new Button("See highscores");
         Button startButton = new Button("Start");
@@ -99,7 +106,6 @@ public class Main extends Application {
 
         //KeyHandler - set and release
 
-
         gameScene.setOnKeyPressed(
                 e -> {
                     String code = e.getCode().toString();
@@ -131,17 +137,6 @@ public class Main extends Application {
                         spaceEntrepreneurs.shoot();
                     */
                 });
-
-        //Lägg i en annan klass så man slipper se det
-
-        //  final Image background_img = new Image("img/background.png", 512, 512, false, true);
-        //  final Image cover_img = new Image("img/Firewall_a0.png", 70, 50, false, true);
-        //  final Image spaceship_img = new Image("img/spaceship_a1.png", 50, 50, false, true);
-        //  final Image monster1_img = new Image("img/ufo_0.png", 40, 40, false, true);
-        //  final Image missile_img = new Image("img/Tesla_missile_0.png", 20, 20, false, true);
-        //  final Image gameOver_img = new Image("img/gameOver.png", 512, 512, false, true);
-
-
 
     }
 /*

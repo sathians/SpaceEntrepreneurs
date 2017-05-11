@@ -19,7 +19,7 @@ public class Character extends Sprite {
 
        // Image spaceship_img = new Image(characther_img,width, height, true, true );
         //setImage(spaceship_img);
-        setPosition(256 ,450 );
+        setPosition(256 ,470 );
         setHeight(50);
         setWidth(50);
         setVelocity(0, 0);

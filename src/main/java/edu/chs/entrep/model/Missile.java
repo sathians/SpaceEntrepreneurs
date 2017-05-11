@@ -28,6 +28,8 @@ public class Missile extends Sprite {
 
         setVelocity(0,0);
         setPosition(0,0);
+        setWidth(20);
+        setHeight(20);
 
     }
 

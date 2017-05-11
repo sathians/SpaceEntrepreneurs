@@ -123,13 +123,13 @@ public class SpaceEntrepreneurs extends Sound{
     }
 
     public void left(){
-        if (spaceship.getPositionX() > 10)
+        if (spaceship.getPositionX() > 0)
             spaceship.addVelocity(-100, 0);
     }
 
     public void right(){
 
-        if (spaceship.getPositionX() < 452)
+        if (spaceship.getPositionX() < 462)
             spaceship.addVelocity(100, 0);
     }
 
@@ -150,7 +150,7 @@ public class SpaceEntrepreneurs extends Sound{
             missile.setPosition(spaceship.getPositionX() + (spaceship.getWidht() / 2)-(missile.getWidht()/2), spaceship.getPositionY());
 
             shootSound();
-            missile.setVelocity(0, -300);
+            missile.setVelocity(0, -400);
         }
     }
 
@@ -161,7 +161,7 @@ public class SpaceEntrepreneurs extends Sound{
             Random random= new Random();
             int index = random.nextInt(monsterList.size());
             monsterMissile.setPosition(monsterList.get(index).getPositionX() + (monsterList.get(index).getWidht() / 2), monsterList.get(index).getPositionY());
-            monsterMissile.setVelocity(0, 100);
+            monsterMissile.setVelocity(0, 200);
         }
 
 
@@ -199,10 +199,10 @@ public class SpaceEntrepreneurs extends Sound{
             }
 
         }
-            if (count==2) {
+            if (count==2 || count ==0) {
                 for ( Monster monster : monsterList) {
                    // monster.setVelocity(0,0);
-                    monster.setPosition(monster.getPositionX(), monster.getPositionY() + 0.01);
+                    monster.setPosition(monster.getPositionX(), monster.getPositionY() + 0.05);
                 }
             }
 
