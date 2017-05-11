@@ -54,6 +54,7 @@ public class SpaceEntrepreneurs extends Sound{
 
     //Konstruktor, tar in Player och Level
     public SpaceEntrepreneurs(Player player, int level, Highscore highscore){
+
         this.player = player;
         this.level = level;
         this.highscore = highscore;
@@ -114,8 +115,8 @@ public class SpaceEntrepreneurs extends Sound{
         for (int i = 0; i < rows; i++){
             for(int j = 0; j < 6; j++){
                 Monster monster = new Monster();
-                monster.setWidth(20);
-                monster.setHeight(20);
+             //   monster.setWidth(20);
+              //  monster.setHeight(20);
                 monster.setPosition(30 + j*82, 30 + i*50);
                 monsterList.add( monster );
             }
@@ -174,7 +175,7 @@ public class SpaceEntrepreneurs extends Sound{
 
         double posR = 0;
         double posL = 512;
-        //Timer timer = new Timer();
+        //
         //long startTime = System.currentTimeMillis(); //fetch starting time
 
         for (Monster monster : monsterList) {

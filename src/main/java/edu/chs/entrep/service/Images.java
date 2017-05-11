@@ -87,6 +87,13 @@ public class Images {
         return image;
     }
 
+    public Image getClearedLevelImage() {
+
+        image = new Image("img/levelCleared.png", 512, 527, false, true);
+
+        return image;
+    }
+
     public Image getLifeImage() {
 
         image = new Image("img/life.png", 20, 20, false, true);

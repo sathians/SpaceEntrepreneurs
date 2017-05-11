@@ -24,6 +24,9 @@ import javafx.animation.AnimationTimer;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 
 public class Main extends Application {
@@ -95,6 +98,12 @@ public class Main extends Application {
         Group root = new Group();
         root.getChildren().add(canvas);
         gameScene = new Scene(root);
+
+        Font theFont = Font.font("Futura", FontWeight.LIGHT, 16);
+        gc.setFont(theFont);
+        gc.setFill(Color.WHITE);
+        //gc.setStroke(Color.TRANSPARENT);
+        gc.setLineWidth(1);
 
         primaryStage.setScene(startScene);
         primaryStage.show();
@@ -181,6 +190,7 @@ public class Main extends Application {
             Image missile_img = images.getMissileImage();
 
             Image gameOver_img = images.getGameOverImage();
+            Image clearedLevel_img = images.getClearedLevelImage();
             Image life_img = images.getLifeImage();
 
             public void handle(long currentNanoTime) {
@@ -279,9 +289,18 @@ public class Main extends Application {
 
                 if (spaceEntrepreneurs.monsterCheck()) {
                     level = level + 1;
-                    nextLevel = true;  //VAD GÖR DENNA?
+                    gc.drawImage(clearedLevel_img, 0, 0);
+                    stop();
+                    new java.util.Timer().schedule(
+                            new java.util.TimerTask() {
+                                @Override
+                                public void run() {
+                                    start();
+                                }
+                            },
+                            5000
+                    );
                     spaceEntrepreneurs = new SpaceEntrepreneurs(player, level, highscore);
-
                     //Changes images to level3
                     background_img = images.getBackgroundImage(level);
                     cover_img = images.getCoverImage(level);
