@@ -5,12 +5,14 @@ import edu.chs.entrep.service.Images;
 import edu.chs.entrep.service.Sound;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -18,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.animation.AnimationTimer;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -29,6 +32,7 @@ public class Main extends Application {
     Canvas canvas = new Canvas(512, 527);
     GraphicsContext gc = canvas.getGraphicsContext2D();
     Images images = new Images();
+    Player player;
 
     //Instead of a view and control class, this is handled in start()
 
@@ -36,7 +40,7 @@ public class Main extends Application {
         launch(args);
     }
 
-    Scene startScene, highscoreScene, gameScene;
+    Scene startScene, highscoreScene, gameScene, nameScene;
     //Init the different game modules
 
     File highscoreFile = new File("src/main/resources/txt/highscore");
@@ -57,23 +61,36 @@ public class Main extends Application {
         });
 
 
-//Menu Scene
+    //MenuScene
         Label label1 = new Label("Space Entrepreneurs");
         Button highscoreButton = new Button("See highscores");
         Button startButton = new Button("Start");
         VBox layout1 = new VBox(20);
+        layout1.setAlignment(Pos.CENTER);
         layout1.getChildren().addAll(label1, startButton, highscoreButton);
         startScene = new Scene(layout1, 512, 512);
 
-//Highscore Scene
+        //Highscore Scene
         Label label2 = new Label("Highscore");
         Label highscoreLabel = new Label();
         Button backButton = new Button("Go back");
         VBox layout2 = new VBox(20);
+        layout2.setAlignment(Pos.CENTER);
         layout2.getChildren().addAll(label2, highscoreLabel, backButton);
-        highscoreScene = new Scene(layout2, 300, 250);
+        highscoreScene = new Scene(layout2, 512, 512);
 
-//Game Scene
+        //Name Scene
+        Label nameLabel = new Label("Before you enter the matrix,\nYou have to tell uss your name.");
+        TextField nameInput = new TextField();
+        nameInput.setMaxWidth(200);
+        nameInput.setStyle("-fx-text-inner-color: white; -fx-background-color: black;");
+        Button nameButton = new Button("OK");
+        VBox layout3 = new VBox(20);
+        layout3.setAlignment(Pos.CENTER);
+        layout3.getChildren().addAll(nameLabel, nameInput, nameButton);
+        nameScene = new Scene(layout3, 512, 512);
+
+        //Game Scene
         Group root = new Group();
         root.getChildren().add(canvas);
         gameScene = new Scene(root);
@@ -91,8 +108,7 @@ public class Main extends Application {
         //Button Handlers
 
         startButton.setOnAction(e -> {
-            startGame();
-            primaryStage.setScene(gameScene);
+            primaryStage.setScene(nameScene);
         });
 
         highscoreButton.setOnAction(e -> {
@@ -102,6 +118,12 @@ public class Main extends Application {
 
         backButton.setOnAction(e -> {
             primaryStage.setScene(startScene);
+        });
+
+        nameButton.setOnAction(event -> {
+            player = new Player(nameInput.getText());
+            primaryStage.setScene(gameScene);
+            startGame();
         });
 
 
@@ -244,6 +266,21 @@ public class Main extends Application {
                     //monster.render( gc );
                 }
 
+                String pointsText = "CASH $" + (player.getScore());
+                gc.fillText(pointsText, 395, 36);
+                //gc.strokeText(pointsText, 360, 36);
+
+                String levelText = "LEVEL " + (level);
+                gc.fillText(levelText, 240, 36);
+
+
+                String lifeText = ("LIFE  ");
+                for (int i = 1; i <= spaceEntrepreneurs.spaceship.getLife(); i++) {
+                    gc.drawImage(life_img, 30 + 25 * i, 20);
+                }
+                gc.fillText(lifeText, 20, 36);
+                //gc.strokeText(lifeText, 20, 36);
+
                 if (spaceEntrepreneurs.gameOverCheck()) {
                     gc.drawImage(gameOver_img, 0, 0);
                     stop();
@@ -260,34 +297,9 @@ public class Main extends Application {
                     monster1_img = images.getMonsterImage(level);
                 }
 
-
-                String pointsText = "CASH $" + (player.getScore());
-                gc.fillText(pointsText, 395, 36);
-                //gc.strokeText(pointsText, 360, 36);
-
-                String levelText = "LEVEL " + (level);
-                gc.fillText(levelText, 240, 36);
-
-
-                String lifeText = ("LIFE  ");
-                for(int i = 1; i <= spaceEntrepreneurs.spaceship.getLife(); i++ ) {
-                    gc.drawImage(life_img, 30 + 25*i, 20);
-                }
-                gc.fillText(lifeText, 20, 36);
-                //gc.strokeText(lifeText, 20, 36);
-
             }
         }.start();
 
     }
-/*
-    private void onKey(KeyEvent keyEvent) {
-    }
-    */
-
-    /*public void render(GraphicsContext gc)
-    {
-        gc.drawImage( image, positionX, positionY );
-    }*/
 
 }
