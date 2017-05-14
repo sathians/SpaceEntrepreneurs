@@ -22,7 +22,7 @@ public class Images {
                 image = new Image("img/background2.png", 512, 527, false, true);
                 break;
             case 3:
-                image = new Image("img/background.png", 512, 527, false, true);
+                image = new Image("img/background3.png", 512, 527, false, true);
                 break;
             default:
                 image = new Image("img/background.png", 512, 527, false, true);
@@ -43,7 +43,7 @@ public class Images {
                 image = new Image("img/firewall.png", 80, 35, false, true);
                 break;
             default:
-                image = new Image("img/firewall.png", 80, 35, false, true);
+                image = new Image("img/firewall1.png", 80, 35, false, true);
         }
         return image;
     }
@@ -52,13 +52,13 @@ public class Images {
         switch (level) {
 
             case 1:
-                image = new Image("img/monster.png", 40, 40, false, true);
+                image = new Image("img/monster1.png", 40, 40, false, true);
                 break;
             case 2:
                 image = new Image("img/monster2.png", 40, 40, false, true);
                 break;
             case 3:
-                image = new Image("img/monster.png", 40, 40, false, true);
+                image = new Image("img/monster3.png", 40, 40, false, true);
                 break;
             default:
                 image = new Image("img/monster.png", 40, 40, false, true);
