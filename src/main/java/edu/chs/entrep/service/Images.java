@@ -80,9 +80,16 @@ public class Images {
         return image;
     }
 
+    public Image getHitSpaceshipImage() {
+
+        image = new Image("img/hitSpaceship.png", 50, 50, false, true);
+
+        return image;
+    }
+
     public Image getGameOverImage() {
 
-        image = new Image("img/gameOver.png", 512, 527, false, true);
+        image = new Image("img/GameOver1.png", 512, 527, false, true);
 
         return image;
     }

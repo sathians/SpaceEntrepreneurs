@@ -263,7 +263,14 @@ public class SpaceEntrepreneurs extends Sound{
         return win;
     }
 
-    public void collisionCheck () {
+    /**
+     *
+     * @return true if the spaceship is hit, otherwise false.
+     */
+
+    public boolean collisionCheck () {
+
+        boolean spaceshipHit = false;
 
         Iterator<Monster> monsterIter = monsterList.iterator();
         while (monsterIter.hasNext()) {
@@ -279,6 +286,7 @@ public class SpaceEntrepreneurs extends Sound{
         if (monsterMissile.isOnScreen() && monsterMissile.intersects(spaceship)) {
             monsterMissile.setOnScreen(false);
             player.decLife();
+            spaceshipHit = true;
         }
 
         //missile out of bound or intersect with wall
@@ -316,6 +324,7 @@ public class SpaceEntrepreneurs extends Sound{
                 break;
         }
 
+        return spaceshipHit;
     }
 
     /**

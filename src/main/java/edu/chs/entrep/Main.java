@@ -193,6 +193,11 @@ public class Main extends Application {
             Image clearedLevel_img = images.getClearedLevelImage();
             Image life_img = images.getLifeImage();
 
+            //handles counting blinking image of spaceship when getting hit
+            double time = 0;
+            boolean blink = false;
+            boolean hitImageIsOn = false;
+
             public void handle(long currentNanoTime) {
 
                 // calculate time since last update.
@@ -229,15 +234,41 @@ public class Main extends Application {
                     monster.update(elapsedTime);
 
 
-                // collision detection
-                spaceEntrepreneurs.collisionCheck();
+                // collision detection - returns true if the spaceship is hit
+
+                if(spaceEntrepreneurs.collisionCheck()) {
+                    spaceship_img = images.getHitSpaceshipImage();
+                    hitImageIsOn = true;
+                    blink = true;
+                }
+
+                if(blink == true) {
+                    time = time + elapsedTime;
+                    if(((int)(time*100)%10) == 0 && time < 0.5) {
+                        if(hitImageIsOn) {
+                            spaceship_img = images.getSpaceshipImage();
+                            hitImageIsOn = false;
+                        }
+                        else {
+                            spaceship_img = images.getHitSpaceshipImage();
+                            hitImageIsOn = true;
+                        }
+                    }
+
+                    else if (time > 0.5) {
+                        spaceship_img = images.getSpaceshipImage();
+                        blink = false;
+                        hitImageIsOn = false;
+                        time = 0;
+                    }
+                }
+
                 spaceEntrepreneurs.moveMonster();
                 spaceEntrepreneurs.monsterShoot();
 
                 gc.clearRect(0, 0, 512, 512);
                 gc.drawImage(background_img, 0, 0);
                 gc.drawImage(spaceship_img, spaceEntrepreneurs.spaceship.getPositionX(), spaceEntrepreneurs.spaceship.getPositionY());
-
                 switch (spaceEntrepreneurs.level) {
                     case 1:
                         gc.drawImage(cover_img, spaceEntrepreneurs.cover1.getPositionX(), spaceEntrepreneurs.cover1.getPositionY());
@@ -291,8 +322,8 @@ public class Main extends Application {
                     level = level + 1;
                     gc.drawImage(clearedLevel_img, 0, 0);
                     stop();
-                    new java.util.Timer().schedule(
-                            new java.util.TimerTask() {
+                    new Timer().schedule(
+                            new TimerTask() {
                                 @Override
                                 public void run() {
                                     start();
