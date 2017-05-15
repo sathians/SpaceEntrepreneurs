@@ -249,7 +249,7 @@ public class SpaceEntrepreneurs extends Sound{
     }
 
     public boolean gameOverCheck(){
-        if (spaceship.getLife() == 0)
+        if (player.getLife() == 0)
             gameOver=true;
         return gameOver;
     }
@@ -278,7 +278,7 @@ public class SpaceEntrepreneurs extends Sound{
 
         if (monsterMissile.isOnScreen() && monsterMissile.intersects(spaceship)) {
             monsterMissile.setOnScreen(false);
-            spaceship.decLife();
+            player.decLife();
         }
 
         //missile out of bound or intersect with wall

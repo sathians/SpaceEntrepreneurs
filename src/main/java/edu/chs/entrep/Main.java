@@ -275,7 +275,7 @@ public class Main extends Application {
 
 
                 String lifeText = ("LIFE  ");
-                for (int i = 1; i <= spaceEntrepreneurs.spaceship.getLife(); i++) {
+                for (int i = 1; i <= spaceEntrepreneurs.player.getLife(); i++) {
                     gc.drawImage(life_img, 30 + 25 * i, 20);
                 }
                 gc.fillText(lifeText, 20, 36);
@@ -298,7 +298,7 @@ public class Main extends Application {
                                     start();
                                 }
                             },
-                            5000
+                            2000
                     );
                     spaceEntrepreneurs = new SpaceEntrepreneurs(player, level, highscore);
                     //Changes images to level3

@@ -89,7 +89,7 @@ public class Images {
 
     public Image getClearedLevelImage() {
 
-        image = new Image("img/levelCleared.png", 512, 527, false, true);
+        image = new Image("img/levelCleared1.png", 512, 527, false, true);
 
         return image;
     }
