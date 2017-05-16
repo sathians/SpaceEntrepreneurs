@@ -249,9 +249,10 @@ public class SpaceEntrepreneurs extends Sound{
     }
 
     public boolean gameOverCheck(){
-        if (player.getLife() == 0)
+        if (player.getLife() == 0) {
+            gameOver = true;
             gameoverSound();
-            gameOver=true;
+        }
         return gameOver;
     }
 
