@@ -65,6 +65,42 @@ public class Sound{
         }
     }
 
+    public void hitSound() {
+
+        try {
+            File file = new File("src/main/resources/sounds/gothit.wav");
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(file));
+            // Thread.sleep(600);
+            clip.start();
+
+            // sleep(clip.getMicrosecondLength()/1000);
+
+
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public void gameoverSound() {
+
+        try {
+            File file = new File("src/main/resources/sounds/gameOver.wav");
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(file));
+            // Thread.sleep(600);
+            clip.start();
+
+            // sleep(clip.getMicrosecondLength()/1000);
+
+
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     public void bgdSound() {
         new Thread() {
             @Override

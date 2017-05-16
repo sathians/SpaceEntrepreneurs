@@ -250,6 +250,7 @@ public class SpaceEntrepreneurs extends Sound{
 
     public boolean gameOverCheck(){
         if (player.getLife() == 0)
+            gameoverSound();
             gameOver=true;
         return gameOver;
     }
@@ -286,6 +287,7 @@ public class SpaceEntrepreneurs extends Sound{
         if (monsterMissile.isOnScreen() && monsterMissile.intersects(spaceship)) {
             monsterMissile.setOnScreen(false);
             player.decLife();
+            hitSound();
             spaceshipHit = true;
         }
 
