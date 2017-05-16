@@ -76,7 +76,6 @@ public class Sound{
                     clip.start();
                     sleep(clip.getMicrosecondLength());
 
-
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -88,10 +87,6 @@ public class Sound{
             e.printStackTrace();
         }
     }
-
-
-
-
 }
 
 

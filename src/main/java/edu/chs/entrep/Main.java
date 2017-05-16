@@ -22,6 +22,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.animation.AnimationTimer;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -125,7 +126,10 @@ public class Main extends Application {
         });
 
         nameButton.setOnAction(event -> {
-            player = new Player(nameInput.getText());
+            String name = nameInput.getText();
+            System.out.println(name);
+
+            player = new Player(name);
             primaryStage.setScene(gameScene);
             startGame();
         });
