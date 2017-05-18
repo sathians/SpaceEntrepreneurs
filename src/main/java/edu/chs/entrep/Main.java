@@ -22,7 +22,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.animation.AnimationTimer;
 
-import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -38,6 +37,7 @@ public class Main extends Application {
     GraphicsContext gc = canvas.getGraphicsContext2D();
     Images images = new Images();
     Player player;
+    public boolean restart=false;
 
     //Instead of a view and control class, this is handled in start()
 
@@ -51,6 +51,7 @@ public class Main extends Application {
     File highscoreFile = new File("src/main/resources/txt/highscore");
 
     Highscore highscore = new Highscore(highscoreFile);
+
 
     @Override
     public void start(final Stage primaryStage) {
@@ -85,7 +86,7 @@ public class Main extends Application {
         highscoreScene = new Scene(layout2, 512, 512);
 
         //Name Scene
-        Label nameLabel = new Label("Before you enter the matrix,\nYou have to tell uss your name.");
+        Label nameLabel = new Label("Before you enter the matrix,\nYou have to tell us your name.");
         TextField nameInput = new TextField();
         nameInput.setMaxWidth(200);
         nameInput.setStyle("-fx-text-inner-color: white; -fx-background-color: black;");
@@ -116,7 +117,7 @@ public class Main extends Application {
             primaryStage.setScene(nameScene);
         });
 
-        highscoreButton.setOnAction(e -> {
+        highscoreButton.setOnAction (e -> {
             highscoreLabel.setText(highscore.readHighscore());
             primaryStage.setScene(highscoreScene);
         });
@@ -125,11 +126,8 @@ public class Main extends Application {
             primaryStage.setScene(startScene);
         });
 
-        nameButton.setOnAction(event -> {
-            String name = nameInput.getText();
-            System.out.println(name);
-
-            player = new Player(name);
+        nameButton.setOnAction (event -> {
+            player = new Player(nameInput.getText());
             primaryStage.setScene(gameScene);
             startGame();
         });
@@ -180,7 +178,6 @@ public class Main extends Application {
     public void startGame() {
 
         new Sound().bgdSound();
-
         new AnimationTimer() {
             long lastNanoTime = System.nanoTime();      //Check if this can be removed
             SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level, highscore);
@@ -319,9 +316,10 @@ public class Main extends Application {
                 if (spaceEntrepreneurs.gameOverCheck()) {
                     spaceEntrepreneurs.checkHighscore();
                     gc.drawImage(gameOver_img, 0, 0);
+                    restart=true;
                     stop();
-                }
 
+                }
                 if (spaceEntrepreneurs.monsterCheck()) {
                     level = level + 1;
                     gc.drawImage(clearedLevel_img, 0, 0);

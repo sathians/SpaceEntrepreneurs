@@ -2,6 +2,7 @@ package edu.chs.entrep.model;
 
 import java.util.*;
 
+import edu.chs.entrep.Main;
 import edu.chs.entrep.model.*;
 import edu.chs.entrep.model.Character;
 import edu.chs.entrep.service.Sound;
@@ -69,7 +70,6 @@ public class SpaceEntrepreneurs extends Sound{
         monsterMissile = new Missile();
         monsterMissile.setHeight(20);
         monsterMissile.setWidth(20);
-
         initLevel(level);
     }
 
