@@ -9,13 +9,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import sun.rmi.rmic.newrmic.Main;
 
 /**
  * Created by josefinesvegborn on 2017-05-17.
  */
-
-
 
 public class NameView {
     Stage theStage;
@@ -39,10 +36,18 @@ public class NameView {
         theStage.setScene(nameScene);
 
         nameButton.setOnAction(event -> {
-            player = new Player(nameInput.getText());
-            GameView gameView = new GameView(theStage, player);
-            gameView.showGameStage();
-            gameView.startGame();
+            if(nameInput.getText() == null || nameInput.getText().trim().isEmpty()) {
+                nameLabel.setText("As we said,\nYou have to tell us you name!");
+            }
+            else if(nameInput.getText().contains(" ") || nameInput.getText().contains("/")) {
+                nameLabel.setText("Sorry, Your name can't\ncontain space or slash!");
+            }
+            else {
+                player = new Player(nameInput.getText());
+                GameView gameView = new GameView(theStage, player);
+                gameView.showGameStage();
+                gameView.startGame();
+            }
         });
 
     }

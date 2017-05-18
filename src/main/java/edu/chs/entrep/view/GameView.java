@@ -4,7 +4,8 @@ import edu.chs.entrep.model.Highscore;
 import edu.chs.entrep.model.Monster;
 import edu.chs.entrep.model.Player;
 import edu.chs.entrep.model.SpaceEntrepreneurs;
-import edu.chs.entrep.service.Images;
+import edu.chs.entrep.service.image.ImageFactory;
+//import edu.chs.entrep.service.image.Images;
 import edu.chs.entrep.service.Sound;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -21,7 +22,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by josefinesvegborn on 2017-04-03.
@@ -34,7 +34,6 @@ public class GameView {
     private ArrayList<String> input;
     private Canvas canvas;
     private GraphicsContext gc;
-    private Images images;
     File highscoreFile;
     Highscore highscore;
     HighscoreView highscoreView;
@@ -50,7 +49,7 @@ public class GameView {
         this.input = new ArrayList<String>();
         this.canvas = new Canvas(512, 527);
         this.gc = canvas.getGraphicsContext2D();
-        this.images = new Images();
+        //this.images = ImageFactory.getImageService().getImage();
         this.highscoreFile = new File("src/main/resources/txt/highscore");
         this.highscore = new Highscore(highscoreFile);
 
@@ -97,16 +96,16 @@ public class GameView {
             SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level, highscore);
 
             /*Gets all images from the Images class*/
-            Image background_img = images.getBackgroundImage(level);
-            Image cover_img = images.getCoverImage(level);
-            Image monster1_img = images.getMonsterImage(level);
+            Image background_img = ImageFactory.getImageService().getImage("background", level);
+            Image cover_img = ImageFactory.getImageService().getImage("cover", level);
+            Image monster1_img = ImageFactory.getImageService().getImage("monster", level);
 
-            Image spaceship_img = images.getSpaceshipImage();
-            Image missile_img = images.getMissileImage();
+            Image spaceship_img = ImageFactory.getImageService().getImage("spaceship");
+            Image missile_img = ImageFactory.getImageService().getImage("missile");
 
-            Image gameOver_img = images.getGameOverImage();
-            Image clearedLevel_img = images.getClearedLevelImage();
-            Image life_img = images.getLifeImage();
+            Image gameOver_img = ImageFactory.getImageService().getImage("gameOver");
+            Image clearedLevel_img = ImageFactory.getImageService().getImage("levelCleared");
+            Image life_img = ImageFactory.getImageService().getImage("life");
 
             //handles counting blinking image of spaceship when getting hit
             double time = 0;
@@ -152,29 +151,29 @@ public class GameView {
                 // collision detection - returns true if the spaceship is hit
 
                 if (spaceEntrepreneurs.collisionCheck()) {
-                    spaceship_img = images.getHitSpaceshipImage();
+                   /* spaceship_img = ImageFactory.getImageService().getImage("spaceshipHit");
                     hitImageIsOn = true;
-                    blink = true;
+                    blink = true;*/
                 }
-
+/*
                 if (blink == true) {
                     time = time + elapsedTime;
                     if (((int) (time * 100) % 10) == 0 && time < 0.5) {
                         if (hitImageIsOn) {
-                            spaceship_img = images.getSpaceshipImage();
+                            spaceship_img = ImageFactory.getImageService().getImage("spaceship");
                             hitImageIsOn = false;
                         } else {
-                            spaceship_img = images.getHitSpaceshipImage();
+                            spaceship_img = ImageFactory.getImageService().getImage("spaceshipHit");
                             hitImageIsOn = true;
                         }
                     } else if (time > 0.5) {
-                        spaceship_img = images.getSpaceshipImage();
+                        spaceship_img = ImageFactory.getImageService().getImage("spaceship");
                         blink = false;
                         hitImageIsOn = false;
                         time = 0;
                     }
                 }
-
+*/
                 spaceEntrepreneurs.moveMonster();
                 spaceEntrepreneurs.monsterShoot();
 
@@ -228,6 +227,8 @@ public class GameView {
                     level = level + 1;
                     gc.drawImage(clearedLevel_img, 0, 0);
                     stop();
+
+
                     new Timer().schedule(
                             new TimerTask() {
                                 @Override
@@ -240,9 +241,9 @@ public class GameView {
 
                     spaceEntrepreneurs = new SpaceEntrepreneurs(player, level, highscore);
                     //Changes images to level3
-                    background_img = images.getBackgroundImage(level);
-                    cover_img = images.getCoverImage(level);
-                    monster1_img = images.getMonsterImage(level);
+                    background_img = ImageFactory.getImageService().getImage("background", level);
+                    cover_img = ImageFactory.getImageService().getImage("cover", level);
+                    monster1_img = ImageFactory.getImageService().getImage("monster", level);
                 }
 
                 if (spaceEntrepreneurs.gameOverCheck()) {

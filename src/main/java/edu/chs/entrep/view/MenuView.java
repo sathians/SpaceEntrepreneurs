@@ -43,7 +43,6 @@ public class MenuView {
 
         //Button Handlers
         startButton.setOnAction(e -> {
-            System.out.print("hej");
             startGame();
         });
 
