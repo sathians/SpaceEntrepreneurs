@@ -101,6 +101,8 @@ public class GameView {
             Image monster1_img = ImageFactory.getImageService().getImage("monster", level);
 
             Image spaceship_img = ImageFactory.getImageService().getImage("spaceship");
+            Image spaceship_img_blink = ImageFactory.getImageService().getImage("spaceshipHit");
+            Image spaceship_img_no_blink = ImageFactory.getImageService().getImage("spaceship");
             Image missile_img = ImageFactory.getImageService().getImage("missile");
 
             Image gameOver_img = ImageFactory.getImageService().getImage("gameOver");
@@ -151,29 +153,29 @@ public class GameView {
                 // collision detection - returns true if the spaceship is hit
 
                 if (spaceEntrepreneurs.collisionCheck()) {
-                   /* spaceship_img = ImageFactory.getImageService().getImage("spaceshipHit");
+                    spaceship_img = spaceship_img_blink;
                     hitImageIsOn = true;
-                    blink = true;*/
+                    blink = true;
                 }
-/*
+
                 if (blink == true) {
                     time = time + elapsedTime;
                     if (((int) (time * 100) % 10) == 0 && time < 0.5) {
                         if (hitImageIsOn) {
-                            spaceship_img = ImageFactory.getImageService().getImage("spaceship");
+                            spaceship_img = spaceship_img_no_blink;
                             hitImageIsOn = false;
                         } else {
-                            spaceship_img = ImageFactory.getImageService().getImage("spaceshipHit");
+                            spaceship_img = spaceship_img_blink;
                             hitImageIsOn = true;
                         }
                     } else if (time > 0.5) {
-                        spaceship_img = ImageFactory.getImageService().getImage("spaceship");
+                        spaceship_img = spaceship_img_no_blink;
                         blink = false;
                         hitImageIsOn = false;
                         time = 0;
                     }
                 }
-*/
+
                 spaceEntrepreneurs.moveMonster();
                 spaceEntrepreneurs.monsterShoot();
 
@@ -249,7 +251,7 @@ public class GameView {
                 if (spaceEntrepreneurs.gameOverCheck()) {
                     spaceEntrepreneurs.checkHighscore();
 
-                    gc.drawImage(gameOver_img, 0, 0); //HOW COULD THIS BE SHOWN?
+                    gc.drawImage(gameOver_img, 0, 0);
 
                     stop();
 

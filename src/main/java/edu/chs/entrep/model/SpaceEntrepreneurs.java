@@ -222,9 +222,6 @@ public class SpaceEntrepreneurs extends Sound{
 
     }
 
-
-
-
       //test av monster iter
      /*   if (count==2){
             count=0;
@@ -238,9 +235,7 @@ public class SpaceEntrepreneurs extends Sound{
             }
 
         }}
-*/
-
-
+    */
 
     public boolean levelCheck(){
         if (monsterList.isEmpty())
@@ -249,7 +244,7 @@ public class SpaceEntrepreneurs extends Sound{
     }
 
     public boolean gameOverCheck(){
-        if (player.getLife() == 0) {
+        if ((player.getLife() == 0)) {
             gameOver = true;
             gameoverSound();
         }
