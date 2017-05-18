@@ -71,6 +71,7 @@ public class Sound{
             File file = new File("src/main/resources/sounds/gothit.wav");
             Clip clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(file));
+
             // Thread.sleep(600);
             clip.start();
 

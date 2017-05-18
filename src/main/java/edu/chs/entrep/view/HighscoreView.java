@@ -54,6 +54,7 @@ public class HighscoreView {
         backButton.setOnAction(e -> {
             menuView = new MenuView(theStage);
             menuView.showMenuStage();
+
         });
 
     }

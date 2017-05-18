@@ -34,6 +34,9 @@ public class GameView {
     private ArrayList<String> input;
     private Canvas canvas;
     private GraphicsContext gc;
+    private Images images;
+    private boolean done=false;
+
     File highscoreFile;
     Highscore highscore;
     HighscoreView highscoreView;
@@ -229,8 +232,6 @@ public class GameView {
                     level = level + 1;
                     gc.drawImage(clearedLevel_img, 0, 0);
                     stop();
-
-
                     new Timer().schedule(
                             new TimerTask() {
                                 @Override
@@ -253,13 +254,28 @@ public class GameView {
 
                     gc.drawImage(gameOver_img, 0, 0);
 
-                    stop();
+                    Timer timer = new Timer();
 
-                    highscoreView = new HighscoreView(theStage, player);
-                    highscoreView.showHighscoreStage();
+                            timer.schedule(
+                            new TimerTask() {
+                                @Override
+                                public void run() {
+                                    start();
+                                    done=true;
+                                }
+                            },
+                            2000
+
+                    );
+
+                    if(done) {
+                        timer.cancel();
+                        stop();
+                        highscoreView = new HighscoreView(theStage, player);
+                        highscoreView.showHighscoreStage();
+                    }
                 }
             }
-
         }.start();
     }
 }

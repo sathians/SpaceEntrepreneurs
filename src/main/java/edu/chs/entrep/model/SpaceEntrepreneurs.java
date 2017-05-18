@@ -244,10 +244,11 @@ public class SpaceEntrepreneurs extends Sound{
     }
 
     public boolean gameOverCheck(){
-        if ((player.getLife() == 0)) {
-            gameOver = true;
-            gameoverSound();
-        }
+
+            if (player.getLife() == 0 || getMonsterList().get(monsterList.size()-1).getPositionY() > 360) {
+                gameOver = true;
+                gameoverSound();
+            }
         return gameOver;
     }
 
@@ -256,7 +257,6 @@ public class SpaceEntrepreneurs extends Sound{
             nextLevelSound();
             win=true;
         }
-
         return win;
     }
 
