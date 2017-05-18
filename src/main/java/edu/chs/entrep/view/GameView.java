@@ -5,7 +5,6 @@ import edu.chs.entrep.model.Monster;
 import edu.chs.entrep.model.Player;
 import edu.chs.entrep.model.SpaceEntrepreneurs;
 import edu.chs.entrep.service.image.ImageFactory;
-//import edu.chs.entrep.service.image.Images;
 import edu.chs.entrep.service.Sound;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -34,7 +33,6 @@ public class GameView {
     private ArrayList<String> input;
     private Canvas canvas;
     private GraphicsContext gc;
-    private Images images;
     private boolean done=false;
 
     File highscoreFile;
