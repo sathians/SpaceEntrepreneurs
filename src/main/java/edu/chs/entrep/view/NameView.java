@@ -36,20 +36,35 @@ public class NameView {
         theStage.setScene(nameScene);
 
         nameButton.setOnAction(event -> {
-            if(nameInput.getText() == null || nameInput.getText().trim().isEmpty()) {
-                nameLabel.setText("As we said,\nYou have to tell us you name!");
-            }
-            else if(nameInput.getText().contains(" ") || nameInput.getText().contains("/")) {
-                nameLabel.setText("Sorry, Your name can't\ncontain space or slash!");
-            }
-            else {
-                player = new Player(nameInput.getText());
-                GameView gameView = new GameView(theStage, player);
-                gameView.showGameStage();
-                gameView.startGame();
-            }
+            setName(nameInput, nameLabel);
         });
 
+        nameButton.setOnAction(event -> {
+            setName(nameInput, nameLabel);
+        });
+
+        nameScene.setOnKeyPressed(
+                e -> {
+                    String code = e.getCode().toString();
+                    if (code == "ENTER")
+                        setName(nameInput, nameLabel);
+                });
+
+    }
+
+    public void setName(TextField nameInput, Label nameLabel) {
+        if(nameInput.getText() == null || nameInput.getText().trim().isEmpty()) {
+            nameLabel.setText("As we said,\nYou have to tell us you name!");
+        }
+        else if(nameInput.getText().contains(" ") || nameInput.getText().contains("/")) {
+            nameLabel.setText("Sorry, Your name can't\ncontain space or slash!");
+        }
+        else {
+            player = new Player(nameInput.getText());
+            GameView gameView = new GameView(theStage, player);
+            gameView.showGameStage();
+            gameView.startGame();
+        }
     }
 
     public void showNameStage() {

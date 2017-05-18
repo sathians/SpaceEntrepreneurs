@@ -3,10 +3,14 @@ package edu.chs.entrep.view;
 import edu.chs.entrep.model.Highscore;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+
+import java.awt.*;
 
 
 /**
@@ -25,13 +29,15 @@ public class MenuView {
 
     public void createComponents() {
 
-
+        String textStyle = "-fx-font-family: Futura; -fx-font-size: 30px; -fx-text-fill: #FFFFFF;";
         String buttonStyle = "-fx-font-family: Futura; -fx-font-size: 18px; -fx-text-fill: #FFFFFF; -fx-background-color: rgb(0,0,0,0.0); -fx-border-weight: 0.5px; -fx-border-color: white; -fx-border-radius: 2px;";
         String buttonPressedStyle = "-fx-font-family: Futura; -fx-font-size: 18px; -fx-text-fill: #cccccc; -fx-background-color: rgb(0,0,0,0); -fx-border-weight: 0.5px; -fx-border-color: #cccccc; -fx-border-radius: 2px";
+        DropShadow highlight = new DropShadow(2, 0, 0, Color.WHITE);
 
         Label label1 = new Label("Space Entrepreneurs");
+        label1.setStyle(textStyle);
         Button highscoreButton = new Button("HIGHSCORES");
-        Button startButton = new Button("Start");
+        Button startButton = new Button("START");
         VBox layout1 = new VBox(20);
         layout1.setAlignment(Pos.CENTER);
         startButton.setStyle(buttonStyle);
@@ -43,11 +49,29 @@ public class MenuView {
 
         //Button Handlers
         startButton.setOnAction(e -> {
+            startButton.setStyle(buttonPressedStyle);
             startGame();
         });
 
+        startButton.setOnMouseEntered(e -> {
+            startButton.setEffect(highlight);
+        });
+
+        startButton.setOnMouseExited(e -> {
+            startButton.setEffect(null);
+        });
+
         highscoreButton.setOnAction(e -> {
+            highscoreButton.setStyle(buttonPressedStyle);
             showHighscores();
+        });
+
+        highscoreButton.setOnMouseEntered(e -> {
+            highscoreButton.setEffect(highlight);
+        });
+
+        highscoreButton.setOnMouseExited(e -> {
+            highscoreButton.setEffect(null);
         });
     }
 
