@@ -154,8 +154,9 @@ public class GameView {
 
 
                 // collision detection - returns true if the spaceship is hit
+                spaceEntrepreneurs.collisionCheck();
 
-                if (spaceEntrepreneurs.collisionCheck()) {
+                if (spaceEntrepreneurs.checkSpaceshipHit()) {
                     spaceship_img = spaceship_img_blink;
                     hitImageIsOn = true;
                     blink = true;
@@ -232,6 +233,7 @@ public class GameView {
                     level = level + 1;
                     gc.drawImage(clearedLevel_img, 0, 0);
                     stop();
+
                     new Timer().schedule(
                             new TimerTask() {
                                 @Override
@@ -268,6 +270,35 @@ public class GameView {
 
                     );
 
+                    if(done) {
+                        timer.cancel();
+                        stop();
+                        highscoreView = new HighscoreView(theStage, player);
+                        highscoreView.showHighscoreStage();
+                    }
+                    stop();
+
+                    highscoreView = new HighscoreView(theStage, player);
+                    highscoreView.showHighscoreStage();
+                }
+
+                //If we complete level 3, the games end and we get to see the highscore list
+                if (spaceEntrepreneurs.finishedGameCheck()) {
+                    spaceEntrepreneurs.checkHighscore();
+
+                    gc.drawImage(clearedLevel_img, 0, 0);
+
+                    Timer timer = new Timer();
+                    timer.schedule(
+                            new TimerTask() {
+                                @Override
+                                public void run() {
+                                    start();
+                                    done =true;
+                                }
+                            },
+                            2000
+                    );
                     if(done) {
                         timer.cancel();
                         stop();
