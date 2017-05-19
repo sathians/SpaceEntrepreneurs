@@ -31,7 +31,6 @@ public class MenuView {
 
         String textStyle = "-fx-font-family: Futura; -fx-font-size: 30px; -fx-text-fill: #FFFFFF;";
         String buttonStyle = "-fx-font-family: Futura; -fx-font-size: 18px; -fx-text-fill: #FFFFFF; -fx-background-color: rgb(0,0,0,0.0); -fx-border-weight: 0.5px; -fx-border-color: white; -fx-border-radius: 2px;";
-        String buttonPressedStyle = "-fx-font-family: Futura; -fx-font-size: 18px; -fx-text-fill: #cccccc; -fx-background-color: rgb(0,0,0,0); -fx-border-weight: 0.5px; -fx-border-color: #cccccc; -fx-border-radius: 2px";
         DropShadow highlight = new DropShadow(2, 0, 0, Color.WHITE);
 
         Label label1 = new Label("Space Entrepreneurs");
@@ -48,29 +47,37 @@ public class MenuView {
         theStage.setScene(startScene);
 
         //Button Handlers
-        startButton.setOnAction(e -> {
-            startButton.setStyle(buttonPressedStyle);
-            startGame();
-        });
-
-        startButton.setOnMouseEntered(e -> {
-            startButton.setEffect(highlight);
-        });
-
-        startButton.setOnMouseExited(e -> {
+        startButton.setOnMousePressed(event -> {
             startButton.setEffect(null);
         });
 
-        highscoreButton.setOnAction(e -> {
-            highscoreButton.setStyle(buttonPressedStyle);
+        startButton.setOnMouseReleased(event -> {
+            startButton.setEffect(highlight);
+            startGame();
+        });
+
+        startButton.setOnMouseEntered(event -> {
+            startButton.setEffect(highlight);
+        });
+
+        startButton.setOnMouseExited(event -> {
+            startButton.setEffect(null);
+        });
+
+        highscoreButton.setOnMousePressed(event -> {
+            highscoreButton.setEffect(null);
+        });
+
+        highscoreButton.setOnMouseReleased(event -> {
+            highscoreButton.setEffect(highlight);
             showHighscores();
         });
 
-        highscoreButton.setOnMouseEntered(e -> {
+        highscoreButton.setOnMouseEntered(event -> {
             highscoreButton.setEffect(highlight);
         });
 
-        highscoreButton.setOnMouseExited(e -> {
+        highscoreButton.setOnMouseExited(event -> {
             highscoreButton.setEffect(null);
         });
     }

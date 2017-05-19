@@ -154,7 +154,7 @@ public class GameView {
                 // collision detection - returns true if the spaceship is hit
                 spaceEntrepreneurs.collisionCheck();
 
-                if (spaceEntrepreneurs.checkSpaceshipHit()) {
+                if (/*spaceEntrepreneurs.checkSpaceshipHit()*/spaceEntrepreneurs.collisionCheck()) {
                     spaceship_img = spaceship_img_blink;
                     hitImageIsOn = true;
                     blink = true;
@@ -281,7 +281,7 @@ public class GameView {
                 }
 
                 //If we complete level 3, the games end and we get to see the highscore list
-                if (spaceEntrepreneurs.finishedGameCheck()) {
+                /*if (spaceEntrepreneurs.finishedGameCheck()) {
                     spaceEntrepreneurs.checkHighscore();
 
                     gc.drawImage(clearedLevel_img, 0, 0);
@@ -303,7 +303,7 @@ public class GameView {
                         highscoreView = new HighscoreView(theStage, player);
                         highscoreView.showHighscoreStage();
                     }
-                }
+                }*/
             }
         }.start();
     }
