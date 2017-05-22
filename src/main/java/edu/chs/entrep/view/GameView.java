@@ -63,7 +63,7 @@ public class GameView {
         root.getChildren().add(canvas);
         Scene gameScene = new Scene(root);
 
-        Font theFont = Font.font("Futura", FontWeight.LIGHT, 16);
+        Font theFont = Font.font("Futura", 16);
         gc.setFont(theFont);
         gc.setFill(Color.WHITE);
         gc.setLineWidth(1);

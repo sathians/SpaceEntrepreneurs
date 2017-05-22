@@ -1,15 +1,11 @@
 package edu.chs.entrep.view;
 
-
 import edu.chs.entrep.model.Player;
-import edu.chs.entrep.service.image.ImageFactory;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
@@ -24,7 +20,6 @@ import javafx.scene.control.Label;
 public class NameView {
     Stage theStage;
     Player player;
-    Image background_img;
 
     public NameView(Stage theStage) {
         this.theStage = theStage;
@@ -33,22 +28,27 @@ public class NameView {
 
     public void createComponents() {
 
-        String textStyle = "-fx-font-family: Futura; -fx-font-size: 20px; -fx-text-fill: #FFFFFF;";
-        String buttonStyle = "-fx-font-family: Futura; -fx-font-size: 18px; -fx-text-fill: #FFFFFF; -fx-background-color: rgb(0,0,0,0.0); -fx-border-weight: 0.5px; -fx-border-color: white; -fx-border-radius: 2px;";
+        String textStyle = "-fx-font-family: Futura; -fx-font-size: 18px; -fx-text-fill: #FFFFFF;";
+        String buttonStyle = "-fx-font-family: Futura; -fx-font-size: 16px; -fx-text-fill: #FFFFFF; -fx-background-color: rgb(0,0,0,0.0); -fx-pref-width: 60px;";
+        String inputStyle = "-fx-font-family: Futura; -fx-font-size: 18px; -fx-text-fill: #FFFFFF; -fx-background-color: rgb(0,0,0,0.0); -fx-pref-width: 190px;";
         DropShadow highlight = new DropShadow(2, 0, 0, Color.WHITE);
 
         Label nameLabel = new Label("Before you enter the matrix,\nYou have to tell uss your name.");
         nameLabel.setStyle(textStyle);
         nameLabel.setTextAlignment(TextAlignment.CENTER);
         TextField nameInput = new TextField();
-        nameInput.setMaxWidth(200);
-        nameInput.setStyle(buttonStyle);
+        nameInput.setStyle(inputStyle);
         Button nameButton = new Button("OK");
         nameButton.setStyle(buttonStyle);
-        VBox layout3 = new VBox(20);
+        nameButton.setStyle(buttonStyle);
+        VBox layout3 = new VBox(25);
         layout3.setAlignment(Pos.CENTER);
-        layout3.setStyle("-fx-background-image: url(img/background.png);");
-        layout3.getChildren().addAll(nameLabel, nameInput, nameButton);
+        HBox nameBox = new HBox();
+        nameBox.setAlignment(Pos.CENTER);
+        nameBox.setStyle("-fx-border-weight: 0.5px; -fx-border-color: white; -fx-border-radius: 2px; -fx-max-width: 250px;");
+        nameBox.getChildren().addAll(nameInput, nameButton);
+        layout3.setStyle("-fx-background-image: url(img/Menu-name.png); -fx-padding: 0 0 70 0;");
+        layout3.getChildren().addAll(nameLabel, nameBox);
         Scene nameScene = new Scene(layout3, 512, 512);
         theStage.setScene(nameScene);
 
@@ -71,7 +71,9 @@ public class NameView {
 
         nameScene.setOnKeyPressed(
                 e -> {
-                    nameButton.setEffect(highlight);
+                    String code = e.getCode().toString();
+                    if (code == "ENTER")
+                        nameButton.setEffect(highlight);
                 });
 
         nameScene.setOnKeyReleased(
