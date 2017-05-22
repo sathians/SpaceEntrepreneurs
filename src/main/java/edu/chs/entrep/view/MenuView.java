@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -29,19 +30,20 @@ public class MenuView {
 
     public void createComponents() {
 
-        String textStyle = "-fx-font-family: Futura; -fx-font-size: 30px; -fx-text-fill: #FFFFFF;";
-        String buttonStyle = "-fx-font-family: Futura; -fx-font-size: 18px; -fx-text-fill: #FFFFFF; -fx-background-color: rgb(0,0,0,0.0); -fx-border-weight: 0.5px; -fx-border-color: white; -fx-border-radius: 2px;";
+        String textStyle = "-fx-font-family: Futura; -fx-font-size: 35px; -fx-text-fill: #FFFFFF; -fx-padding: 0 0 10 0;";
+        String buttonStyle = "-fx-font-family: Futura; -fx-font-size: 18px; -fx-text-fill: #FFFFFF; -fx-background-color: rgb(0,0,0,0.0); -fx-border-weight: 0.5px; -fx-border-color: white; -fx-border-radius: 2px; -fx-pref-width: 150px;";
         DropShadow highlight = new DropShadow(2, 0, 0, Color.WHITE);
 
         Label label1 = new Label("Space Entrepreneurs");
         label1.setStyle(textStyle);
+        label1.setTextAlignment(TextAlignment.CENTER);
         Button highscoreButton = new Button("HIGHSCORES");
         Button startButton = new Button("START");
         VBox layout1 = new VBox(20);
         layout1.setAlignment(Pos.CENTER);
         startButton.setStyle(buttonStyle);
         highscoreButton.setStyle(buttonStyle);
-        layout1.setStyle("-fx-background-image: url(img/background.png);");
+        layout1.setStyle("-fx-background-image: url(img/Menu-bg.png); -fx-padding: 0 0 80 0;");
         layout1.getChildren().addAll(label1, startButton, highscoreButton);
         Scene startScene = new Scene(layout1, 512, 512);
         theStage.setScene(startScene);
