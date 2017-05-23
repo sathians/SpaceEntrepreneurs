@@ -2,62 +2,46 @@ package edu.chs.entrep.model;
 
 import java.util.*;
 
-import edu.chs.entrep.model.*;
-import edu.chs.entrep.model.Character;
 import edu.chs.entrep.service.Sound;
-import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.stage.Stage;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.animation.AnimationTimer;
-import javafx.event.EventHandler;
-import javafx.scene.input.KeyEvent;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
-import static javafx.util.Duration.millis;
 
 /**
  * Created by niklasohlsson on 2017-04-27.
  * Revised by sathian and nima 2017-05-02.
  */
-public class SpaceEntrepreneurs extends Sound{
+public class SpaceEntrepreneurs {
 
-    private ArrayList<Monster> monsterList = new ArrayList<Monster>();
+    private ArrayList<Monster> monsterList;
+    private ArrayList<Cover> coverList;
     public Player player;
     public Highscore highscore;
 
-    public int level;
-    public int count=0;
+    final private int MAX_LEVEL = 3;
+    private int level;
+    private int count=0;
 
-    public Character spaceship;
-    public Missile missile;
-    public Missile monsterMissile;
+    private Character spaceship;
+    private Missile missile;
+    private Missile monsterMissile;
 
-    public boolean gameOver;
-    public boolean win;
-    public boolean nextLevel;
+    private boolean gameOver;
+    private boolean win;
+    private boolean nextLevel;
 
-
-    public Cover cover1;
-    public Cover cover2;
-    public Cover cover3;
+    Sound sound;
 
 
     //Konstruktor, tar in Player och Level
     public SpaceEntrepreneurs(Player player, int level, Highscore highscore){
 
+        sound  = new Sound();
+
         this.player = player;
         this.level = level;
         this.highscore = highscore;
+
+        coverList = new ArrayList<Cover>();
+        monsterList = new ArrayList<Monster>();
 
         spaceship = new Character();
         spaceship.setVelocity(0,0);
@@ -70,6 +54,10 @@ public class SpaceEntrepreneurs extends Sound{
         monsterMissile.setHeight(20);
         monsterMissile.setWidth(20);
 
+        gameOver = false;
+
+        sound.bgdSound();
+
         initLevel(level);
     }
 
@@ -79,33 +67,33 @@ public class SpaceEntrepreneurs extends Sound{
             case 1:
                 initMonsterList(3);
 
-                cover1 = new Cover();
-                cover2 = new Cover();
-                cover3 = new Cover();
+                coverList.add(new Cover());
+                coverList.add(new Cover());
+                coverList.add(new Cover());
 
-                cover1.setPosition(75, 400);
-                cover2.setPosition(225, 400);
-                cover3.setPosition(375, 400);
+                coverList.get(0).setPosition(75, 400);
+                coverList.get(1).setPosition(225, 400);
+                coverList.get(2).setPosition(375, 400);
 
                 break;
 
             case 2:
                 initMonsterList(4);
 
-                cover1 = new Cover();
-                cover3 = new Cover();
+                coverList.add(new Cover());
+                coverList.add(new Cover());
 
-                cover1.setPosition(75,400);
-                cover3.setPosition(375,400);
+                coverList.get(0).setPosition(75, 400);
+                coverList.get(1).setPosition(375, 400);
 
                 break;
 
             case 3:
                 initMonsterList(5);
 
-                cover2 = new Cover();
+                coverList.add(new Cover());
 
-                cover2.setPosition(225, 400);
+                coverList.get(0).setPosition(225, 400);
 
                 break;
         }
@@ -115,8 +103,7 @@ public class SpaceEntrepreneurs extends Sound{
         for (int i = 0; i < rows; i++){
             for(int j = 0; j < 6; j++){
                 Monster monster = new Monster();
-             //   monster.setWidth(20);
-              //  monster.setHeight(20);
+
                 monster.setPosition(30 + j*82, 30 + i*50);
                 monsterList.add( monster );
             }
@@ -150,7 +137,7 @@ public class SpaceEntrepreneurs extends Sound{
             missile.setOnScreen(true);
             missile.setPosition(spaceship.getPositionX() + (spaceship.getWidht() / 2)-(missile.getWidht()/2), spaceship.getPositionY());
 
-           shootSound();
+            sound.shootSound();
             missile.setVelocity(0, -400);
         }
     }
@@ -171,6 +158,8 @@ public class SpaceEntrepreneurs extends Sound{
     public ArrayList<Monster> getMonsterList() {
         return monsterList;
     }
+
+
     public void moveMonster() {
 
         double posR = 0;
@@ -245,16 +234,16 @@ public class SpaceEntrepreneurs extends Sound{
 
     public boolean gameOverCheck(){
 
-            if (player.getLife() == 0 || getMonsterList().get(monsterList.size()-1).getPositionY() > 360) {
+        if (player.getLife() == 0 || getMonsterList().get(monsterList.size()-1).getPositionY() > 360) {
                 gameOver = true;
-                gameoverSound();
+                sound.gameoverSound();
             }
         return gameOver;
     }
 
     public boolean monsterCheck(){
         if (monsterList.isEmpty()){
-            nextLevelSound();
+            sound.nextLevelSound();
             win=true;
         }
         return win;
@@ -274,7 +263,7 @@ public class SpaceEntrepreneurs extends Sound{
             Monster monster = monsterIter.next();
             if (missile.isOnScreen() && missile.intersects(monster)) {
                 monsterIter.remove();
-                monsterKillSound();
+                sound.monsterKillSound();
                 missile.setOnScreen(false);
                 player.updateScore(100);
             }
@@ -283,7 +272,7 @@ public class SpaceEntrepreneurs extends Sound{
         if (monsterMissile.isOnScreen() && monsterMissile.intersects(spaceship)) {
             monsterMissile.setOnScreen(false);
             player.decLife();
-            hitSound();
+            sound.hitSound();
             spaceshipHit = true;
         }
 
@@ -296,32 +285,15 @@ public class SpaceEntrepreneurs extends Sound{
 
 
         //missile intersects with cover
-        switch (level) {
-            case 1:
 
-                if (missile.intersects(cover1) || missile.intersects(cover2) || missile.intersects(cover3))
-                    missile.setOnScreen(false);
-
-                if (monsterMissile.intersects(cover1) || monsterMissile.intersects(cover2) || monsterMissile.intersects(cover3))
-                    monsterMissile.setOnScreen(false);
-
-                break;
-            case 2:
-
-                if (missile.intersects(cover1) || missile.intersects(cover3))
-                    missile.setOnScreen(false);
-                if (monsterMissile.intersects(cover1) || monsterMissile.intersects(cover3))
-                    monsterMissile.setOnScreen(false);
-                break;
-            case 3:
-
-                if (missile.intersects(cover2))
-                    missile.setOnScreen(false);
-                if (monsterMissile.intersects(cover2))
-                    monsterMissile.setOnScreen(false);
-                break;
+        for(Cover cover : coverList) {
+            if(missile.intersects(cover)) {
+                missile.setOnScreen(false);
+            }
+            if(monsterMissile.intersects(cover)) {
+                monsterMissile.setOnScreen(false);
+            }
         }
-
         return spaceshipHit;
     }
 
@@ -346,6 +318,32 @@ public class SpaceEntrepreneurs extends Sound{
            }
        }
        return newHighscore;
+   }
+
+   public boolean finishedGameCheck() {
+       boolean finishedGame = false;
+
+       if(monsterList.isEmpty() && level == MAX_LEVEL) {
+           finishedGame = true;
+       }
+
+       return finishedGame;
+   }
+
+   public Character getSpaceship() {
+       return spaceship;
+   }
+
+   public Missile getMissile() {
+       return missile;
+   }
+
+   public Missile getMonsterMissile() {
+       return monsterMissile;
+   }
+
+   public ArrayList<Cover> getCoverList() {
+       return coverList;
    }
 }
 

@@ -1,6 +1,5 @@
 package edu.chs.entrep.view;
 
-import edu.chs.entrep.model.Highscore;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
@@ -10,8 +9,6 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-
-import java.awt.*;
 
 
 /**

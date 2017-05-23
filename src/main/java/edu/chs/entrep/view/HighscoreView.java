@@ -24,21 +24,25 @@ public class HighscoreView {
     MenuView menuView;
     File highscoreFile;
     Highscore highscore;
+    String welcomeMessage;
 
     public HighscoreView(Stage theStage) {
         this.theStage = theStage;
         this.highscoreFile = new File("src/main/resources/txt/highscore");
         this.highscore = new Highscore(highscoreFile);
+        this.welcomeMessage = "HIGHSCORE";
         createComponents();
     }
 
-    //Alternative highscore
+    //Alternative highscore. Could be developed to show the view differently if the current player made it to the list.
     public HighscoreView(Stage theStage, Player player) {
         this.theStage = theStage;
         this.player = player;
         this.highscoreFile = new File("src/main/resources/txt/highscore");
         this.highscore = new Highscore(highscoreFile);
+        this.welcomeMessage = "Congratulations " + player.getName() + "!\n\nHIGHSCORE";
         createComponents();
+
     }
 
     public void createComponents() {
@@ -50,7 +54,7 @@ public class HighscoreView {
 
 
         //Highscore Scene
-        Label header = new Label("Highscores");
+        Label header = new Label(welcomeMessage);
         header.setStyle(headerTextStyle);
         header.setTextAlignment(TextAlignment.CENTER);
         Label highscoreLabel = new Label();
@@ -83,7 +87,6 @@ public class HighscoreView {
         menuButton.setOnMouseExited(event -> {
             menuButton.setEffect(null);
         });
-
     }
 
     public void showHighscoreStage() {
