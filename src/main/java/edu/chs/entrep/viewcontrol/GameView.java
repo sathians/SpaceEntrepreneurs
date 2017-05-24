@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * Created by josefinesvegborn on 2017-04-03.
  * This class represents the view and control for the actual game. It initiates the player and a new SpaceEntrepreneurs class for each level.
- * It includes event handlers for controlling the carachter through key presses.
+ * It includes event handlers for controlling the character through key presses.
  * It also contains an animation timer in which all graphics are updated and game status is checked.
  */
 

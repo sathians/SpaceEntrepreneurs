@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * Created by niklasohlsson on 2017-04-27.
- * Revised by sathian and nima 2017-05-02.
+ * This class is the initiator and head of the game-logic.
  */
 public class SpaceEntrepreneurs {
 
