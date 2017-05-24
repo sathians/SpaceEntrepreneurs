@@ -1,4 +1,4 @@
 During this project, we have collaborated continiously, 
 meaning that the commits are misleading. 
-Although we have worked together we have not rotated the 
+Although we have worked together and all have contributed fully, we have not rotated the 
 commits very well based on different computers.
