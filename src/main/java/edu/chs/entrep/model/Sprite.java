@@ -4,12 +4,11 @@ import javafx.geometry.Rectangle2D;
 
 /**
  * Created by niklasohlsson on 2017-04-07.
+ * This class is a parent class for all interactive game objects (carachter, monster, missile, cover, etc).
+ * It contains methods and attributes for managing position, velocity, checking intersection, etc.
  */
+
 public class Sprite {
-
-    private boolean OnScreen;
-
-   // private Image image;
 
     private double positionX;
     private double positionY;
@@ -20,7 +19,6 @@ public class Sprite {
 
     public Sprite()
     {
-        //OnScreen = false;
         positionX = 0;
         positionY = 0;
         velocityX = 0;
@@ -44,35 +42,7 @@ public class Sprite {
     public double getHeight(){
         return height;
     }
-    /*
-    public void Erasing() {
-        OnScreen = false;
-    }
-    */
-    /*public boolean isOnScreen() {
-        return OnScreen;
-    }
-    */
 
-    /*
-    protected void setOnScreen() {
-        OnScreen = true;
-    }
-    */
-
-   /* public void setImage(Image i)
-    {
-        image = i;
-        width = i.getWidth();
-        height = i.getHeight();
-    }
-
-    public void setImage(String filename)
-    {
-        Image i = new Image(filename);
-        setImage(i);
-    }
-*/
 
     public void setPosition(double x, double y)
     {
@@ -93,12 +63,7 @@ public class Sprite {
         velocityX = x;
         velocityY = y;
     }
-/*
-    public void addPosition(double x, double y){
-        positionX += x;
-        positionY += y;
-    }
-*/
+
     public void addVelocity(double x, double y)
     {
         velocityX += x;
@@ -119,11 +84,6 @@ public class Sprite {
         positionY += velocityY * time;
     }
 
-  /*  public void render(GraphicsContext gc)
-    {
-        gc.drawImage( image, positionX, positionY );
-    }
-*/
     public Rectangle2D getBoundary()
     {
         return new Rectangle2D(positionX,positionY,width,height);

@@ -1,10 +1,14 @@
 package edu.chs.entrep;
 
-import edu.chs.entrep.view.MenuView;
+import edu.chs.entrep.viewcontrol.MenuView;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+/**
+ * This main class creates the stage launches the MenuView.
+ */
 
 public class Main extends Application {
 
@@ -30,6 +34,3 @@ public class Main extends Application {
         menuView.showMenuStage();
     }
 }
-
-
-

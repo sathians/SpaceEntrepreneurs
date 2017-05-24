@@ -1,4 +1,4 @@
-package edu.chs.entrep.view;
+package edu.chs.entrep.viewcontrol;
 
 import edu.chs.entrep.model.Highscore;
 import edu.chs.entrep.model.Player;
@@ -14,10 +14,13 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
-
 /**
  * Created by josefinesvegborn on 2017-05-17.
+ * This class represents the view and control for the highscore scene.
+ * It reads from a highscore file and prints the list to a label.
+ * Launches the menu scene if the menu button is pressed.
  */
+
 public class HighscoreView {
     Stage theStage;
     Player player;
@@ -34,7 +37,8 @@ public class HighscoreView {
         createComponents();
     }
 
-    //Alternative highscore. Could be developed to show the view differently if the current player made it to the list.
+    //Alternative highscore init. Could be developed to show the scene differently if the current player made it to the list.
+
     public HighscoreView(Stage theStage, Player player) {
         this.theStage = theStage;
         this.player = player;

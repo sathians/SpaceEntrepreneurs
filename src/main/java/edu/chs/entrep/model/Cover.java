@@ -2,27 +2,15 @@ package edu.chs.entrep.model;
 
 /**
  * Created by josefinesvegborn on 2017-04-03.
+ * This class represents the covers which protects the character from missiles.
+ * It inherits methods from methods for managing position etc from the class Sprite.
  */
+
 public class Cover extends Sprite{
-
-    //private final String coverImg = "img/Firewall_a0.png";
-    //private Image cover;
-
 
     public Cover (){
 
-        //this.cover = new Image(coverImg,70, 50, true, true );
-        //setImage(this.cover);
-        // Image cover2 = new Image(coverImg,70, 50, true, true );
-        //Image cover3 = new Image(coverImg,70, 50, true, true );
-
-        setHeight(35);
-        setWidth(80);
+        this.setHeight(35);
+        this.setWidth(80);
     }
-
-    /*
-    public Image getCover(){
-        return cover;
-    }
-*/
 }

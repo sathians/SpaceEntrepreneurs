@@ -1,4 +1,4 @@
-package edu.chs.entrep.view;
+package edu.chs.entrep.viewcontrol;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,10 +10,11 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-
 /**
  * Created by josefinesvegborn on 2017-04-03.
+ * This class represents the view and control for the menu. It launches name view or highscore view if those buttons are pressed.
  */
+
 public class MenuView {
 
     private Stage theStage;

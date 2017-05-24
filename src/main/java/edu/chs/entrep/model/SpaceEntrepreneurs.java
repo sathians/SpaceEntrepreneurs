@@ -2,7 +2,7 @@ package edu.chs.entrep.model;
 
 import java.util.*;
 
-import edu.chs.entrep.service.Sound;
+import edu.chs.entrep.service.sound.SoundFactory;
 import java.util.ArrayList;
 
 /**
@@ -28,13 +28,9 @@ public class SpaceEntrepreneurs {
     private boolean win;
     private boolean nextLevel;
 
-    Sound sound;
-
 
     //Konstruktor, tar in Player och Level
     public SpaceEntrepreneurs(Player player, int level, Highscore highscore){
-
-        sound  = new Sound();
 
         this.player = player;
         this.level = level;
@@ -54,9 +50,9 @@ public class SpaceEntrepreneurs {
         monsterMissile.setHeight(20);
         monsterMissile.setWidth(20);
 
-        gameOver = false;
+        SoundFactory.getSoundService().repeatSound("background", true);
 
-        sound.bgdSound();
+        gameOver = false;
 
         initLevel(level);
     }
@@ -137,7 +133,7 @@ public class SpaceEntrepreneurs {
             missile.setOnScreen(true);
             missile.setPosition(spaceship.getPositionX() + (spaceship.getWidht() / 2)-(missile.getWidht()/2), spaceship.getPositionY());
 
-            sound.shootSound();
+            SoundFactory.getSoundService().playSound("shoot" );
             missile.setVelocity(0, -400);
         }
     }
@@ -189,61 +185,29 @@ public class SpaceEntrepreneurs {
             }
 
         }
-            if (count==2 || count ==0) {
-                for ( Monster monster : monsterList) {
-                   // monster.setVelocity(0,0);
-                    monster.setPosition(monster.getPositionX(), monster.getPositionY() + 0.05);
-                }
+        if (count == 2 || count == 0) {
+            for (Monster monster : monsterList) {
+                // monster.setVelocity(0,0);
+                monster.setPosition(monster.getPositionX(), monster.getPositionY() + 0.05);
             }
-
-
-               /*if(count==2){
-                count=0;
-                for(int i = 0; i < monsterList.size(); i++) {
-                    monster = monsterList.get(i);
-                    monster.setVelocity(0, 0);
-                    monster.setPosition(monster.getPositionX() + 0, monster.getPositionY() + 0.1);
-
-                }
-            }*/
-
-
-
+        }
     }
 
-      //test av monster iter
-     /*   if (count==2){
-            count=0;
-        Iterator<Monster> monsterIter = monsterList.iterator();
-        while (monsterIter.hasNext()){
-            Monster monster = monsterIter.next();
-            monster.setVelocity(0, 0);
-            monster.setPosition(monster.getPositionX() + 0, monster.getPositionY() + 0.1);
-            if (!monsterIter.hasNext()){
-                break;
-            }
 
-        }}
-    */
-
-    public boolean levelCheck(){
-        if (monsterList.isEmpty())
-         nextLevel=true;
-        return nextLevel;
-    }
 
     public boolean gameOverCheck(){
 
         if (player.getLife() == 0 || getMonsterList().get(monsterList.size()-1).getPositionY() > 360) {
                 gameOver = true;
-                sound.gameoverSound();
+                SoundFactory.getSoundService().repeatSound("background", false );
+                SoundFactory.getSoundService().playSound("gameOver" );
             }
         return gameOver;
     }
 
     public boolean monsterCheck(){
         if (monsterList.isEmpty()){
-            sound.nextLevelSound();
+            SoundFactory.getSoundService().playSound("nextLevel" );
             win=true;
         }
         return win;
@@ -263,7 +227,7 @@ public class SpaceEntrepreneurs {
             Monster monster = monsterIter.next();
             if (missile.isOnScreen() && missile.intersects(monster)) {
                 monsterIter.remove();
-                sound.monsterKillSound();
+                SoundFactory.getSoundService().playSound("monsterKill" );
                 missile.setOnScreen(false);
                 player.updateScore(100);
             }
@@ -272,7 +236,7 @@ public class SpaceEntrepreneurs {
         if (monsterMissile.isOnScreen() && monsterMissile.intersects(spaceship)) {
             monsterMissile.setOnScreen(false);
             player.decLife();
-            sound.hitSound();
+            SoundFactory.getSoundService().playSound("spaceShipHit" );
             spaceshipHit = true;
         }
 

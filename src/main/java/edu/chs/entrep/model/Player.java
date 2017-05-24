@@ -2,18 +2,22 @@ package edu.chs.entrep.model;
 
 /**
  * Created by josefinesvegborn on 2017-04-03.
+ * This class represent the player (not the character) and holds name, life and score.
  */
+
 public class Player {
-    //This class should hold name, score, etc.
+
     private final String name;
     private int score;
     private int life;
 
+    private final int MAX_LIFE = 3;
+
     public Player (String name){
 
-        this.name=name;
+        this.name = name;
         this.score = 0;
-        this.life=3;
+        this.life = MAX_LIFE;
     }
 
 

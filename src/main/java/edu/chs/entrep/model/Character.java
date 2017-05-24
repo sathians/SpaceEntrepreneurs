@@ -2,36 +2,17 @@ package edu.chs.entrep.model;
 
 /**
  * Created by josefinesvegborn on 2017-04-03.
+ * This class represents the character, usually a spaceship.
+ * It inherits methods from methods for managing position etc from the class Sprite
  */
 public class Character extends Sprite {
 
 
-  //  private final String characther_img = "img/spaceship_a1.png";
-    /*private double width;
-    private double height;
-    public Missile missile;
-*/
     public Character() {
-
-
-       // Image spaceship_img = new Image(characther_img,width, height, true, true );
-        //setImage(spaceship_img);
         setPosition(256 ,470 );
         setHeight(50);
         setWidth(50);
         setVelocity(0, 0);
     }
-
-
-
-/*
-    public void shoot(double x, double y) {
-        if (!missile.isOnScreen()) {
-            missile = new Missile();
-            missile.setOnScreen(true);
-            missile.setPosition(x + getWidht() / 2, y);
-            missile.setVelocity(0, -250);
-        }
-    }*/
 
 }

@@ -1,6 +1,5 @@
-package edu.chs.entrep.view;
+package edu.chs.entrep.viewcontrol;
 
-import edu.chs.entrep.model.Player;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
@@ -15,11 +14,13 @@ import javafx.scene.control.Label;
 
 /**
  * Created by josefinesvegborn on 2017-05-17.
+ * This class represents the view and control for the scene in which the player inputs its name.
+ * It launches the GameView class.
  */
 
 public class NameView {
     Stage theStage;
-    Player player;
+    String playerName;
 
     public NameView(Stage theStage) {
         this.theStage = theStage;
@@ -94,8 +95,8 @@ public class NameView {
             nameLabel.setText("Sorry, Your name can't\ncontain space or slash!");
         }
         else {
-            player = new Player(nameInput.getText());
-            GameView gameView = new GameView(theStage, player);
+            playerName = nameInput.getText();
+            GameView gameView = new GameView(theStage, playerName);
             gameView.showGameStage();
             gameView.startGame();
         }
