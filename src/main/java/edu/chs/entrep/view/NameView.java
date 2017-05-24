@@ -33,7 +33,7 @@ public class NameView {
         String inputStyle = "-fx-font-family: Futura; -fx-font-size: 18px; -fx-text-fill: #FFFFFF; -fx-background-color: rgb(0,0,0,0.0); -fx-pref-width: 190px;";
         DropShadow highlight = new DropShadow(2, 0, 0, Color.WHITE);
 
-        Label nameLabel = new Label("Before you enter the matrix,\nYou have to tell uss your name.");
+        Label nameLabel = new Label("Before you enter the matrix,\nYou have to tell us your name.");
         nameLabel.setStyle(textStyle);
         nameLabel.setTextAlignment(TextAlignment.CENTER);
         TextField nameInput = new TextField();
