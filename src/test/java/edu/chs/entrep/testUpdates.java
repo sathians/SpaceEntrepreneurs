@@ -4,7 +4,7 @@ import edu.chs.entrep.model.Highscore;
 import edu.chs.entrep.model.Monster;
 import edu.chs.entrep.model.Player;
 import edu.chs.entrep.model.SpaceEntrepreneurs;
-import edu.chs.entrep.view.GameView;
+import edu.chs.entrep.viewcontrol.GameView;
 import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +38,7 @@ public class testUpdates {
     @Test
     public void testNextLevel(){
 
-        monster.initMonsterList(5);
+        testSpace.initMonsterList(5);
         testSpace.getMonsterList().clear();
         assertTrue(testSpace.monsterCheck());
     }
