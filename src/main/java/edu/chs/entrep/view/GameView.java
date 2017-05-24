@@ -1,11 +1,7 @@
 package edu.chs.entrep.view;
 
-import edu.chs.entrep.model.Highscore;
-import edu.chs.entrep.model.Monster;
-import edu.chs.entrep.model.Player;
-import edu.chs.entrep.model.SpaceEntrepreneurs;
-import edu.chs.entrep.service.Images;
-import edu.chs.entrep.service.Sound;
+import edu.chs.entrep.model.*;
+import edu.chs.entrep.service.image.ImageFactory;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -14,14 +10,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by josefinesvegborn on 2017-04-03.
@@ -30,11 +22,11 @@ public class GameView {
     private Player player;
     private Stage theStage;
     private int level;
-    private boolean nextLevel;
     private ArrayList<String> input;
     private Canvas canvas;
     private GraphicsContext gc;
-    private Images images;
+    private boolean done = false;
+
     File highscoreFile;
     Highscore highscore;
     HighscoreView highscoreView;
@@ -46,11 +38,10 @@ public class GameView {
         this.player = player;
         this.theStage = theStage;
         this.level = 1;
-        this.nextLevel = false;
         this.input = new ArrayList<String>();
         this.canvas = new Canvas(512, 527);
         this.gc = canvas.getGraphicsContext2D();
-        this.images = new Images();
+        //this.images = ImageFactory.getImageService().getImage();
         this.highscoreFile = new File("src/main/resources/txt/highscore");
         this.highscore = new Highscore(highscoreFile);
 
@@ -63,7 +54,7 @@ public class GameView {
         root.getChildren().add(canvas);
         Scene gameScene = new Scene(root);
 
-        Font theFont = Font.font("Futura", FontWeight.LIGHT, 16);
+        Font theFont = Font.font("Futura", 16);
         gc.setFont(theFont);
         gc.setFill(Color.WHITE);
         gc.setLineWidth(1);
@@ -90,28 +81,36 @@ public class GameView {
 
     public void startGame() {
 
-        new Sound().bgdSound();
-
         new AnimationTimer() {
             long lastNanoTime = System.nanoTime();      //Check if this can be removed
             SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level, highscore);
 
             /*Gets all images from the Images class*/
-            Image background_img = images.getBackgroundImage(level);
-            Image cover_img = images.getCoverImage(level);
-            Image monster1_img = images.getMonsterImage(level);
+            Image background_img = ImageFactory.getImageService().getImage("background", level);
+            Image cover_img = ImageFactory.getImageService().getImage("cover", level);
+            Image monster1_img = ImageFactory.getImageService().getImage("monster", level);
 
-            Image spaceship_img = images.getSpaceshipImage();
-            Image missile_img = images.getMissileImage();
+            Image spaceship_img = ImageFactory.getImageService().getImage("spaceship");
+            Image spaceship_img_blink = ImageFactory.getImageService().getImage("spaceshipHit");
+            Image spaceship_img_no_blink = ImageFactory.getImageService().getImage("spaceship");
+            Image missile_img = ImageFactory.getImageService().getImage("missile");
 
-            Image gameOver_img = images.getGameOverImage();
-            Image clearedLevel_img = images.getClearedLevelImage();
-            Image life_img = images.getLifeImage();
+            Image gameOver_img = ImageFactory.getImageService().getImage("gameOver");
+            Image clearedLevel_img = ImageFactory.getImageService().getImage("levelCleared");
+            Image life_img = ImageFactory.getImageService().getImage("life");
 
             //handles counting blinking image of spaceship when getting hit
             double time = 0;
             boolean blink = false;
             boolean hitImageIsOn = false;
+
+            long levelImgCount;
+            long gameOverCount;
+            long winCount;
+
+            boolean endGame = false;
+            boolean newLevel = false;
+            boolean runGame = true;
 
             public void handle(long currentNanoTime) {
 
@@ -119,94 +118,81 @@ public class GameView {
                 double elapsedTime = (currentNanoTime - lastNanoTime) / 1000000000.0;
                 lastNanoTime = currentNanoTime;
 
-                // game logic
-                spaceEntrepreneurs.spaceship.setVelocity(0, 0);          //How do we sett this in logic in spaceEntrepreneurs instead?
-                if (input.contains("LEFT")) {
-                    spaceEntrepreneurs.left();
-                }
+                //runGame is set to false when transition images are shown
+                if (runGame) {
 
-                if (input.contains("RIGHT")) {
-                    spaceEntrepreneurs.right();
-                }
-
-                if (input.contains("SPACE")) {           //även tidigare även && !missile.isOnScreen()
-                    spaceEntrepreneurs.shoot();
-                }
-
-                // Min tanke här är att med ett visst tids-inervall så skall monstrena hoppa ner ett steg närmare rymdskeppet.
-                // if (elapsedTime > 1 && elapsedTime < 2 || elapsedTime > 10 && elapsedTime < 11) {
-                //    for(Sprite monster: monsterList)
-                //        monster.addPosition(0, 50);
-                //}
-
-                //Updates spaceship, missile and monster position
-
-                spaceEntrepreneurs.spaceship.update(elapsedTime);
-                spaceEntrepreneurs.missile.update(elapsedTime);
-                spaceEntrepreneurs.monsterMissile.update(elapsedTime);
-
-                for (Monster monster : spaceEntrepreneurs.getMonsterList())
-                    monster.update(elapsedTime);
-
-
-                // collision detection - returns true if the spaceship is hit
-
-                if (spaceEntrepreneurs.collisionCheck()) {
-                    spaceship_img = images.getHitSpaceshipImage();
-                    hitImageIsOn = true;
-                    blink = true;
-                }
-
-                if (blink == true) {
-                    time = time + elapsedTime;
-                    if (((int) (time * 100) % 10) == 0 && time < 0.5) {
-                        if (hitImageIsOn) {
-                            spaceship_img = images.getSpaceshipImage();
-                            hitImageIsOn = false;
-                        } else {
-                            spaceship_img = images.getHitSpaceshipImage();
-                            hitImageIsOn = true;
-                        }
-                    } else if (time > 0.5) {
-                        spaceship_img = images.getSpaceshipImage();
-                        blink = false;
-                        hitImageIsOn = false;
-                        time = 0;
+                    // game logic
+                    spaceEntrepreneurs.getSpaceship().setVelocity(0, 0);          //How do we set this in logic in spaceEntrepreneurs instead?
+                    if (input.contains("LEFT")) {
+                        spaceEntrepreneurs.left();
                     }
-                }
 
-                spaceEntrepreneurs.moveMonster();
-                spaceEntrepreneurs.monsterShoot();
+                    if (input.contains("RIGHT")) {
+                        spaceEntrepreneurs.right();
+                    }
+
+                    if (input.contains("SPACE")) {           //även tidigare även && !missile.isOnScreen()
+                        spaceEntrepreneurs.shoot();
+                    }
+
+                    //Updates spaceship, missile and monster position
+
+                    spaceEntrepreneurs.getSpaceship().update(elapsedTime);
+                    spaceEntrepreneurs.getMissile().update(elapsedTime);
+                    spaceEntrepreneurs.getMonsterMissile().update(elapsedTime);
+
+                    for (Monster monster : spaceEntrepreneurs.getMonsterList())
+                        monster.update(elapsedTime);
+
+
+                    // collision detection - returns true if the spaceship is hit
+
+                    if (spaceEntrepreneurs.collisionCheck()) {
+                        spaceship_img = spaceship_img_blink;
+                        hitImageIsOn = true;
+                        blink = true;
+                    }
+
+                    if (blink == true) {
+                        time = time + elapsedTime;
+                        if (((int) (time * 100) % 10) == 0 && time < 0.5) {
+                            if (hitImageIsOn) {
+                                spaceship_img = spaceship_img_no_blink;
+                                hitImageIsOn = false;
+                            } else {
+                                spaceship_img = spaceship_img_blink;
+                                hitImageIsOn = true;
+                            }
+                        } else if (time > 0.5) {
+                            spaceship_img = spaceship_img_no_blink;
+                            blink = false;
+                            hitImageIsOn = false;
+                            time = 0;
+                        }
+                    }
+
+                    spaceEntrepreneurs.moveMonster();
+                    spaceEntrepreneurs.monsterShoot();
+
+                }
 
                 gc.clearRect(0, 0, 512, 512);
                 gc.drawImage(background_img, 0, 0);
-                gc.drawImage(spaceship_img, spaceEntrepreneurs.spaceship.getPositionX(), spaceEntrepreneurs.spaceship.getPositionY());
-                switch (spaceEntrepreneurs.level) {
-                    case 1:
-                        gc.drawImage(cover_img, spaceEntrepreneurs.cover1.getPositionX(), spaceEntrepreneurs.cover1.getPositionY());
-                        gc.drawImage(cover_img, spaceEntrepreneurs.cover2.getPositionX(), spaceEntrepreneurs.cover2.getPositionY());
-                        gc.drawImage(cover_img, spaceEntrepreneurs.cover3.getPositionX(), spaceEntrepreneurs.cover3.getPositionY());
-                        break;
+                gc.drawImage(spaceship_img, spaceEntrepreneurs.getSpaceship().getPositionX(), spaceEntrepreneurs.getSpaceship().getPositionY());
 
-                    case 2:
-                        gc.drawImage(cover_img, spaceEntrepreneurs.cover1.getPositionX(), spaceEntrepreneurs.cover1.getPositionY());
-                        gc.drawImage(cover_img, spaceEntrepreneurs.cover3.getPositionX(), spaceEntrepreneurs.cover3.getPositionY());
-                        break;
-
-                    case 3:
-                        gc.drawImage(cover_img, spaceEntrepreneurs.cover2.getPositionX(), spaceEntrepreneurs.cover2.getPositionY());
-                        break;
+                //Draws the covers on the right position, the number of covers in the list depends on level
+                for (Cover cover : spaceEntrepreneurs.getCoverList()) {
+                    gc.drawImage(cover_img, cover.getPositionX(), cover.getPositionY());
                 }
 
-                if (spaceEntrepreneurs.missile.isOnScreen())
-                    gc.drawImage(missile_img, spaceEntrepreneurs.missile.getPositionX(), spaceEntrepreneurs.missile.getPositionY());
+                if (spaceEntrepreneurs.getMissile().isOnScreen())
+                    gc.drawImage(missile_img, spaceEntrepreneurs.getMissile().getPositionX(), spaceEntrepreneurs.getMissile().getPositionY());
 
-                if (spaceEntrepreneurs.monsterMissile.isOnScreen())
-                    gc.drawImage(missile_img, spaceEntrepreneurs.monsterMissile.getPositionX(), spaceEntrepreneurs.monsterMissile.getPositionY());
+                if (spaceEntrepreneurs.getMonsterMissile().isOnScreen())
+                    gc.drawImage(missile_img, spaceEntrepreneurs.getMonsterMissile().getPositionX(), spaceEntrepreneurs.getMonsterMissile().getPositionY());
 
                 for (Monster monster : spaceEntrepreneurs.getMonsterList()) {
                     gc.drawImage(monster1_img, monster.getPositionX(), monster.getPositionY());
-                    //monster.render( gc );
                 }
 
                 String pointsText = "CASH $" + (player.getScore());
@@ -221,42 +207,96 @@ public class GameView {
                 for (int i = 1; i <= spaceEntrepreneurs.player.getLife(); i++) {
                     gc.drawImage(life_img, 30 + 25 * i, 20);
                 }
+
                 gc.fillText(lifeText, 20, 36);
                 //gc.strokeText(lifeText, 20, 36);
 
-                if (spaceEntrepreneurs.monsterCheck()) {
-                    level = level + 1;
-                    gc.drawImage(clearedLevel_img, 0, 0);
-                    stop();
-                    new Timer().schedule(
-                            new TimerTask() {
-                                @Override
-                                public void run() {
-                                    start();
-                                }
-                            },
-                            2000
-                    );
 
-                    spaceEntrepreneurs = new SpaceEntrepreneurs(player, level, highscore);
-                    //Changes images to level3
-                    background_img = images.getBackgroundImage(level);
-                    cover_img = images.getCoverImage(level);
-                    monster1_img = images.getMonsterImage(level);
+                /*
+                CHECKING THE GAME STATUS
+                 */
+
+                // Checks first if any of the transition images (levelup/gameover/win) are already being shown
+
+                //Level Up Image
+                if (currentNanoTime - levelImgCount < 3000000000L) {
+                    gc.drawImage(clearedLevel_img, 0, 0);
                 }
 
-                if (spaceEntrepreneurs.gameOverCheck()) {
-                    spaceEntrepreneurs.checkHighscore();
+                //Win Game Image
+                else if (currentNanoTime - winCount < 4000000000L) {
+                    gc.drawImage(clearedLevel_img, 0, 0);
+                    if (currentNanoTime - winCount > 3900000000L) {
+                        endGame = true;
+                        stop();
+                    }
+                }
 
-                    gc.drawImage(gameOver_img, 0, 0); //HOW COULD THIS BE SHOWN?
+                //Game Over Image
+                else if (currentNanoTime - gameOverCount < 3000000000L) {
+                    gc.drawImage(gameOver_img, 0, 0);
+                    if (currentNanoTime - gameOverCount > 2900000000L) {
+                        endGame = true;
+                        stop();
+                    }
+                }
 
-                    stop();
+                // Then checks if it is time to change to the next level
 
-                    highscoreView = new HighscoreView(theStage, player);
+                else if (newLevel == true) {
+                    level = level + 1;
+                    runGame = true;
+                    levelImgCount = 0;
+                    newLevel = false;
+
+                    spaceEntrepreneurs = new SpaceEntrepreneurs(player, level, highscore);
+
+                    background_img = ImageFactory.getImageService().getImage("background", level);
+                    cover_img = ImageFactory.getImageService().getImage("cover", level);
+                    monster1_img = ImageFactory.getImageService().getImage("monster", level);
+                }
+
+                // If not, the game is running and we can check if there are monsters left
+
+                else if (spaceEntrepreneurs.monsterCheck()) {
+
+                    runGame = false;
+
+                    //New level
+                    if (level < 3) {
+                        newLevel = true;
+                        //Sets starting time for showing of the level up image
+                        levelImgCount = currentNanoTime;
+                    }
+
+                    //Win game
+                    else {
+                        winCount = currentNanoTime;
+                    }
+                }
+
+                // If the game is running and the there are monsters left, check for game over
+
+                else if (spaceEntrepreneurs.gameOverCheck()) {
+                    //Sets a reference time for when the game over picture was first shown
+                    gameOverCount = currentNanoTime;
+                    runGame = false;
+                }
+
+                //If game is over, launch a new highscore view.
+
+                if (endGame == true) {
+
+                    if(spaceEntrepreneurs.checkHighscore() == true) {
+                        highscoreView = new HighscoreView(theStage, player);
+                    }
+                    else {
+                        highscoreView = new HighscoreView(theStage);
+                    }
+
                     highscoreView.showHighscoreStage();
                 }
             }
-
         }.start();
     }
 }

@@ -1,10 +1,7 @@
 package edu.chs.entrep.model;
 
-import edu.chs.entrep.Sprite;
-import javafx.scene.image.Image;
-
 import java.util.ArrayList;
-import java.lang.String.*;
+
 /**
  * Created by josefinesvegborn on 2017-04-03.
  */

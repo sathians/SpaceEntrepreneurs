@@ -1,10 +1,5 @@
 package edu.chs.entrep.model;
 
-import edu.chs.entrep.Sprite;
-import javafx.scene.image.Image;
-
-import java.lang.*;
-
 /**
  * Created by josefinesvegborn on 2017-04-03.
  */
