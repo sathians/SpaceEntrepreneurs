@@ -1,5 +1,6 @@
 package edu.chs.entrep.viewcontrol;
 
+import edu.chs.entrep.service.sound.SoundFactory;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
@@ -58,6 +59,7 @@ public class MenuView {
 
         startButton.setOnMouseEntered(event -> {
             startButton.setEffect(highlight);
+            SoundFactory.getSoundService().playSound("click");
         });
 
         startButton.setOnMouseExited(event -> {
@@ -75,6 +77,7 @@ public class MenuView {
 
         highscoreButton.setOnMouseEntered(event -> {
             highscoreButton.setEffect(highlight);
+            SoundFactory.getSoundService().playSound("click");
         });
 
         highscoreButton.setOnMouseExited(event -> {

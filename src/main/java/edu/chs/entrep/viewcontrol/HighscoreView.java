@@ -2,6 +2,7 @@ package edu.chs.entrep.viewcontrol;
 
 import edu.chs.entrep.model.Highscore;
 import edu.chs.entrep.model.Player;
+import edu.chs.entrep.service.sound.SoundFactory;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -86,6 +87,7 @@ public class HighscoreView {
 
         menuButton.setOnMouseEntered(event -> {
             menuButton.setEffect(highlight);
+            SoundFactory.getSoundService().playSound("click");
         });
 
         menuButton.setOnMouseExited(event -> {

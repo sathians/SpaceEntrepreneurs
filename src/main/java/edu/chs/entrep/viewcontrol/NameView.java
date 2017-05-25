@@ -1,5 +1,6 @@
 package edu.chs.entrep.viewcontrol;
 
+import edu.chs.entrep.service.sound.SoundFactory;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
@@ -64,6 +65,7 @@ public class NameView {
 
         nameButton.setOnMouseEntered(event -> {
             nameButton.setEffect(highlight);
+            SoundFactory.getSoundService().playSound("click");
         });
 
         nameButton.setOnMouseExited(event -> {

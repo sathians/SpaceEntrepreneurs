@@ -21,6 +21,7 @@ class SoundService implements ISoundService {
         nameSound.put("spaceShipHit", new File("src/main/resources/sounds/gothit.wav"));
         nameSound.put("spaceShipHit", new File("src/main/resources/sounds/gothit.wav"));
         nameSound.put("gameOver", new File("src/main/resources/sounds/gameOver.wav"));
+        nameSound.put("click", new File("src/main/resources/sounds/click.wav"));
     }
 
     @Override
