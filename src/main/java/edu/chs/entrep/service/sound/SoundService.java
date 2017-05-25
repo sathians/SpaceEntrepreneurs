@@ -1,17 +1,10 @@
 package edu.chs.entrep.service.sound;
 
-import edu.chs.entrep.Main;
-import javafx.scene.image.Image;
-import javafx.scene.media.AudioClip;
-
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineListener;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
-import static java.lang.Thread.*;
 
 /**
  * Created by Sathian on 2017-05-04.
@@ -52,17 +45,16 @@ class SoundService implements ISoundService {
             clip.open(AudioSystem.getAudioInputStream(file));
 
             if(start) {
-                clip.loop(100);
+                clip.loop(clip.LOOP_CONTINUOUSLY);
             }
 
             else if(!start) {
                 clip.stop();
             }
 
-        } catch (Exception e) {
+        }    catch (Exception e) {
             System.err.println(e.getMessage());
         }
-
     }
 }
 

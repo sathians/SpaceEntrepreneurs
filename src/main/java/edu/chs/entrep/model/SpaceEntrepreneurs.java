@@ -1,9 +1,10 @@
 package edu.chs.entrep.model;
 
-import java.util.*;
-
 import edu.chs.entrep.service.sound.SoundFactory;
+
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Created by niklasohlsson on 2017-04-27.
@@ -28,7 +29,6 @@ public class SpaceEntrepreneurs {
     private boolean win;
     private boolean nextLevel;
 
-
     //Konstruktor, tar in Player och Level
     public SpaceEntrepreneurs(Player player, int level, Highscore highscore){
 
@@ -50,9 +50,9 @@ public class SpaceEntrepreneurs {
         monsterMissile.setHeight(20);
         monsterMissile.setWidth(20);
 
-        SoundFactory.getSoundService().repeatSound("background", true);
-
         gameOver = false;
+
+        SoundFactory.getSoundService().repeatSound("background",true);
 
         initLevel(level);
     }
@@ -121,15 +121,8 @@ public class SpaceEntrepreneurs {
         spaceship.setVelocity(0, 0);
     }
 
-   /* public void shoot(){
-        //if (!spaceship.missile.isOnScreen()              //keep the missile from gaining higher speed after every new shot
-        spaceship.shoot(spaceship.getPositionX(), spaceship.getPositionY());    //the missile starts from the spaceships position
-
-    }
-*/
     public void shoot() {
         if (!missile.isOnScreen()) {
-            //missile = new Missile();
             missile.setOnScreen(true);
             missile.setPosition(spaceship.getPositionX() + (spaceship.getWidht() / 2)-(missile.getWidht()/2), spaceship.getPositionY());
 
@@ -140,7 +133,6 @@ public class SpaceEntrepreneurs {
 
     public void monsterShoot(){
         if (!monsterMissile.isOnScreen()) {
-            //missile = new Missile();
             monsterMissile.setOnScreen(true);
             Random random= new Random();
             int index = random.nextInt(monsterList.size());
@@ -187,7 +179,6 @@ public class SpaceEntrepreneurs {
         }
         if (count == 2 || count == 0) {
             for (Monster monster : monsterList) {
-                // monster.setVelocity(0,0);
                 monster.setPosition(monster.getPositionX(), monster.getPositionY() + 0.05);
             }
         }
@@ -199,7 +190,7 @@ public class SpaceEntrepreneurs {
 
         if (player.getLife() == 0 || getMonsterList().get(monsterList.size()-1).getPositionY() > 360) {
                 gameOver = true;
-                SoundFactory.getSoundService().repeatSound("background", false );
+
                 SoundFactory.getSoundService().playSound("gameOver" );
             }
         return gameOver;
