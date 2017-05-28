@@ -114,7 +114,14 @@ public class GameView {
             boolean newLevel = false;
             boolean runGame = true;
 
+            boolean startMusic = true;
+
             public void handle(long currentNanoTime) {
+
+                if(startMusic) {
+                    SoundFactory.getSoundService().repeatSound("background", true);
+                    startMusic = false;
+                }
 
                 // calculate time since last update.
                 double elapsedTime = (currentNanoTime - lastNanoTime) / 1000000000.0;
@@ -265,7 +272,7 @@ public class GameView {
                     runGame = false;
 
                     //New level
-                    if (level < 3) {
+                    if (!spaceEntrepreneurs.finishedGameCheck()) {
                         newLevel = true;
                         //Sets starting time for showing of the level up image
                         levelImgCount = currentNanoTime;
@@ -296,6 +303,7 @@ public class GameView {
                         highscoreView = new HighscoreView(theStage);
                     }
 
+                    SoundFactory.getSoundService().repeatSound("background", false);
                     highscoreView.showHighscoreStage();
                 }
             }

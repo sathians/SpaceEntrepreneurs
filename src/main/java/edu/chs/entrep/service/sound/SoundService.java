@@ -6,8 +6,10 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
  * Created by Sathian on 2017-05-04.
+ * This class manages the the sounds and keeps the sound files mapped with relevant keyword.
  */
 class SoundService implements ISoundService {
 

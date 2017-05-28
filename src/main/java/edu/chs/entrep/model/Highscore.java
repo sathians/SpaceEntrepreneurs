@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Created by josefinesvegborn on 2017-05-04.
- * Manages highscore
+ * This class manages the highscore file by reading from and writing to a textfile
  */
 public class Highscore {
 

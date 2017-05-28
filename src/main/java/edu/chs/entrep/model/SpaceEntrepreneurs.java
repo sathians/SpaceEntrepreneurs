@@ -121,6 +121,7 @@ public class SpaceEntrepreneurs {
         spaceship.setVelocity(0, 0);
     }
 
+
     public void shoot() {
         if (!missile.isOnScreen()) {
             missile.setOnScreen(true);
@@ -153,7 +154,6 @@ public class SpaceEntrepreneurs {
         double posR = 0;
         double posL = 512;
         //
-        //long startTime = System.currentTimeMillis(); //fetch starting time
 
         for (Monster monster : monsterList) {
 

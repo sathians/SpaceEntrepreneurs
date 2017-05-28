@@ -7,10 +7,11 @@ import java.util.Map;
 
 /**
  * Created by josefinesvegborn on 2017-05-09.
+ * This class manages the the image files and keeps them mapped with relevant keyword.
  */
 class ImageService implements IImageService {
 
-    Map<String, Image> nameImage = new HashMap<>();
+    private Map<String, Image> nameImage = new HashMap<>();
 
     public ImageService() {
 
