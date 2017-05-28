@@ -59,13 +59,13 @@ public class Highscore {
 
         String highscoreString = "";
 
-        //Pusha ner de andra på listan
+        //Push the others down the list
         for(int i = (highscoreList.length-1); i > position; i--) {
-            highscoreList[i][0] = highscoreList[i-1][0]; //pushar ner namn
-            highscoreList[i][1] = highscoreList[i-1][1]; //pushar ner score
+            highscoreList[i][0] = highscoreList[i-1][0]; //push name downwards
+            highscoreList[i][1] = highscoreList[i-1][1]; //push score downwards
         }
 
-        //Sätt in den nya
+        //Adds new person
         highscoreList[position][0] = name;
         highscoreList[position][1] = String.valueOf(score);
 

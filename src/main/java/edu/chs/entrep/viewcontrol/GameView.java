@@ -86,7 +86,7 @@ public class GameView {
             long lastNanoTime = System.nanoTime();      //Check if this can be removed
             SpaceEntrepreneurs spaceEntrepreneurs = new SpaceEntrepreneurs(player, level, highscore);
 
-            /*Gets all images from the Images class*/
+            //Gets all images from the Images class
             Image background_img = ImageFactory.getImageService().getImage("background", level);
             Image cover_img = ImageFactory.getImageService().getImage("cover", level);
             Image monster1_img = ImageFactory.getImageService().getImage("monster", level);
@@ -130,8 +130,7 @@ public class GameView {
                 //runGame is set to false when transition images are shown
                 if (runGame) {
 
-                    // game logic
-                    spaceEntrepreneurs.getSpaceship().setVelocity(0, 0);          //How do we set this in logic in spaceEntrepreneurs instead?
+                    spaceEntrepreneurs.getSpaceship().setVelocity(0, 0);
                     if (input.contains("LEFT")) {
                         spaceEntrepreneurs.left();
                     }
@@ -140,7 +139,7 @@ public class GameView {
                         spaceEntrepreneurs.right();
                     }
 
-                    if (input.contains("SPACE")) {           //även tidigare även && !missile.isOnScreen()
+                    if (input.contains("SPACE")) {
                         spaceEntrepreneurs.shoot();
                     }
 
@@ -206,7 +205,6 @@ public class GameView {
 
                 String pointsText = "CASH $" + (player.getScore());
                 gc.fillText(pointsText, 395, 36);
-                //gc.strokeText(pointsText, 360, 36);
 
                 String levelText = "LEVEL " + (level);
                 gc.fillText(levelText, 240, 36);
@@ -218,7 +216,6 @@ public class GameView {
                 }
 
                 gc.fillText(lifeText, 20, 36);
-                //gc.strokeText(lifeText, 20, 36);
 
 
                 /*

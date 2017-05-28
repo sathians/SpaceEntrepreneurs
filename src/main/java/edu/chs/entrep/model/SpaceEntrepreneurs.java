@@ -19,7 +19,7 @@ public class SpaceEntrepreneurs {
 
     final private int MAX_LEVEL = 3;
     private int level;
-    private int count=0;
+    private int count = 0;
 
     private Character spaceship;
     private Missile missile;
@@ -27,10 +27,8 @@ public class SpaceEntrepreneurs {
 
     private boolean gameOver;
     private boolean win;
-    private boolean nextLevel;
 
-    //Konstruktor, tar in Player och Level
-    public SpaceEntrepreneurs(Player player, int level, Highscore highscore){
+    public SpaceEntrepreneurs(Player player, int level, Highscore highscore) {
 
         this.player = player;
         this.level = level;
@@ -40,7 +38,7 @@ public class SpaceEntrepreneurs {
         monsterList = new ArrayList<Monster>();
 
         spaceship = new Character();
-        spaceship.setVelocity(0,0);
+        spaceship.setVelocity(0, 0);
 
         missile = new Missile();
         missile.setHeight(20);
@@ -52,12 +50,12 @@ public class SpaceEntrepreneurs {
 
         gameOver = false;
 
-        SoundFactory.getSoundService().repeatSound("background",true);
+        SoundFactory.getSoundService().repeatSound("background", true);
 
         initLevel(level);
     }
 
-    public void initLevel(int level){
+    public void initLevel(int level) {
 
         switch (level) {
             case 1:
@@ -95,29 +93,29 @@ public class SpaceEntrepreneurs {
         }
     }
 
-    public void initMonsterList(int rows){
-        for (int i = 0; i < rows; i++){
-            for(int j = 0; j < 6; j++){
+    public void initMonsterList(int rows) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < 6; j++) {
                 Monster monster = new Monster();
 
-                monster.setPosition(30 + j*82, 30 + i*50);
-                monsterList.add( monster );
+                monster.setPosition(30 + j * 82, 30 + i * 50);
+                monsterList.add(monster);
             }
         }
     }
 
-    public void left(){
+    public void left() {
         if (spaceship.getPositionX() > 0)
             spaceship.addVelocity(-100, 0);
     }
 
-    public void right(){
+    public void right() {
 
         if (spaceship.getPositionX() < 462)
             spaceship.addVelocity(100, 0);
     }
 
-    public void stopSpaceShip(){
+    public void stopSpaceShip() {
         spaceship.setVelocity(0, 0);
     }
 
@@ -125,17 +123,17 @@ public class SpaceEntrepreneurs {
     public void shoot() {
         if (!missile.isOnScreen()) {
             missile.setOnScreen(true);
-            missile.setPosition(spaceship.getPositionX() + (spaceship.getWidht() / 2)-(missile.getWidht()/2), spaceship.getPositionY());
+            missile.setPosition(spaceship.getPositionX() + (spaceship.getWidht() / 2) - (missile.getWidht() / 2), spaceship.getPositionY());
 
-            SoundFactory.getSoundService().playSound("shoot" );
+            SoundFactory.getSoundService().playSound("shoot");
             missile.setVelocity(0, -400);
         }
     }
 
-    public void monsterShoot(){
+    public void monsterShoot() {
         if (!monsterMissile.isOnScreen()) {
             monsterMissile.setOnScreen(true);
-            Random random= new Random();
+            Random random = new Random();
             int index = random.nextInt(monsterList.size());
             monsterMissile.setPosition(monsterList.get(index).getPositionX() + (monsterList.get(index).getWidht() / 2), monsterList.get(index).getPositionY());
             monsterMissile.setVelocity(0, 200);
@@ -185,31 +183,26 @@ public class SpaceEntrepreneurs {
     }
 
 
+    public boolean gameOverCheck() {
 
-    public boolean gameOverCheck(){
+        if (player.getLife() == 0 || getMonsterList().get(monsterList.size() - 1).getPositionY() > 360) {
+            gameOver = true;
 
-        if (player.getLife() == 0 || getMonsterList().get(monsterList.size()-1).getPositionY() > 360) {
-                gameOver = true;
-
-                SoundFactory.getSoundService().playSound("gameOver" );
-            }
+            SoundFactory.getSoundService().playSound("gameOver");
+        }
         return gameOver;
     }
 
-    public boolean monsterCheck(){
-        if (monsterList.isEmpty()){
-            SoundFactory.getSoundService().playSound("nextLevel" );
-            win=true;
+    public boolean monsterCheck() {
+        if (monsterList.isEmpty()) {
+            SoundFactory.getSoundService().playSound("nextLevel");
+            win = true;
         }
         return win;
     }
 
-    /**
-     *
-     * @return true if the spaceship is hit, otherwise false.
-     */
 
-    public boolean collisionCheck () {
+    public boolean collisionCheck() {
 
         boolean spaceshipHit = false;
 
@@ -218,7 +211,7 @@ public class SpaceEntrepreneurs {
             Monster monster = monsterIter.next();
             if (missile.isOnScreen() && missile.intersects(monster)) {
                 monsterIter.remove();
-                SoundFactory.getSoundService().playSound("monsterKill" );
+                SoundFactory.getSoundService().playSound("monsterKill");
                 missile.setOnScreen(false);
                 player.updateScore(100);
             }
@@ -227,7 +220,7 @@ public class SpaceEntrepreneurs {
         if (monsterMissile.isOnScreen() && monsterMissile.intersects(spaceship)) {
             monsterMissile.setOnScreen(false);
             player.decLife();
-            SoundFactory.getSoundService().playSound("spaceShipHit" );
+            SoundFactory.getSoundService().playSound("spaceShipHit");
             spaceshipHit = true;
         }
 
@@ -241,64 +234,64 @@ public class SpaceEntrepreneurs {
 
         //missile intersects with cover
 
-        for(Cover cover : coverList) {
-            if(missile.intersects(cover)) {
+        for (Cover cover : coverList) {
+            if (missile.intersects(cover)) {
                 missile.setOnScreen(false);
             }
-            if(monsterMissile.intersects(cover)) {
+            if (monsterMissile.intersects(cover)) {
                 monsterMissile.setOnScreen(false);
             }
         }
         return spaceshipHit;
     }
 
-    /**
-     * Checks if the score makes it to highscorelist by reading old list and writing new score to it if applicable.
-     * @return newHighscore true if the score made it to the list.
-     */
 
-   public boolean checkHighscore() {
-       String[][] oldHighscores = highscore.getHighscoreList();
-       int oldScore;
-       int position;
-       boolean newHighscore = false;
-       //Decides position in the list by comparing to the old scores
-       for(int i = 0; i < oldHighscores.length; i++) {
-           oldScore = Integer.parseInt(oldHighscores[i][1]);
-           if (player.getScore() > oldScore) {
-               position = i;
-               highscore.writeHighscore(player.getName(), player.getScore(), position);
-               newHighscore = true;
-               break;
-           }
-       }
-       return newHighscore;
-   }
+    //Checks if the score makes it to highscorelist by reading old list and writing new score to it if applicable.
+    //returns newHighscore true if the score made it to the list.
 
-   public boolean finishedGameCheck() {
-       boolean finishedGame = false;
+    public boolean checkHighscore() {
+        String[][] oldHighscores = highscore.getHighscoreList();
+        int oldScore;
+        int position;
+        boolean newHighscore = false;
 
-       if(monsterList.isEmpty() && level == MAX_LEVEL) {
-           finishedGame = true;
-       }
+        //Decides position in the list by comparing to the old scores
+        for (int i = 0; i < oldHighscores.length; i++) {
+            oldScore = Integer.parseInt(oldHighscores[i][1]);
+            if (player.getScore() > oldScore) {
+                position = i;
+                highscore.writeHighscore(player.getName(), player.getScore(), position);
+                newHighscore = true;
+                break;
+            }
+        }
+        return newHighscore;
+    }
 
-       return finishedGame;
-   }
+    public boolean finishedGameCheck() {
+        boolean finishedGame = false;
 
-   public Character getSpaceship() {
-       return spaceship;
-   }
+        if (monsterList.isEmpty() && level == MAX_LEVEL) {
+            finishedGame = true;
+        }
 
-   public Missile getMissile() {
-       return missile;
-   }
+        return finishedGame;
+    }
 
-   public Missile getMonsterMissile() {
-       return monsterMissile;
-   }
+    public Character getSpaceship() {
+        return spaceship;
+    }
 
-   public ArrayList<Cover> getCoverList() {
-       return coverList;
-   }
+    public Missile getMissile() {
+        return missile;
+    }
+
+    public Missile getMonsterMissile() {
+        return monsterMissile;
+    }
+
+    public ArrayList<Cover> getCoverList() {
+        return coverList;
+    }
 }
 
